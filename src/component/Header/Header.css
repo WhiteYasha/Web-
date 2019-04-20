@@ -1,0 +1,30 @@
+#header {
+    height: 100px;
+    padding: 0.5em 0;
+    box-sizing: content-box;
+    z-index: 10;
+    width: 100%;
+    text-align: center;
+}
+.ant-menu {
+    border: 0 !important;
+    display: inline-block;
+    top: 26.5px;
+    width: 100%;
+}
+.ant-menu-item {
+    vertical-align: middle !important;
+}
+.ant-menu-item a,
+.ant-menu-item-active,
+.ant-menu-item-active a,
+.ant-menu-item-selected,
+.ant-menu-item-selected a {
+    color: #e30202 !important;
+    border-bottom-color: #e30202 !important;
+}
+#logo {
+    display: inline-block;
+    width: 267px;
+    height: 100px;
+}

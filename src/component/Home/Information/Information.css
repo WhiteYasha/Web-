@@ -1,0 +1,69 @@
+.home-cover {
+    height: calc(640px - 1em);
+    background: url("./../../../img/cover.png");
+    background-size: 100% 100%;
+}
+/* 主页联系我们部分 */
+.home-contact {
+    height: 180px;
+    margin: -90px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.home-contact-left,
+.home-contact-right {
+    height: 100%;
+}
+
+.home-contact-left {
+    background: #43424a;
+    padding: 3em 2em;
+}
+
+.home-contact-left h2,
+.home-contact-left p {
+    color: #fff;
+    margin: 0.2em;
+}
+
+.home-contact-left p {
+    font-size: 12px;
+    padding-left: 0.5em;
+    border-left: 5px solid #e30202;
+}
+
+.home-contact-right {
+    background: #e30202;
+}
+.home-contact-right-btn {
+    float: right;
+    color: #e30202;
+    background: #fff;
+    font-size: 30px;
+    padding: 0.2em 0.8em;
+    margin: 0 1em;
+    cursor: pointer;
+}
+/* 主页关于我们部分 */
+.home-aboutus {
+    width: 100%;
+    height: 600px;
+    background: url("./../../../img/aboutus.png");
+    background-size: 100% auto;
+    text-align: center;
+}
+
+.home-aboutus-title {
+    margin: 120px calc(50% - 4em) 0 calc(50% - 4em);
+    color: #fff;
+    font-size: 36px;
+    padding: 0.2em 0.5em;
+    border: 3px solid #fff;
+}
+
+.home-aboutus-section {
+    color: #fff;
+    font-size: 15px;
+    padding: 2em 10%;
+}
