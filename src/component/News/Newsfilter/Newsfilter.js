@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import './Newsfilter.css';
 import {Form, Button, Select} from 'antd';
 import 'antd/lib/button/style/css';
 import 'antd/lib/form/style/css';

@@ -10,8 +10,9 @@
     padding: 0.2em 0.5em;
     border: 3px solid #e20303;
 }
-.ant-list {
+.shoplist .ant-list {
     padding: 0 10% !important;
+    background: transparent;
 }
 .ant-pagination-item:hover,
 .ant-pagination-item-active,

@@ -22,8 +22,18 @@ const initialState = {
     dishList: [{
         name: "鱼羊鲜",
         tag: "招牌菜",
-        introduction: "",
-        recommend: 4
+        introduction: "鱼羊鲜",
+        rate: 4
+    }, {
+        name: "醉红枣",
+        tag: "头盘冷菜",
+        introduction: "红枣",
+        rate: 3.5
+    }, {
+        name: "竹园鸡",
+        tag: "私房美味",
+        introduction: "鸡肉",
+        rate: 4
     }],
     newsList: [{
         title: "专家建言餐饮转型：转方式调结构 迎大众化时代",

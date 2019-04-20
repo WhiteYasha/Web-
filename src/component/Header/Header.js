@@ -7,7 +7,6 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {changeItem} from './../../action/reducer.js';
 
-var self;
 const stateToProps = state => ({
     activeItem: state.activeItem
 });
@@ -21,9 +20,8 @@ const stateToDispatch = dispatch => {
 
 class Header extends Component {
     render() {
-        self = this;
         return (<div id="header">
-            <Menu mode="horizontal" selectedKeys={this.props.activeItem} onClick={(item) => this.props.doChangeItem(item.key)}>
+            <Menu mode="horizontal" selectedKeys={[this.props.activeItem]} onClick={(item) => this.props.doChangeItem(item.key)}>
                 <Menu.Item key="home" className="left-items">
                     <Link to="/">
                         <Icon type="home" />首页

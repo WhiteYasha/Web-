@@ -19,7 +19,7 @@ class Shoplist extends Component {
                 }} dataSource={this.props.shopList} pagination={{
                     pageSize: 12
                 }} renderItem={(item, key) => (<List.Item>
-                    <Card hoverable="hoverable" cover={<img alt="" src = {
+                    <Card hoverable cover={<img alt="" src = {
                             shopCovers[`shop${key + 1}`]
                         } />}>
                         <Meta title={item.name} description={<p> {
