@@ -13,11 +13,11 @@
     width: 20%;
     margin: 0 5% 0 0;
 }
-.ant-btn:hover {
+.ant-btn:not(.ant-btn-primary):hover {
     border-color: #e30202 !important;
     color: #e30202 !important;
 }
-.ant-btn:focus {
+.ant-btn:not(.ant-btn-primary):focus {
     border-color: #e30202 !important;
     color: #e30202 !important;
 }

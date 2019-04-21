@@ -45,6 +45,18 @@ const initialState = {
         views: 0,
         likes: 0
     }],
+    recruitList: [
+        {
+            key: 1,
+            name: "储备干部",
+            number: 20,
+            position: "杭州",
+            department: "餐厅",
+            startDate: "2012-12-26",
+            finishDate: "2013-05-31",
+            content: "123",
+        }
+    ],
     activeItem: "home"
 };
 

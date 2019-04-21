@@ -22,7 +22,12 @@ class Contactmap extends Component {
             self.setState({infoVisible: false});
         else
             self.setState({infoVisible: true});
+    }
+    componentWillUnmount() {
+        this.setState = (state, callback) => {
+            return ;
         }
+    }
     render() {
         return (<div style={{
                 margin: '0 20%',

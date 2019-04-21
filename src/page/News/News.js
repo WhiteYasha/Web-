@@ -27,7 +27,7 @@ class News extends Component {
                         pageSize: 10
                     }}
                     renderItem={
-                        item => (<List.Item actions={[<a>More</a>]}>
+                        item => (<List.Item actions={[<a href="#">More</a>]}>
                             <List.Item.Meta
                                 title={item.title}
                                 description={item.tags.map((tag, key) => {

@@ -28,7 +28,9 @@ class Footer extends Component {
                     <div className="footer-info-item">
                         <Link to="/contact/message" onClick={this.props.doChangeItem}>在线留言</Link>
                     </div>
-                    <div className="footer-info-item">人才招聘</div>
+                    <div className="footer-info-item">
+                        <Link to="/contact/recruit" onClick={this.props.doChangeItem}>人才招聘</Link>
+                    </div>
                     <div className="footer-info-item">隐私条款</div>
                 </div>
             </div>

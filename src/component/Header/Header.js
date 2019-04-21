@@ -19,6 +19,12 @@ const stateToDispatch = dispatch => {
 };
 
 class Header extends Component {
+    componentWillMount() {
+        const path = window.location.pathname;
+        if (path.startsWith("/news")) this.props.doChangeItem("news");
+        else if (path.startsWith("/dishes")) this.props.doChangeItem("dishes");
+        else if (path.startsWith("/contact")) this.props.doChangeItem("contact");
+    }
     render() {
         return (<div id="header">
             <Menu mode="horizontal" selectedKeys={[this.props.activeItem]} onClick={(item) => this.props.doChangeItem(item.key)}>
