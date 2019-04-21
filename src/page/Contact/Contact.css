@@ -1,0 +1,23 @@
+.contact-router {
+    margin: -60px 20% 60px 20%;
+    height: 120px;
+    background: #fff;
+    padding: 0 5%;
+}
+.contact-router header {
+    padding: 0.5em 0;
+    font-size: 24px;
+    color: #2c2c31;
+}
+.contact-router .ant-btn {
+    width: 20%;
+    margin: 0 5% 0 0;
+}
+.contact-router .ant-btn:hover {
+    border-color: #e30202 !important;
+    color: #e30202 !important;
+}
+.contact-router .ant-btn:focus {
+    border-color: #e30202 !important;
+    color: #e30202 !important;
+}

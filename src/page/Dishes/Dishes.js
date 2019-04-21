@@ -29,7 +29,7 @@ class Dishes extends Component {
                 }}>
                 <div className="page-cover dishes-page-cover">
                     <header>菜品展示</header>
-                    <section>创造美食人生</section>
+                    <section>创造美食人生。</section>
                 </div>
                 <Dishselect />
                 <div className="dishes-content">

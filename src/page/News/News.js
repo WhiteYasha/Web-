@@ -16,7 +16,7 @@ class News extends Component {
             }}>
             <div className="page-cover news-page-cover">
                 <header>新闻中心</header>
-                <section>挑战蕴含机遇，创新成就伟业</section>
+                <section>挑战蕴含机遇，创新成就伟业。</section>
             </div>
             <Newsfilter/>
             <div className="news-content">
