@@ -34,9 +34,26 @@ class Information extends Component {
                 <h1 className="home-aboutus-title">关于我们</h1>
                 <section className="home-aboutus-section">
                     1998年，新白鹿从杭州耶稣堂弄的一家小面馆起家，而后开启杭州人排队吃饭先河、并十余年创造排队奇迹的人气餐厅。
-                    2014年，新白鹿完成了多家门店的布局和重要门店的升级改造。城西的西城广场店、城北的中大银泰城店、运河上街店，闪亮登场；与此同时，新白鹿还完成了龙游路店、西湖银泰店的全新装修改造，新白鹿升级后，品牌形象更鲜明，市民更喜欢。
-                    2015年，新白鹿稳步布局杭州城北商圈，拓展上海市场，捷报频传。
+                    新白鹿一路走来，在润物细无声的过程中，经历着一次又一次的华丽蜕变与自我超越。
                 </section>
+                <Row style={{height: '200px'}}>
+                    <Col span={3} offset={3} className="home-aboutus-mod">
+                        <Icon type="customer-service" className="home-aboutus-mod-icon"/>
+                        <p>顾客至上</p>
+                    </Col>
+                    <Col span={3} offset={2} className="home-aboutus-mod">
+                        <Icon type="read" className="home-aboutus-mod-icon" />
+                        <p>学习成长</p>
+                    </Col>
+                    <Col span={3} offset={2} className="home-aboutus-mod">
+                        <Icon type="smile" className="home-aboutus-mod-icon" />
+                        <p>激情快乐</p>
+                    </Col>
+                    <Col span={3} offset={2} className="home-aboutus-mod">
+                        <Icon type="team" className="home-aboutus-mod-icon" />
+                        <p>团队合作</p>
+                    </Col>
+                </Row>
             </Row>
         </div>);
     }

@@ -61,9 +61,19 @@
     padding: 0.2em 0.5em;
     border: 3px solid #fff;
 }
-
 .home-aboutus-section {
     color: #fff;
     font-size: 15px;
-    padding: 2em 10%;
+    padding: 2em 20%;
+}
+.home-aboutus-mod {
+    border: 1px solid #fff;
+    opacity: 0.8;
+    color: #fff;
+    border-radius: 2px;
+    height: 100%;
+    padding: 60px;
+}
+.home-aboutus-mod-icon {
+    font-size: 40px;
 }

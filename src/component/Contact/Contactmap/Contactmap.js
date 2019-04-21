@@ -14,7 +14,7 @@ class Contactmap extends Component {
         super();
         self = this;
         this.state = {
-            infoVisible: false
+            infoVisible: true
         };
     }
     toggleVisible() {
@@ -41,7 +41,7 @@ class Contactmap extends Component {
                             close: this.toggleVisible
                         }}>
                         <h3 style={{
-                                color: 'orange'
+                                color: '#e30202'
                             }}>新白鹿餐厅</h3>
                         <p>总部电话：0571-88025588</p>
                         <p>传真：0571-87915560</p>
