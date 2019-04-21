@@ -30,8 +30,8 @@ class News extends Component {
                         item => (<List.Item actions={[<a>More</a>]}>
                             <List.Item.Meta
                                 title={item.title}
-                                description={item.tags.map((tag) => {
-                                    return <Tag>{tag}</Tag>
+                                description={item.tags.map((tag, key) => {
+                                    return <Tag key={`tag${key}`}>{tag}</Tag>
                                 })}
                             />
                         </List.Item>)

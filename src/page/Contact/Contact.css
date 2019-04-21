@@ -13,11 +13,11 @@
     width: 20%;
     margin: 0 5% 0 0;
 }
-.contact-router .ant-btn:hover {
+.ant-btn:hover {
     border-color: #e30202 !important;
     color: #e30202 !important;
 }
-.contact-router .ant-btn:focus {
+.ant-btn:focus {
     border-color: #e30202 !important;
     color: #e30202 !important;
 }

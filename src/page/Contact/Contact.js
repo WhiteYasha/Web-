@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import './Contact.css';
 import {Button, Icon} from 'antd';
 import 'antd/lib/button/style/css';
-import Contactmap from './../../component/Contact/Contactmap/Contactmap'
+import Contactmap from './../../component/Contact/Contactmap/Contactmap';
+import Contactmessage from './../../component/Contact/Contactmessage/Contactmessage';
+import {Route} from 'react-router-dom';
 
 class Contact extends Component {
     render() {
@@ -19,21 +21,22 @@ class Contact extends Component {
                 <div style={{
                         textAlign: 'center'
                     }}>
-                    <Button>
+                    <Button href="/contact">
                         <Icon type="smile"/>联系我们
                     </Button>
-                    <Button>
+                    <Button href="/contact/message">
                         <Icon type="message"/>在线留言
                     </Button>
                     <Button>
-                        <Icon type="team" />人才招聘
+                        <Icon type="team"/>人才招聘
                     </Button>
                     <Button>
-                        <Icon type="link" />友情链接
+                        <Icon type="link"/>友情链接
                     </Button>
                 </div>
             </div>
-            <Contactmap />
+            <Route exact="exact" path="/contact" component={Contactmap}/>
+            <Route path="/contact/message" component={Contactmessage}/>
         </div>);
     }
 }

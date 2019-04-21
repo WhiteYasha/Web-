@@ -47,7 +47,7 @@ class Newsfilter extends Component {
                     }
                 </Form.Item>
                 <Form.Item style={{float: 'right'}}>
-                    <Button type="primary" htmlType="submit">搜索</Button>
+                    <Button htmlType="submit">搜索</Button>
                 </Form.Item>
             </Form>
         </div>)

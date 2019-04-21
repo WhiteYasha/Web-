@@ -1,0 +1,4 @@
+.ant-input:focus,
+.ant-input:hover {
+    border-color: #e30202 !important;
+}
