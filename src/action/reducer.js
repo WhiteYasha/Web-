@@ -1,7 +1,11 @@
+// 宏定义
+// 默认动作宏定义
+const INIT_LIST = "INIT_LIST";
 const CHANGE_ITEM = "CHANGE_ITEM";
-// 新闻动作
+// 新闻动作宏定义
 const SEARCH_NEWS = "SEARCH_NEWS";
 
+// 初始状态
 const initialState = {
     shopList: [{
             name: "新白鹿 (杭州游泳馆店)",
@@ -19,7 +23,7 @@ const initialState = {
             phone: "0571-87002266"
         }
     ],
-    dishList: [{
+    dishesList: [{
         name: "鱼羊鲜",
         tag: "招牌菜",
         introduction: "鱼羊鲜",
@@ -58,6 +62,11 @@ const initialState = {
     activeItem: "home"
 };
 
+// 动作
+export const initList = (lists) => ({
+    type: INIT_LIST,
+    lists
+});
 export const changeItem = (item) => ({
     type: CHANGE_ITEM,
     item
@@ -68,8 +77,18 @@ export const searchNews = (filterType, orderType) => ({
     orderType
 });
 
+// reducer
 const appReducer = (state = initialState, action) => {
     switch (action.type) {
+        case INIT_LIST:
+            {
+                return Object.assign({}, state, {
+                    shopList: action.lists.shopList,
+                    dishesList: action.lists.dishesList,
+                    newsList: action.lists.newsList,
+                    recruitList: action.lists.recruitList
+                });
+            }
         case CHANGE_ITEM:
             {
                 return Object.assign({}, state, {

@@ -7,9 +7,40 @@ import Contact from './page/Contact/Contact';
 import Header from './component/Header/Header';
 import Footer from './component/Footer/Footer';
 import {Route, Switch} from 'react-router-dom';
-// eslint-disable-next-line {/*引入文件*/}
+import axios from 'axios';
+import {connect} from 'react-redux';
+// eslint-disable-next-line {/*引入组件*/}
+import {initList} from './action/reducer.js';
+// eslint-disable-next-line {/*引入动作*/}
+
+const stateToProps = state => ({
+
+});
+const stateToDispatch = dispatch => {
+    return {
+        doInitList: () => {
+            axios.all([
+                axios.get("http://localhost:9000/getShopList"),
+                axios.get("http://localhost:9000/getDishesList"),
+                axios.get("http://localhost:9000/getRecruitList"),
+                axios.get("http://localhost:9000/getNewsList")
+            ]).then(axios.spread((shopResp, dishesResp, recruitResp, newsResp) => {
+                var lists = {
+                    shopList: shopResp.data,
+                    dishesList: dishesResp.data,
+                    recruitList: recruitResp.data,
+                    newsList: newsResp.data
+                };
+                dispatch(initList(lists));
+            }));
+        }
+    }
+};
 
 class App extends Component {
+    componentWillMount() {
+        this.props.doInitList();
+    }
     render() {
         return (
             <div>
@@ -26,4 +57,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default connect(stateToProps, stateToDispatch)(App);

@@ -1,5 +1,5 @@
 .home-cover {
-    height: calc(640px - 1em);
+    height: 620px;
     background: url("./../../../img/cover.png");
     background-size: 100% 100%;
 }
