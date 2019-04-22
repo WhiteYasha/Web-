@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Map, Marker, InfoWindow} from 'react-amap';
-import { Typography } from 'antd';
+import {Typography} from 'antd';
 
-const { Paragraph } = Typography;
+const {Paragraph} = Typography;
 const position = {
     longitude: 120.1672910000,
     latitude: 30.2732440000
@@ -18,18 +18,21 @@ class Contactmap extends Component {
         };
     }
     toggleVisible() {
-        if (self.state.infoVisible)
+        if (self.state.infoVisible) {
             self.setState({infoVisible: false});
-        else
+        }
+        else {
             self.setState({infoVisible: true});
+        }
     }
     componentWillUnmount() {
         this.setState = (state, callback) => {
-            return ;
+            return;
         }
     }
     render() {
-        return (<div style={{
+        return (
+            <div style={{
                 margin: '0 20%',
                 background: '#fff',
                 padding: '5%'
@@ -38,13 +41,25 @@ class Contactmap extends Component {
                     height: '500px',
                     marginBottom: '50px'
                 }}>
-                <Map amapkey="8b65977e3984c14369cd7c3b142ace6b" zoom="18" center={position}>
-                    <Marker position={position} clickable="clickable" events={{
+                <Map
+                    amapkey="8b65977e3984c14369cd7c3b142ace6b"
+                    zoom="18"
+                    center={position}
+                >
+                    <Marker
+                        position={position}
+                        clickable
+                        events={{
                             click: this.toggleVisible
-                        }}/>
-                    <InfoWindow position={position} visible={this.state.infoVisible} events={{
+                        }}
+                    />
+                    <InfoWindow
+                        position={position}
+                        visible={this.state.infoVisible}
+                        events={{
                             close: this.toggleVisible
-                        }}>
+                        }}
+                    >
                         <h3 style={{
                                 color: '#e30202'
                             }}>新白鹿餐厅</h3>

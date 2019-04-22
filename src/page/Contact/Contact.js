@@ -9,7 +9,8 @@ import {Route} from 'react-router-dom';
 
 class Contact extends Component {
     render() {
-        return (<div style={{
+        return (
+            <div style={{
                 background: "rgb(240, 240, 239)",
                 padding: '0 0 60px 0'
             }}>
@@ -39,7 +40,8 @@ class Contact extends Component {
             <Route exact path="/contact" component={Contactmap}/>
             <Route path="/contact/message" component={Contactmessage}/>
             <Route path="/contact/recruit" component={Contactrecruit} />
-        </div>);
+        </div>
+        );
     }
 }
 

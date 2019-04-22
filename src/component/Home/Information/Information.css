@@ -3,6 +3,7 @@
     background: url("./../../../img/cover.png");
     background-size: 100% 100%;
 }
+
 /* 主页联系我们部分 */
 .home-contact {
     height: 180px;
@@ -36,6 +37,7 @@
 .home-contact-right {
     background: #e30202;
 }
+
 .home-contact-right-btn {
     float: right;
     color: #e30202;
@@ -45,6 +47,7 @@
     margin: 0 1em;
     cursor: pointer;
 }
+
 /* 主页关于我们部分 */
 .home-aboutus {
     width: 100%;
@@ -61,11 +64,13 @@
     padding: 0.2em 0.5em;
     border: 3px solid #fff;
 }
+
 .home-aboutus-section {
     color: #fff;
     font-size: 15px;
     padding: 2em 20%;
 }
+
 .home-aboutus-mod {
     border: 1px solid #fff;
     opacity: 0.8;
@@ -74,6 +79,7 @@
     height: 100%;
     padding: 60px;
 }
+
 .home-aboutus-mod-icon {
     font-size: 40px;
 }

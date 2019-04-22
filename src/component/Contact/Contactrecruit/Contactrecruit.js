@@ -40,7 +40,8 @@ class Contactrecruit extends Component {
         };
     }
     render() {
-        return (<div style={{
+        return (
+            <div style={{
                 background: "rgb(240, 240, 239)",
                 padding: '0 0 60px 0'
             }}>
@@ -49,7 +50,10 @@ class Contactrecruit extends Component {
                     background: '#fff',
                     padding: '1em'
                 }}>
-                <Table columns={this.columns} dataSource={this.props.recruitList}/>
+                <Table
+                    columns={this.columns}
+                    dataSource={this.props.recruitList}
+                />
                 <Modal
                     visible={this.state.modalVisible}
                     title={this.state.modalTitle}

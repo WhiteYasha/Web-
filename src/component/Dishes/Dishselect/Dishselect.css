@@ -4,17 +4,21 @@
     height: 120px;
     padding: 0 5%;
 }
+
 .dish-select header {
     padding: 0.5em 0;
     font-size: 24px;
     color: #2c2c31;
 }
+
 .ant-radio-button-wrapper-checked {
     border-color: #e20303 !important;
 }
+
 .ant-radio-button-wrapper-checked {
     box-shadow: -1px 0 0 0 #e30202 !important;
 }
+
 .ant-radio-button-wrapper-checked,
 .ant-radio-button-wrapper:hover {
     color: #e20303 !important;

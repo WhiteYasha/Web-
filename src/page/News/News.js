@@ -10,7 +10,8 @@ const stateToProps = state => ({newsList: state.newsList});
 
 class News extends Component {
     render() {
-        return (<div style={{
+        return (
+            <div style={{
                 background: 'rgb(240, 240, 230)',
                 padding: '0 0 60px 0'
             }}>
@@ -21,20 +22,22 @@ class News extends Component {
             <Newsfilter/>
             <div className="news-content">
                 <List
-                    bordered="bordered"
+                    bordered
                     dataSource={this.props.newsList}
                     pagination={{
                         pageSize: 10
                     }}
                     renderItem={
-                        item => (<List.Item actions={[<a href="#">More</a>]}>
-                            <List.Item.Meta
-                                title={item.title}
-                                description={item.tags.map((tag, key) => {
-                                    return <Tag key={`tag${key}`}>{tag}</Tag>
-                                })}
-                            />
-                        </List.Item>)
+                        item => (
+                            <List.Item actions={[<a href="#">More</a>]}>
+                                <List.Item.Meta
+                                    title={item.title}
+                                    description={item.tags.map((tag, key) => {
+                                        return <Tag key={`tag${key}`}>{tag}</Tag>
+                                    })}
+                                />
+                            </List.Item>
+                        )
                     }
                 />
             </div>

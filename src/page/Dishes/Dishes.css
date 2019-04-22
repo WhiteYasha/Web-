@@ -1,13 +1,16 @@
 .dishes-content {
     margin: 0 20%;
 }
+
 .dishes-content .ant-list {
     background: transparent;
 }
+
 .dishes-list-header span {
     padding-right: 2em;
     border-right: 1px solid #e30202;
 }
+
 .dishes-list-header section {
     display: inline;
     margin-left: 0.5em;

@@ -24,7 +24,7 @@ app.get('/getShopList', (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) console.log("获取门店信息错误!");
         else {
-            
+
         }
     });
 });

@@ -5,9 +5,7 @@ import {changeItem} from './../../action/reducer.js';
 import {Link} from 'react-router-dom';
 import './Footer.css';
 
-const stateToProps = state => ({
-    activeItem: state.activeItem
-});
+const stateToProps = state => ({activeItem: state.activeItem});
 const stateToDispatch = dispatch => {
     return {
         doChangeItem: () => {

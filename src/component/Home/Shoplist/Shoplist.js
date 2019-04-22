@@ -13,22 +13,29 @@ class Shoplist extends Component {
     render() {
         return (<div className="shoplist">
             <h1 className="shoplist-title">旗下门店</h1>
-            <List grid={{
+            <List
+                dataSource={this.props.shopList}
+                pagination={{
+                    pageSize: 12
+                }}
+                grid={{
                     gutter: 40,
                     column: 3
-                }} dataSource={this.props.shopList} pagination={{
-                    pageSize: 12
-                }} renderItem={(item, key) => (<List.Item>
-                    <Card hoverable cover={<img alt="" src = {
-                            shopCovers[`shop${key + 1}`]
-                        } />}>
-                        <Meta title={item.name} description={<p> {
-                                `地址：${item.address}`
-                            }
-                            <br/>
-                                {`订餐电话：${item.phone}`}</p>}/>
-                    </Card>
-                </List.Item>)}/>
+                }}
+                renderItem={(item, key) => (
+                    <List.Item>
+                        <Card
+                            hoverable
+                            cover={<img alt="" src = {shopCovers[`shop${key + 1}`]} />}
+                        >
+                            <Meta
+                                title={item.name}
+                                description={<p> {`地址：${item.address}`}<br/>{`订餐电话：${item.phone}`}</p>}
+                            />
+                        </Card>
+                    </List.Item>
+                )}
+            />
         </div>);
     }
 }

@@ -10,7 +10,8 @@ const {TextArea} = Input;
 class Contactmessage extends Component {
     render() {
         const {getFieldDecorator} = this.props.form;
-        return (<div style={{
+        return (
+            <div style={{
                 margin: '0 20%',
                 background: '#fff',
                 padding: '5%'
