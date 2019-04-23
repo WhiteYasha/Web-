@@ -5,14 +5,28 @@ import 'antd/lib/list/style/css';
 import 'antd/lib/tag/style/css';
 import Newsfilter from './../../component/News/Newsfilter/Newsfilter';
 import {connect} from 'react-redux';
+import {changeViews} from './../../action/reducer.js';
 
 const stateToProps = state => ({
     showNewsList: state.showNewsList,
     newsState: state.loadState.newsState
 });
+const stateToDispatch = dispatch => {
+    return {
+        doChangeViews: (newsID, views) => {
+            dispatch(changeViews(newsID, views));
+        }
+    };
+};
+
+var self;
 
 class News extends Component {
+    handleClick(e) {
+        self.props.doChangeViews(parseInt(e.target.id), 1);
+    }
     render() {
+        self = this;
         return (
             <div style={{
                 background: 'rgb(240, 240, 230)',
@@ -32,8 +46,8 @@ class News extends Component {
                         pageSize: 10
                     }}
                     renderItem={
-                        item => (
-                            <List.Item actions={[<a href="#">More</a>]}>
+                        (item, key) => (
+                            <List.Item actions={[<a id={item.id} onClick={this.handleClick}>More</a>]}>
                                 <List.Item.Meta
                                     title={item.title}
                                     description={item.tags.map((tag, key) => {
@@ -55,4 +69,4 @@ class News extends Component {
     }
 }
 
-export default connect(stateToProps)(News);
+export default connect(stateToProps, stateToDispatch)(News);

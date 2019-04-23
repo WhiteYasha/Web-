@@ -4,6 +4,7 @@ const INIT_LIST = "INIT_LIST";
 const CHANGE_ITEM = "CHANGE_ITEM";
 // 新闻动作宏定义
 const FILTER_NEWS = "FILTER_NEWS";
+const CHANGE_VIEWS = "CHANGE_VIEWS";
 const CHANGE_NEWS_STATE = "CHANGE_NEWS_STATE";
 // 菜品动作宏定义
 const FILTER_DISHES = "FILTER_DISHES";
@@ -42,6 +43,11 @@ export const filterNews = (filterType, sortType) => ({
 export const changeNewsState = (newsState) => ({
     type: CHANGE_NEWS_STATE,
     newsState
+});
+export const changeViews = (newsID, views) => ({
+    type: CHANGE_VIEWS,
+    newsID,
+    views
 });
 export const filterDishes = (filterType) => ({
     type: FILTER_DISHES,
@@ -98,8 +104,7 @@ const appReducer = (state = initialState, action) => {
                     newNewsList.sort((a, b) => {
                         return b.date.localeCompare(a.date);
                     });
-                }
-                else {
+                } else {
                     newNewsList.sort((a, b) => {
                         return b.views - a.views;
                     })
@@ -110,6 +115,21 @@ const appReducer = (state = initialState, action) => {
                         dishState: state.loadState.dishState,
                         newsState: true
                     }
+                });
+            }
+        case CHANGE_VIEWS:
+            {
+                return Object.assign({}, state, {
+                    newsList: state.newsList.map((item) => {
+                        return item.id === action.newsID ? Object.assign({}, item, {
+                            views: item.views + action.views
+                        }) : item;
+                    }),
+                    showNewsList: state.showNewsList.map((item) => {
+                        return item.id === action.newsID ? Object.assign({}, item, {
+                            views: item.views + action.views
+                        }) : item;
+                    })
                 });
             }
         case CHANGE_DISH_STATE:
