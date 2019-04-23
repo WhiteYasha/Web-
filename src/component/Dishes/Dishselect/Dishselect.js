@@ -38,6 +38,10 @@ class Dishselect extends Component {
         else filterType = "全部";
         self.props.doFilterDishes(filterType);
     }
+    componentWillMount() {
+        this.props.doChangeDishState(false);
+        this.props.doFilterDishes("全部");
+    }
     render() {
         self = this;
         return (

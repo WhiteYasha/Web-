@@ -34,6 +34,9 @@ class Newsfilter extends Component {
         else if (filterType === "employee") filterType = "员工天地";
         self.props.doFilterNews(filterType, sortType);
     }
+    componentWillMount() {
+        this.props.doFilterNews("all", "newest");
+    }
     render() {
         self = this;
         const {getFieldDecorator} = this.props.form;

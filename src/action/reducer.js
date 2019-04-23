@@ -137,7 +137,7 @@ const appReducer = (state = initialState, action) => {
                 return Object.assign({}, state, {
                     loadState: {
                         dishState: action.dishState,
-                        newState: state.loadState.newState
+                        newsState: state.loadState.newsState
                     }
                 });
             }
@@ -147,6 +147,7 @@ const appReducer = (state = initialState, action) => {
                     return Object.assign({}, state, {
                         showDishesList: state.dishesList,
                         loadState: Object.assign({}, state.loadState, {
+                            newsState: state.loadState.newsState,
                             dishState: true
                         })
                     });
@@ -156,6 +157,7 @@ const appReducer = (state = initialState, action) => {
                             return item.tags.indexOf(action.filterType) !== -1;
                         }),
                         loadState: Object.assign({}, state.loadState, {
+                            newsState: state.loadState.newsState,
                             dishState: true
                         })
                     });
