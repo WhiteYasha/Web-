@@ -19,7 +19,7 @@ const listHeader = (<header className="dishes-list-header">
     <section>Create a food life</section>
 </header>);
 const stateToProps = state => ({
-    dishesList: state.dishesList,
+    showDishesList: state.showDishesList,
     initState: state.initState
 });
 
@@ -42,7 +42,7 @@ class Dishes extends Component {
                     }}
                     loading={!this.props.initState}
                     header={listHeader}
-                    dataSource={this.props.dishesList}
+                    dataSource={this.props.showDishesList}
                     pagination={{
                         pageSize: 12
                     }}

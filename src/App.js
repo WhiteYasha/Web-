@@ -13,9 +13,7 @@ import {connect} from 'react-redux';
 import {initList} from './action/reducer.js';
 // eslint-disable-next-line {/*引入动作*/}
 
-const stateToProps = state => ({
-
-});
+const stateToProps = state => ({});
 const stateToDispatch = dispatch => {
     return {
         doInitList: () => {
