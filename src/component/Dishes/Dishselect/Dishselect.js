@@ -3,13 +3,18 @@ import './Dishselect.css';
 import {Radio} from 'antd';
 import 'antd/lib/radio/style/css';
 import {connect} from 'react-redux';
-import {filterDishes} from './../../../action/reducer.js';
+import {filterDishes, changeDishState} from './../../../action/reducer.js';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-const stateToProps = state => ({});
+const stateToProps = state => ({
+    dishState: state.loadState.dishState
+});
 const stateToDispatch = dispatch => {
     return {
+        doChangeDishState: (dishState) => {
+            dispatch(changeDishState(dishState));
+        },
         doFilterDishes: (filterType) => {
             dispatch(filterDishes(filterType));
         }
@@ -20,6 +25,7 @@ var self;
 
 class Dishselect extends Component {
     handleChange(e) {
+        self.props.doChangeDishState(false);
         var value = e.target.value,
             filterType;
         if (value === "zpc") filterType = "招牌菜";

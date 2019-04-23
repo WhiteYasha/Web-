@@ -20,7 +20,7 @@ const listHeader = (<header className="dishes-list-header">
 </header>);
 const stateToProps = state => ({
     showDishesList: state.showDishesList,
-    initState: state.initState
+    dishState: state.loadState.dishState
 });
 
 class Dishes extends Component {
@@ -40,7 +40,7 @@ class Dishes extends Component {
                         gutter: 16,
                         column: 3
                     }}
-                    loading={!this.props.initState}
+                    loading={!this.props.dishState}
                     header={listHeader}
                     dataSource={this.props.showDishesList}
                     pagination={{
