@@ -58,7 +58,13 @@ app.get("/getDishesList", (req, res) => {
         else {
             connection.query("SELECT * FROM dishes", (err, result) => {
                 if (err) console.log("查询dishes: " + err);
-                else res.send(result);
+                else {
+                    result.forEach((item) => {
+                        if (item.tags !== null) item.tags = item.tags.split(",");
+                        item.rate = parseFloat(item.rate);
+                    });
+                    res.send(result);
+                }
                 connection.release();
             });
         }

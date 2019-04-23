@@ -1,3 +1,3 @@
-export {default as shop1} from './shop1.jpg';
-export {default as shop2} from './shop2.jpg';
-export {default as shop3} from './shop3.jpg';
+export {default as shop1} from './shop/shop1.jpg';
+export {default as shop2} from './shop/shop2.jpg';
+export {default as shop3} from './shop/shop3.jpg';

@@ -16,3 +16,7 @@
     margin-left: 0.5em;
     font-size: 0.8em;
 }
+.ant-card-cover img {
+    height: 200px;
+    overflow: hidden !important;
+}
