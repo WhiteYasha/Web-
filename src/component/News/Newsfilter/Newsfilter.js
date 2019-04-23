@@ -4,11 +4,38 @@ import {Form, Button, Select} from 'antd';
 import 'antd/lib/button/style/css';
 import 'antd/lib/form/style/css';
 import 'antd/lib/select/style/css';
+import {connect} from 'react-redux';
+import {changeNewsState, filterNews} from './../../../action/reducer.js';
 
 const Option = Select.Option;
+const stateToProps = state => ({});
+const stateToDispatch = dispatch => {
+    return {
+        doChangenewsState: (newsState) => {
+            dispatch(changeNewsState(newsState));
+        },
+        doFilterNews: (filterType, sortType) => {
+            dispatch(filterNews(filterType, sortType));
+        }
+    };
+};
+
+var self;
 
 class Newsfilter extends Component {
+    handleSubmit(e) {
+        self.props.doChangenewsState(false);
+        // eslint-disable-next-line {/*处理筛选类型和排序方式*/}
+        let filterType = self.props.form.getFieldValue("filter"),
+            sortType = self.props.form.getFieldValue("order");
+        if (filterType === "company") filterType = "公司新闻";
+        else if (filterType === "industry") filterType = "行业新闻";
+        else if (filterType === "media") filterType = "媒体新闻";
+        else if (filterType === "employee") filterType = "员工天地";
+        self.props.doFilterNews(filterType, sortType);
+    }
     render() {
+        self = this;
         const {getFieldDecorator} = this.props.form;
         return (<div className="news-content-filters">
             <header>新闻中心</header>
@@ -41,17 +68,16 @@ class Newsfilter extends Component {
                                 }}>
                                 <Option value="newest">最新</Option>
                                 <Option value="viewmost">最多浏览</Option>
-                                <Option value="likemost">最多点赞</Option>
                             </Select>
                         )
                     }
                 </Form.Item>
                 <Form.Item style={{float: 'right'}}>
-                    <Button htmlType="submit">搜索</Button>
+                    <Button htmlType="submit" onClick={this.handleSubmit}>搜索</Button>
                 </Form.Item>
             </Form>
         </div>)
     }
 }
 
-export default Form.create()(Newsfilter);
+export default Form.create()(connect(stateToProps, stateToDispatch)(Newsfilter));

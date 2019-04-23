@@ -3,7 +3,8 @@
 const INIT_LIST = "INIT_LIST";
 const CHANGE_ITEM = "CHANGE_ITEM";
 // 新闻动作宏定义
-const SEARCH_NEWS = "SEARCH_NEWS";
+const FILTER_NEWS = "FILTER_NEWS";
+const CHANGE_NEWS_STATE = "CHANGE_NEWS_STATE";
 // 菜品动作宏定义
 const FILTER_DISHES = "FILTER_DISHES";
 const CHANGE_DISH_STATE = "CHANGE_DISH_STATE";
@@ -33,10 +34,14 @@ export const changeItem = (item) => ({
     type: CHANGE_ITEM,
     item
 });
-export const searchNews = (filterType, orderType) => ({
-    type: SEARCH_NEWS,
+export const filterNews = (filterType, sortType) => ({
+    type: FILTER_NEWS,
     filterType,
-    orderType
+    sortType
+});
+export const changeNewsState = (newsState) => ({
+    type: CHANGE_NEWS_STATE,
+    newsState
 });
 export const filterDishes = (filterType) => ({
     type: FILTER_DISHES,
@@ -72,12 +77,40 @@ const appReducer = (state = initialState, action) => {
                     activeItem: action.item
                 });
             }
-        case SEARCH_NEWS:
+        case CHANGE_NEWS_STATE:
             {
-                var newState = state.filter((item) => {
-                    return item.tags.indexOf(action.filterType) !== -1;
+                return Object.assign({}, state, {
+                    loadState: {
+                        dishState: state.loadState.dishState,
+                        newsState: action.newsState
+                    }
                 });
-                return newState;
+            }
+        case FILTER_NEWS:
+            {
+                var newNewsList = state.newsList;
+                if (action.filterType !== "all") {
+                    newNewsList = newNewsList.filter((item) => {
+                        return item.tags.indexOf(action.filterType) !== -1;
+                    });
+                }
+                if (action.sortType === "newest") {
+                    newNewsList.sort((a, b) => {
+                        return b.date.localeCompare(a.date);
+                    });
+                }
+                else {
+                    newNewsList.sort((a, b) => {
+                        return b.views - a.views;
+                    })
+                }
+                return Object.assign({}, state, {
+                    showNewsList: newNewsList,
+                    loadState: {
+                        dishState: state.loadState.dishState,
+                        newsState: true
+                    }
+                });
             }
         case CHANGE_DISH_STATE:
             {

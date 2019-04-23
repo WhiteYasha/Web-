@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import './News.css';
-import {List, Tag} from 'antd';
+import {List, Tag, Icon} from 'antd';
 import 'antd/lib/list/style/css';
 import 'antd/lib/tag/style/css';
 import Newsfilter from './../../component/News/Newsfilter/Newsfilter';
 import {connect} from 'react-redux';
 
-const stateToProps = state => ({newsList: state.newsList});
+const stateToProps = state => ({
+    showNewsList: state.showNewsList,
+    newsState: state.loadState.newsState
+});
 
 class News extends Component {
     render() {
@@ -23,7 +26,8 @@ class News extends Component {
             <div className="news-content">
                 <List
                     bordered
-                    dataSource={this.props.newsList}
+                    loading={!this.props.newsState}
+                    dataSource={this.props.showNewsList}
                     pagination={{
                         pageSize: 10
                     }}
@@ -36,6 +40,12 @@ class News extends Component {
                                         return <Tag key={`tag${key}`}>{tag}</Tag>
                                     })}
                                 />
+                                <div>
+                                    <span>
+                                        <Icon type="eye" style={{padding: '0 0.5em'}} />{item.views}
+                                    </span>
+                                    <span style={{marginLeft: '1em'}}>{item.date}</span>
+                                </div>
                             </List.Item>
                         )
                     }

@@ -7,9 +7,7 @@ import {filterDishes, changeDishState} from './../../../action/reducer.js';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-const stateToProps = state => ({
-    dishState: state.loadState.dishState
-});
+const stateToProps = state => ({});
 const stateToDispatch = dispatch => {
     return {
         doChangeDishState: (dishState) => {
