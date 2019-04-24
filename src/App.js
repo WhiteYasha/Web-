@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import Home from './page/Home/Home';
 import News from './page/News/News';
+import NewsArticle from './page/NewsArticle/NewsArticle';
 import Dishes from './page/Dishes/Dishes';
 import Contact from './page/Contact/Contact';
 import Header from './component/Header/Header';
@@ -21,8 +22,8 @@ const stateToDispatch = dispatch => {
                 axios.get("http://localhost:9000/getShopList"),
                 axios.get("http://localhost:9000/getDishesList"),
                 axios.get("http://localhost:9000/getRecruitList"),
-                axios.get("http://localhost:9000/getNewsList")
-            ]).then(axios.spread((shopResp, dishesResp, recruitResp, newsResp) => {
+                axios.get("http://localhost:9000/getNewsList")]
+            ).then(axios.spread((shopResp, dishesResp, recruitResp, newsResp) => {
                 var lists = {
                     shopList: shopResp.data,
                     dishesList: dishesResp.data,
@@ -40,18 +41,17 @@ class App extends Component {
         this.props.doInitList();
     }
     render() {
-        return (
-            <div>
-                <Header />
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/news" component={News} />
-                    <Route path="/dishes" component={Dishes} />
-                    <Route path="/contact" component={Contact} />
-                </Switch>
-                <Footer />
-            </div>
-        );
+        return (<div>
+            <Header/>
+            <Switch>
+                <Route exact path="/" component={Home}/>
+                <Route exact path="/news" component={News}/>
+                <Route path="/news/article" component={NewsArticle} />
+                <Route path="/dishes" component={Dishes}/>
+                <Route path="/contact" component={Contact}/>
+            </Switch>
+            <Footer/>
+        </div>);
     }
 }
 

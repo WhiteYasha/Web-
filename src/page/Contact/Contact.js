@@ -8,6 +8,15 @@ import Contactrecruit from './../../component/Contact/Contactrecruit/Contactrecr
 import {Route} from 'react-router-dom';
 
 class Contact extends Component {
+    constructor() {
+        super();
+        this.state = {header: "联系我们"};
+    }
+    componentWillMount() {
+        let pathname = window.location.pathname;
+        if (pathname === "/contact/message") this.setState({header: "在线留言"});
+        else if (pathname === "/contact/recruit") this.setState({header: "人才招聘"});
+    }
     render() {
         return (
             <div style={{
@@ -19,7 +28,7 @@ class Contact extends Component {
                 <section>做最好的服务，最好的出品，最好的环境。树餐饮服务标杆，用真诚感动每一位顾客。</section>
             </div>
             <div className="contact-router">
-                <header>联系我们</header>
+                <header>{this.state.header}</header>
                 <div style={{
                         textAlign: 'center'
                     }}>
