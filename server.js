@@ -29,8 +29,29 @@ var pool = mysql.createPool({
     user: "root",
     password: "123456"
 });
-// 获取数据接口
-// 获取所有新闻信息
+//  用户登录接口
+app.get("/login", (req, res) => {
+    let name = req.query.name,
+        password = req.query.password;
+    pool.getConnection((err, connection) => {
+        if (err) console.log("用户登录: " + err);
+        else {
+            connection.query(`SELECT * FROM users WHERE name = '${name}'`, (err, result) => {
+                if (err) console.log("查询users: " + err);
+                else {
+                    if (result.length === 0) res.send({state: -1});
+                    else {
+                        if (result[0].password === password) res.send({state: 1});
+                        else res.send({state: 0});
+                    }
+                }
+                connection.release();
+            });
+        }
+    });
+});
+//  获取数据接口
+//  获取所有新闻信息
 app.get('/getNewsList', (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) console.log("获取新闻信息: " + err);
@@ -49,7 +70,7 @@ app.get('/getNewsList', (req, res) => {
         }
     });
 });
-// 获取所有门店信息
+//  获取所有门店信息
 app.get('/getShopList', (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) console.log("获取门店信息: " + err);
@@ -62,7 +83,7 @@ app.get('/getShopList', (req, res) => {
         }
     });
 });
-// 获取所有菜品信息
+//  获取所有菜品信息
 app.get("/getDishesList", (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) console.log("获取菜品信息: " + err);
@@ -81,7 +102,7 @@ app.get("/getDishesList", (req, res) => {
         }
     });
 });
-// 获取所有招聘信息
+//  获取所有招聘信息
 app.get("/getRecruitList", (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) console.log("获取招聘信息: " + err);
@@ -94,7 +115,7 @@ app.get("/getRecruitList", (req, res) => {
         }
     });
 });
-// 修改接口
+//  修改接口
 /*-------------------------------对shops表的操作--------------------------------*/
 //  增加门店
 app.get("/addShop", (req, res) => {
