@@ -26,7 +26,7 @@ class Shoplist extends Component {
                     <List.Item>
                         <Card
                             hoverable
-                            cover={<img alt="" src = {shopCovers[`shop${key + 1}`]} />}
+                            cover={<img alt="" src = {shopCovers[`shop${item.id}`]} />}
                         >
                             <Meta
                                 title={item.name}
