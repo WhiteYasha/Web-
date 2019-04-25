@@ -3,6 +3,7 @@ const CHANGE_LOGIN_STATE = "CHANGE_LOGIN_STATE";
 
 const initialState = {
     loginState: false,      //  登录状态
+    breadPath: ["首页"],          //
     activeMenuItem: "home", //  当前选中的目录条目
     shopList: [],           //  全部门店信息列表
     dishesList: [],         //  全部菜品信息列表

@@ -15,14 +15,26 @@ class adminSider extends Component {
     }
     render() {
         return (
-            <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} theme="light">
-                <Menu mode="inline">
-                    <Menu.Item>首页</Menu.Item>
-                    <Menu.Item>菜品管理</Menu.Item>
-                    <Menu.Item>店面管理</Menu.Item>
-                    <Menu.Item>新闻管理</Menu.Item>
-                    <Menu.Item>招聘管理</Menu.Item>
-                    <Menu.Item>留言管理</Menu.Item>
+            <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+                <Menu mode="inline" theme="dark">
+                    <Menu.Item>
+                        <Icon type="home" />首页
+                    </Menu.Item>
+                    <Menu.Item>
+                        <Icon type="coffee" />菜品管理
+                    </Menu.Item>
+                    <Menu.Item>
+                        <Icon type="shop" />店面管理
+                    </Menu.Item>
+                    <Menu.Item>
+                        <Icon type="read" />新闻管理
+                    </Menu.Item>
+                    <Menu.Item>
+                        <Icon type="team" />招聘管理
+                    </Menu.Item>
+                    <Menu.Item>
+                        <Icon type="message" />留言管理
+                    </Menu.Item>
                 </Menu>
             </Sider>
         );
