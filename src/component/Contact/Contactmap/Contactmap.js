@@ -7,22 +7,20 @@ const position = {
     longitude: 120.1672910000,
     latitude: 30.2732440000
 }
-var self;
 
 class Contactmap extends Component {
     constructor() {
         super();
-        self = this;
         this.state = {
             infoVisible: true
         };
     }
-    toggleVisible() {
-        if (self.state.infoVisible) {
-            self.setState({infoVisible: false});
+    toggleVisible = () => {
+        if (this.state.infoVisible) {
+            this.setState({infoVisible: false});
         }
         else {
-            self.setState({infoVisible: true});
+            this.setState({infoVisible: true});
         }
     }
     componentWillUnmount() {

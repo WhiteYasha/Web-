@@ -19,11 +19,9 @@ const stateToDispatch = dispatch => {
     };
 };
 
-var self;
-
 class Dishselect extends Component {
-    handleChange(e) {
-        self.props.doChangeDishState(false);
+    handleChange = (e) => {
+        this.props.doChangeDishState(false);
         var value = e.target.value,
             filterType;
         if (value === "zpc") filterType = "招牌菜";
@@ -36,14 +34,13 @@ class Dishselect extends Component {
         else if (value === "jmdx") filterType = "精美点心";
         else if (value === "yljs") filterType = "饮料酒水";
         else filterType = "全部";
-        self.props.doFilterDishes(filterType);
+        this.props.doFilterDishes(filterType);
     }
     componentWillMount() {
         this.props.doChangeDishState(false);
         this.props.doFilterDishes("全部");
     }
     render() {
-        self = this;
         return (
             <div className="dish-select">
                 <header>菜品展示</header>

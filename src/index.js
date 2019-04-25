@@ -15,7 +15,7 @@ const adminStore = createStore(adminAppReducer, window.__REDUX_DEVTOOLS_EXTENSIO
 
 ReactDOM.render(<BrowserRouter>
     <Provider store={store}>
-        <Route exact path="/" component={App} />
+        <Route path="/" component={App} />
     </Provider>
     <Provider store={adminStore}>
         <Route path="/admin" component={AdminApp} />

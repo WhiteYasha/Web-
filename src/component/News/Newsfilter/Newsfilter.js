@@ -20,25 +20,22 @@ const stateToDispatch = dispatch => {
     };
 };
 
-var self;
-
 class Newsfilter extends Component {
-    handleSubmit(e) {
-        self.props.doChangenewsState(false);
+    handleSubmit = (e) => {
+        this.props.doChangenewsState(false);
         // eslint-disable-next-line {/*处理筛选类型和排序方式*/}
-        let filterType = self.props.form.getFieldValue("filter"),
-            sortType = self.props.form.getFieldValue("order");
+        let filterType = this.props.form.getFieldValue("filter"),
+            sortType = this.props.form.getFieldValue("order");
         if (filterType === "company") filterType = "公司新闻";
         else if (filterType === "industry") filterType = "行业新闻";
         else if (filterType === "media") filterType = "媒体新闻";
         else if (filterType === "employee") filterType = "员工天地";
-        self.props.doFilterNews(filterType, sortType);
+        this.props.doFilterNews(filterType, sortType);
     }
     componentWillMount() {
         this.props.doFilterNews("all", "newest");
     }
     render() {
-        self = this;
         const {getFieldDecorator} = this.props.form;
         return (<div className="news-content-filters">
             <header>新闻中心</header>

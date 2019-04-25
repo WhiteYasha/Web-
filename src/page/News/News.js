@@ -20,14 +20,11 @@ const stateToDispatch = dispatch => {
     };
 };
 
-var self;
-
 class News extends Component {
-    handleClick(e) {
-        self.props.doChangeWatchArticle(parseInt(e.target.id));
+    handleClick = (e) => {
+        this.props.doChangeWatchArticle(parseInt(e.target.id));
     }
     render() {
-        self = this;
         return (
             <div style={{
                 background: 'rgb(240, 240, 230)',
