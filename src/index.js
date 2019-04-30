@@ -5,7 +5,7 @@ import App from './App';
 import AdminApp from './AdminApp';
 import * as serviceWorker from './serviceWorker';
 import {createStore} from 'redux';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import appReducer from './action/reducer.js';
 import adminAppReducer from './action/adminReducer.js';
@@ -15,7 +15,10 @@ const adminStore = createStore(adminAppReducer, window.__REDUX_DEVTOOLS_EXTENSIO
 
 ReactDOM.render(<BrowserRouter>
     <Provider store={store}>
-        <Route path="/" component={App} />
+        <Route path="/" component={App}/>
+    </Provider>
+    <Provider store={adminStore}>
+        <Route path="/admin" component={AdminApp}/>
     </Provider>
 </BrowserRouter>, document.getElementById('root'));
 

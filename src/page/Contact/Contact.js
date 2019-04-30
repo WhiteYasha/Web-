@@ -14,8 +14,8 @@ class Contact extends Component {
     }
     componentWillMount() {
         let pathname = window.location.pathname;
-        if (pathname === "/contact/message") this.setState({header: "在线留言"});
-        else if (pathname === "/contact/recruit") this.setState({header: "人才招聘"});
+        if (pathname === "/home/contact/message") this.setState({header: "在线留言"});
+        else if (pathname === "/home/contact/recruit") this.setState({header: "人才招聘"});
     }
     render() {
         return (
@@ -32,13 +32,13 @@ class Contact extends Component {
                 <div style={{
                         textAlign: 'center'
                     }}>
-                    <Button href="/contact">
+                    <Button href="/home/contact">
                         <Icon type="smile"/>联系我们
                     </Button>
-                    <Button href="/contact/message">
+                    <Button href="/home/contact/message">
                         <Icon type="message"/>在线留言
                     </Button>
-                    <Button href="/contact/recruit">
+                    <Button href="/home/contact/recruit">
                         <Icon type="team"/>人才招聘
                     </Button>
                     <Button>
@@ -46,9 +46,9 @@ class Contact extends Component {
                     </Button>
                 </div>
             </div>
-            <Route exact path="/contact" component={Contactmap}/>
-            <Route path="/contact/message" component={Contactmessage}/>
-            <Route path="/contact/recruit" component={Contactrecruit} />
+            <Route exact path="/home/contact" component={Contactmap}/>
+            <Route path="/home/contact/message" component={Contactmessage}/>
+            <Route path="/home/contact/recruit" component={Contactrecruit} />
         </div>
         );
     }

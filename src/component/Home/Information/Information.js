@@ -54,19 +54,19 @@ class Information extends Component {
                     新白鹿一路走来，在润物细无声的过程中，经历着一次又一次的华丽蜕变与自我超越。
                 </section>
                 <Row style={{height: '200px'}}>
-                    <Col span={3} offset={3} className="home-aboutus-mod">
+                    <Col span={4} offset={1} className="home-aboutus-mod">
                         <Icon type="customer-service" className="home-aboutus-mod-icon"/>
                         <p>顾客至上</p>
                     </Col>
-                    <Col span={3} offset={2} className="home-aboutus-mod">
+                    <Col span={4} offset={2} className="home-aboutus-mod">
                         <Icon type="read" className="home-aboutus-mod-icon" />
                         <p>学习成长</p>
                     </Col>
-                    <Col span={3} offset={2} className="home-aboutus-mod">
+                    <Col span={4} offset={2} className="home-aboutus-mod">
                         <Icon type="smile" className="home-aboutus-mod-icon" />
                         <p>激情快乐</p>
                     </Col>
-                    <Col span={3} offset={2} className="home-aboutus-mod">
+                    <Col span={4} offset={2} className="home-aboutus-mod">
                         <Icon type="team" className="home-aboutus-mod-icon" />
                         <p>团队合作</p>
                     </Col>

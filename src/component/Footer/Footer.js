@@ -21,13 +21,13 @@ class Footer extends Component {
                 <h1 className="footer-info-logo">新白鹿</h1>
                 <div className="footer-info-menu">
                     <div className="footer-info-item">
-                        <Link to="/contact" onClick={this.props.doChangeItem}>联系我们</Link>
+                        <Link to="/home/contact" onClick={this.props.doChangeItem}>联系我们</Link>
                     </div>
                     <div className="footer-info-item">
-                        <Link to="/contact/message" onClick={this.props.doChangeItem}>在线留言</Link>
+                        <Link to="/home/contact/message" onClick={this.props.doChangeItem}>在线留言</Link>
                     </div>
                     <div className="footer-info-item">
-                        <Link to="/contact/recruit" onClick={this.props.doChangeItem}>人才招聘</Link>
+                        <Link to="/home/contact/recruit" onClick={this.props.doChangeItem}>人才招聘</Link>
                     </div>
                     <div className="footer-info-item">隐私条款</div>
                 </div>

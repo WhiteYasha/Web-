@@ -7,7 +7,7 @@ import Dishes from './page/Dishes/Dishes';
 import Contact from './page/Contact/Contact';
 import Header from './component/Header/Header';
 import Footer from './component/Footer/Footer';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import axios from 'axios';
 import {connect} from 'react-redux';
 // eslint-disable-next-line {/*引入组件*/}
@@ -18,12 +18,7 @@ const stateToProps = state => ({});
 const stateToDispatch = dispatch => {
     return {
         doInitList: () => {
-            axios.all([
-                axios.get("http://localhost:9000/getShopList"),
-                axios.get("http://localhost:9000/getDishesList"),
-                axios.get("http://localhost:9000/getRecruitList"),
-                axios.get("http://localhost:9000/getNewsList")]
-            ).then(axios.spread((shopResp, dishesResp, recruitResp, newsResp) => {
+            axios.all([axios.get("http://localhost:9000/getShopList"), axios.get("http://localhost:9000/getDishesList"), axios.get("http://localhost:9000/getRecruitList"), axios.get("http://localhost:9000/getNewsList")]).then(axios.spread((shopResp, dishesResp, recruitResp, newsResp) => {
                 var lists = {
                     shopList: shopResp.data,
                     dishesList: dishesResp.data,
@@ -43,18 +38,21 @@ class App extends Component {
         document.title = "杭州新白鹿餐饮管理有限公司";
     }
     render() {
-        return (<div>
-            <Header/>
-            <Switch>
-                <Route exact path="/" component={Home}/>
-                <Route exact path="/news" component={News}/>
-                <Route path="/news/article" component={NewsArticle} />
-                <Route path="/dishes" component={Dishes}/>
-                <Route path="/contact" component={Contact}/>
-            </Switch>
-            <Footer/>
-        </div>);
+        if (window.location.pathname === "/")
+            return <Redirect to="/home"/>
+        else
+            return (<div>
+                <Route path="/home" component={Header}/>
+                <Switch>
+                    <Route exact="exact" path="/home" component={Home}/>
+                    <Route exact="exact" path="/home/news" component={News}/>
+                    <Route path="/home/news/article" component={NewsArticle}/>
+                    <Route path="/home/dishes" component={Dishes}/>
+                    <Route path="/home/contact" component={Contact}/>
+                </Switch>
+                <Route path="/home" component={Footer}/>
+            </div>);
+        }
     }
-}
 
 export default connect(stateToProps, stateToDispatch)(App);

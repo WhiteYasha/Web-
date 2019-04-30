@@ -21,9 +21,9 @@ const stateToDispatch = dispatch => {
 class Header extends Component {
     componentWillMount() {
         const path = window.location.pathname;
-        if (path.startsWith("/news")) this.props.doChangeItem("news");
-        else if (path.startsWith("/dishes")) this.props.doChangeItem("dishes");
-        else if (path.startsWith("/contact")) this.props.doChangeItem("contact");
+        if (path.startsWith("/home/news")) this.props.doChangeItem("news");
+        else if (path.startsWith("/home/dishes")) this.props.doChangeItem("dishes");
+        else if (path.startsWith("/home/contact")) this.props.doChangeItem("contact");
     }
     render() {
         return (<div id="header">
@@ -33,12 +33,12 @@ class Header extends Component {
                 onClick={(item) => this.props.doChangeItem(item.key)}
             >
                 <Menu.Item key="home" className="left-items">
-                    <Link to="/">
+                    <Link to="/home">
                         <Icon type="home" />首页
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="news" className="left-items">
-                    <Link to="/news">
+                    <Link to="/home/news">
                         <Icon type="read" />新闻中心
                     </Link>
                 </Menu.Item>
@@ -46,12 +46,12 @@ class Header extends Component {
                     <img src={logo} alt="" />
                 </Menu.Item>
                 <Menu.Item key="dishes" className="right-items">
-                    <Link to="/dishes">
+                    <Link to="/home/dishes">
                         <Icon type="coffee" />菜品展示
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="contact" className="right-items">
-                    <Link to="/contact">
+                    <Link to="/home/contact">
                         <Icon type="contacts" />联系我们
                     </Link>
                 </Menu.Item>

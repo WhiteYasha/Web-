@@ -46,7 +46,7 @@ class News extends Component {
                     renderItem={
                         (item, key) => (
                             <List.Item
-                                actions={[<Link id={item.id} onClick={this.handleClick} to="/news/article">More</Link>]}
+                                actions={[<Link id={item.id} onClick={this.handleClick} to="/home/news/article">More</Link>]}
                             >
                                 <List.Item.Meta
                                     title={item.title}
