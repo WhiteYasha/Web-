@@ -2,8 +2,23 @@ import React, {Component} from 'react';
 import {Row, Col, Icon} from 'antd';
 import 'antd/lib/row/style/css';
 import './Information.css';
+import {Link} from 'react-router-dom';
+import {changeItem} from './../../../action/reducer.js';
+import {connect} from 'react-redux';
+
+const stateToProps = state => ({});
+const stateToDispatch = dispatch => {
+    return {
+        doChangeItem: (item) => {
+            dispatch(changeItem(item));
+        }
+    }
+};
 
 class Information extends Component {
+    handleClick = (e) => {
+        this.props.doChangeItem("contact");
+    }
     render() {
         return (<div>
             <div className="home-cover" />
@@ -21,7 +36,9 @@ class Information extends Component {
                         <Icon type="twitter" style={{color: '#fff', padding: '0 0.5em', fontSize: '18px'}} />
                     </div>
                     <div style={{margin: 'calc(48px - 0.25em) 0'}}>
-                        <div className="home-contact-right-btn">CONTACT US</div>
+                        <div className="home-contact-right-btn">
+                            <Link to="/contact" style={{color: '#e30202'}} onClick={this.handleClick}>CONTACT US</Link>
+                        </div>
                         <Icon type="phone" style={{color: '#fff', fontSize: '48px', padding: '0 0.5em'}} />
                         <div style={{display: 'inline-block'}}>
                             <section style={{fontSize: '12px', color: '#fff', textAlign: 'right'}}>WELCOME TO OUR WEBSITE</section>
@@ -59,4 +76,4 @@ class Information extends Component {
     }
 }
 
-export default Information;
+export default connect(stateToProps, stateToDispatch)(Information);

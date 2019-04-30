@@ -50,6 +50,19 @@ app.get("/login", (req, res) => {
         }
     });
 });
+//  访问页面
+app.get("/visit", (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) console.log("访问页面: " + err);
+        else {
+            connection.query("CALL visit()", (err, result) => {
+                if (err) console.log("调用visit(): " + err);
+                else res.end();
+                connection.release();
+            });
+        }
+    });
+});
 //  获取数据接口
 //  获取所有新闻信息
 app.get('/getNewsList', (req, res) => {

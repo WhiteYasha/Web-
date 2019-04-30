@@ -39,6 +39,8 @@ const stateToDispatch = dispatch => {
 class App extends Component {
     componentWillMount() {
         this.props.doInitList();
+        axios.get("http://localhost:9000/visit");
+        document.title = "杭州新白鹿餐饮管理有限公司";
     }
     render() {
         return (<div>
