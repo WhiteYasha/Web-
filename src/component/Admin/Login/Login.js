@@ -18,28 +18,26 @@ const stateToDispatch = dispatch => {
     }
 }
 
-var self;
-
 class Login extends Component {
-    handleSubmit(e) {
+    handleSubmit = e => {
         let data = {
             params: {
-                name: self.props.form.getFieldValue("name"),
-                password: self.props.form.getFieldValue("password")
+                name: this.props.form.getFieldValue("name"),
+                password: this.props.form.getFieldValue("password")
             }
         };
-        axios.get("http://localhost:9000/login", data).then((response) => {
+        axios.get("http://localhost:9000/login", data)
+        .then((response) => {
             let state = response.data.state;
             if (state === -1) message.error("该用户不存在!");
             else if (state === 0) message.error("密码错误!");
             else {
                 message.success("登录成功!");
-                self.props.doChangeLoginState();
+                this.props.doChangeLoginState();
             }
         });
     }
     render() {
-        self = this;
         const {getFieldDecorator} = this.props.form;
         return (<div style={{
                 height: '400px',

@@ -1,4 +1,4 @@
-.ant-input:focus,
-.ant-input:hover {
+#messagebox .ant-input:focus,
+#messagebox .ant-input:hover {
     border-color: #e30202 !important;
 }

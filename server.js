@@ -29,6 +29,25 @@ var pool = mysql.createPool({
     user: "root",
     password: "123456"
 });
+
+function formatDate(date) {
+    let year = date.getFullYear(),
+        month = date.getMonth() + 1,
+        day = date.getDate();
+    return `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+}
+function formatDatetime(datetime) {
+    let year = datetime.getFullYear(),
+        month = datetime.getMonth() + 1,
+        day = datetime.getDate(),
+        hour = datetime.getHours(),
+        minute = datetime.getMinutes(),
+        second = datetime.getSeconds();
+    var temp = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+    temp += ` ${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : '0'}${minute}:${second < 10 ? '0' : ''}${second}`;
+    return temp;
+}
+
 //  用户登录接口
 app.get("/login", (req, res) => {
     let name = req.query.name,
@@ -50,19 +69,6 @@ app.get("/login", (req, res) => {
         }
     });
 });
-//  访问页面
-app.get("/visit", (req, res) => {
-    pool.getConnection((err, connection) => {
-        if (err) console.log("访问页面: " + err);
-        else {
-            connection.query("CALL visit()", (err, result) => {
-                if (err) console.log("调用visit(): " + err);
-                else res.end();
-                connection.release();
-            });
-        }
-    });
-});
 //  获取数据接口
 //  获取所有新闻信息
 app.get('/getNewsList', (req, res) => {
@@ -74,7 +80,10 @@ app.get('/getNewsList', (req, res) => {
                 else {
                     result.forEach((item) => {
                         if (item.tags !== null) item.tags = item.tags.split(",");
-                        item.date = `${item.date.getFullYear()}-${item.date.getMonth() + 1}-${item.date.getDate()}`;
+                        let year = item.date.getFullYear(),
+                            month = item.date.getMonth() + 1,
+                            day = item.date.getDate();
+                        item.date = formatDatetime(item.date);
                     });
                     res.send(result);
                 }
@@ -128,7 +137,54 @@ app.get("/getRecruitList", (req, res) => {
         }
     });
 });
+//  获取留言
+app.get("/getMessageList", (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) console.log("获取留言: " + err);
+        else {
+            connection.query("SELECT * FROM messages", (err, result) => {
+                if (err) console.log("获取messages: " + err);
+                else {
+                    res.send(result);
+                }
+                connection.release();
+            });
+        }
+    });
+});
+//  获取访问量(一个月)
+app.get("/getVisits", (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) console.log("获取访问: " + err);
+        else {
+            connection.query("SELECT * FROM visits WHERE day >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND day <= CURDATE()", (err, result) => {
+                if (err) console.log("获取visit: " + err);
+                else {
+                    result.forEach((item) => {
+                        item.day = formatDate(item.day);
+                    });
+                    res.send(result);
+                }
+                connection.release();
+            });
+        }
+    });
+});
 //  修改接口
+/*-------------------------------对visits表的操作---------------------------------*/
+//  访问页面
+app.get("/visit", (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) console.log("访问页面: " + err);
+        else {
+            connection.query("CALL visit()", (err, result) => {
+                if (err) console.log("调用visit(): " + err);
+                else res.end();
+                connection.release();
+            });
+        }
+    });
+});
 /*-------------------------------对shops表的操作--------------------------------*/
 //  增加门店
 app.get("/addShop", (req, res) => {
@@ -178,6 +234,19 @@ app.get("/updateShop", (req, res) => {
     });
 });
 /*-------------------------------对news表的操作---------------------------------*/
+app.get("/watchNews", (req, res) => {
+    let id = req.query.id;
+    pool.getConnection((err, connection) => {
+        if (err) console.log("查看新闻信息: " + err);
+        else {
+            connection.query(`UPDATE news SET views = views + 1 WHERE id = ${id}`, (err, result) => {
+                if (err) console.log("更新news: " + err);
+                else res.end();
+                connection.release();
+            });
+        }
+    });
+});
 app.get("/addNews", (req, res) => {
     let title = req.query.title,
         tags = req.query.tags,
@@ -221,6 +290,23 @@ app.get("/updateNews", (req, res) => {
             const sql = `UPDATE news SET title = ${title}, tags = ${tags}, content = ${content}, author = ${author}, source = ${source} WHERE id = ${id}`;
             connection.query(sql, (err, result) => {
                 if (err) console.log("增加news: " + err);
+                else res.end();
+                connection.release();
+            });
+        }
+    });
+});
+/*-------------------------------对messages表的操作---------------------------------*/
+//  增加留言
+app.get("/addMessage", (req, res) => {
+    let name = req.query.name,
+        phone = req.query.phone,
+        content = req.query.content;
+    pool.getConnection((err, connection) => {
+        if (err) console.log("增加留言: " + err);
+        else {
+            connection.query(`INSERT INTO messages(name, phone, content) VALUES (${name}, ${phone}, ${content})`, (err, result) => {
+                if (err) console.log("增加message: " + err);
                 else res.end();
                 connection.release();
             });

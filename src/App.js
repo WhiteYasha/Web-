@@ -34,18 +34,20 @@ const stateToDispatch = dispatch => {
 class App extends Component {
     componentWillMount() {
         this.props.doInitList();
-        axios.get("http://localhost:9000/visit");
+        if (!window.location.pathname.startsWith("/admin")) {
+            axios.get("http://localhost:9000/visit");
+        }
         document.title = "杭州新白鹿餐饮管理有限公司";
     }
     render() {
         if (window.location.pathname === "/")
             return <Redirect to="/home"/>
-        else
+        else {
             return (<div>
                 <Route path="/home" component={Header}/>
                 <Switch>
-                    <Route exact="exact" path="/home" component={Home}/>
-                    <Route exact="exact" path="/home/news" component={News}/>
+                    <Route exact path="/home" component={Home}/>
+                    <Route exact path="/home/news" component={News}/>
                     <Route path="/home/news/article" component={NewsArticle}/>
                     <Route path="/home/dishes" component={Dishes}/>
                     <Route path="/home/contact" component={Contact}/>
@@ -54,5 +56,6 @@ class App extends Component {
             </div>);
         }
     }
+}
 
 export default connect(stateToProps, stateToDispatch)(App);

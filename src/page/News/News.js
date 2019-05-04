@@ -7,6 +7,7 @@ import Newsfilter from './../../component/News/Newsfilter/Newsfilter';
 import {connect} from 'react-redux';
 import {changeWatchArticle} from './../../action/reducer.js';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 const stateToProps = state => ({
     showNewsList: state.showNewsList,
@@ -22,6 +23,12 @@ const stateToDispatch = dispatch => {
 
 class News extends Component {
     handleClick = (e) => {
+        let data = {
+            params: {
+                id: e.target.id
+            }
+        };
+        axios.get("http://localhost:9000/watchNews", data);
         this.props.doChangeWatchArticle(parseInt(e.target.id));
     }
     render() {
