@@ -4,6 +4,7 @@ import 'antd/lib/layout/style/css';
 import 'antd/lib/menu/style/css';
 import {connect} from 'react-redux';
 import {changeItem} from './../../../action/adminReducer.js';
+import {Link} from 'react-router-dom';
 
 const {Sider} = Layout;
 const SubMenu = Menu.SubMenu;
@@ -28,28 +29,64 @@ class adminSider extends Component {
     }
     render() {
         return (<Sider collapsible="collapsible" collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-            <Menu mode="inline" theme="dark" onClick={(item) => this.props.doChangeItem(item.key)} selectedKeys={this.props.activeMenuItem}>
+            <Menu mode="inline" theme="dark" selectedKeys={this.props.activeMenuItem}>
                 <Menu.Item key="home">
-                    <Icon type="home"/>首页
+                    <Link to="/admin" onClick={() => this.props.doChangeItem(["home"])}>
+                        <Icon type="home"/>首页
+                    </Link>
                 </Menu.Item>
                 <SubMenu key="dishes" title={<span> < Icon type = "coffee" /> 菜品管理</span>}>
-                    <Menu.Item key="add_dishes">添加菜品</Menu.Item>
-                    <Menu.Item key="delete_dishes">删改菜品</Menu.Item>
+                    <Menu.Item key="add_dishes" >
+                        <Link to="/admin/adddish" onClick={() => this.props.doChangeItem(["dishes", "add_dishes"])}>
+                            添加菜品
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key="delete_dishes">
+                        <Link to="/admin/dish" onClick={() => this.props.doChangeItem(["dishes", "delete_dishes"])}>
+                            删改菜品
+                        </Link>
+                    </Menu.Item>
                 </SubMenu>
                 <SubMenu key="shops" title={<span> < Icon type = "shop" /> 店面管理</span>}>
-                    <Menu.Item key="add_shop">添加店面</Menu.Item>
-                    <Menu.Item key="delete_shop">删改店面</Menu.Item>
+                    <Menu.Item key="add_shop">
+                        <Link to="/admin/add_shop" onClick={() => this.props.doChangeItem(["shops", "add_shop"])}>
+                            添加店面
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key="delete_shop">
+                        <Link to="/admin/shop" onClick={() => this.props.doChangeItem(["shops", "delete_shop"])}>
+                            删改店面
+                        </Link>
+                    </Menu.Item>
                 </SubMenu>
                 <SubMenu key="news" title={<span> < Icon type = "read" /> 新闻管理</span>}>
-                    <Menu.Item key="add_news">添加新闻</Menu.Item>
-                    <Menu.Item key="delete_news">删改新闻</Menu.Item>
+                    <Menu.Item key="add_news">
+                        <Link to="/admin/add_news" onClick={() => this.props.doChangeItem(["news", "add_news"])}>
+                            添加新闻
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key="delete_news">
+                        <Link to="/admin/news" onClick={() => this.props.doChangeItem(["news", "delete_news"])}>
+                            删改新闻
+                        </Link>
+                    </Menu.Item>
                 </SubMenu>
                 <SubMenu key="recruits" title={<span> < Icon type = "team" /> 招聘管理</span>}>
-                    <Menu.Item kye="add_recruit">添加招聘</Menu.Item>
-                    <Menu.Item key="delete_recruit">删改招聘</Menu.Item>
+                    <Menu.Item key="add_recruit">
+                        <Link to="/admin/add_recruit" onClick={() => this.props.doChangeItem(["recruits", "add_recruit"])}>
+                            添加招聘
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key="delete_recruit">
+                        <Link to="/admin/recruit" onClick={() => this.props.doChangeItem(["recruits", "delete_recruit"])}>
+                            删改招聘
+                        </Link>
+                    </Menu.Item>
                 </SubMenu>
                 <Menu.Item key="messages">
-                    <Icon type="message"/>留言管理
+                    <Link to="/admin/messages" onClick={() => this.props.doChangeItem(["messages"])}>
+                        <Icon type="message"/>留言管理
+                    </Link>
                 </Menu.Item>
             </Menu>
         </Sider>);

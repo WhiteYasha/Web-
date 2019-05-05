@@ -13,14 +13,12 @@ import 'antd/lib/layout/style/css';
 import 'antd/lib/statistic/style/css';
 import 'antd/lib/card/style/css';
 import 'antd/lib/row/style/css';
-import adminHeader from './../../../component/Admin/adminHeader/adminHeader';
-import adminSider from './../../../component/Admin/adminSider/adminSider';
 import VisitChart from './../../../component/Admin/visitChart/visitChart';
 import {Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 const {Content} = Layout;
-const stateToProps = state => ({visitList: state.visitList, messageList: state.messageList});
+const stateToProps = state => ({visitList: state.visitList, messageList: state.messageList, recruitList: state.recruitList});
 
 class Home extends Component {
     countMessage = () => {
@@ -32,17 +30,38 @@ class Home extends Component {
         );
         return sum;
     }
+    savedContent = () => {
+        let shopContent = JSON.parse(localStorage.getItem("shopContent")),
+            newsContent = JSON.parse(localStorage.getItem("newsContent")),
+            dishContent = JSON.parse(localStorage.getItem("dishContent")),
+            recruitContent = JSON.parse(localStorage.getItem("recruitContent"));
+        return (
+            <div>
+                {
+                    shopContent === null ? "" : <Badge dot><p>继续编辑店铺信息</p></Badge>
+                }
+                {
+                    newsContent === null ? "" : <Badge dot><p>继续编辑店铺信息</p></Badge>
+                }
+                {
+                    dishContent === null ? "" : <Badge dot><p>继续编辑店铺信息</p></Badge>
+                }
+                {
+                    recruitContent === null ? "" : <Badge dot><p>继续编辑店铺信息</p></Badge>
+                }
+                {
+                    shopContent === null && newsContent === null && dishContent === null && recruitContent === null ?
+                    <p>无编辑中的内容</p> : ""
+                }
+            </div>
+        );
+    }
     render() {
         let todayVisit = this.props.visitList[this.props.visitList.length - 1].number,
             yesterdayVisit = this.props.visitList[this.props.visitList.length - 2].number;
         let rate = parseFloat(todayVisit - yesterdayVisit) / yesterdayVisit * 100;
         let message = this.countMessage();
-        return (<Layout style={{
-                minHeight: '100vh'
-            }}>
-            <Route path="/admin" component={adminSider}/>
-            <Layout>
-                <Route path="/admin" component={adminHeader}/>
+        return (
                 <Content style={{
                         padding: '16px 0'
                     }}>
@@ -72,7 +91,7 @@ class Home extends Component {
                                         : <Icon type="arrow-up"/>} suffix="%"/>
                             </Card>
                         </Col>
-                        <Col span={4} style={{height: '100%'}}>
+                        <Col span={4}>
                             <Card>
                                 <Statistic title="未查看留言" value={message} valueStyle={{
                                         color: message > 0
@@ -81,34 +100,19 @@ class Home extends Component {
                                     }}/>
                             </Card>
                         </Col>
+                        <Col span={5}>
+                            <Card>
+                                <Statistic title="发布中的招聘信息" value={this.props.recruitList.length}/>
+                            </Card>
+                        </Col>
                         <Col span={6}>
                             <Card title="编辑中的内容">
-                                {
-                                    JSON.parse(localStorage.getItem("shopContent")) === null
-                                        ? <p>无编辑中的店铺信息</p>
-                                        : <Badge dot><p>继续编辑店铺信息</p></Badge>
-                                }
-                                {
-                                    JSON.parse(localStorage.getItem("dishContent")) === null
-                                        ? <p>无编辑中的菜品信息</p>
-                                        : <Badge dot><p>继续编辑菜品信息</p></Badge>
-                                }
-                                {
-                                    JSON.parse(localStorage.getItem("newsContent")) === null
-                                        ? <p>无编辑中的新闻</p>
-                                        : <Badge dot><p>继续编辑新闻</p></Badge>
-                                }
-                                {
-                                    JSON.parse(localStorage.getItem("recruitContent")) === null
-                                        ? <p>无编辑中的招聘信息</p>
-                                        : <Badge dot><p>继续编辑招聘信息</p></Badge>
-                                }
+                                {this.savedContent()}
                             </Card>
                         </Col>
                     </Row>
                 </Content>
-            </Layout>
-        </Layout>);
+            );
     }
 }
 

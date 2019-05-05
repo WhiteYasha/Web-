@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
+import {Layout} from 'antd';
+import 'antd/lib/layout/style/css';
 import Login from './component/Admin/Login/Login';
 import Home from './page/Admin/Home/Home';
 import {Route} from 'react-router-dom';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {initList} from './action/adminReducer.js';
+import adminHeader from './component/Admin/adminHeader/adminHeader';
+import adminSider from './component/Admin/adminSider/adminSider';
 
 const stateToProps = state => ({loginState: state.loginState});
 const stateToDispatch = dispatch => {
@@ -39,11 +43,22 @@ class AdminApp extends Component {
         }));
     }
     render() {
-        return (<div>
-            <Route exact path="/admin" component={this.props.loginState
-                    ? Home
-                    : Login}/>
-        </div>);
+        return (
+            <div>
+                {
+                    this.props.loginState ?
+                    (<Layout style={{
+                            minHeight: '100vh'
+                        }}>
+                        <Route path="/admin" component={adminSider}/>
+                        <Layout>
+                            <Route path="/admin" component={adminHeader}/>
+                            <Route exact path="/admin" component={Home} />
+                        </Layout>
+                    </Layout>) : <Route path="/admin" component={Login} />
+                }
+            </div>
+        );
     }
 }
 
