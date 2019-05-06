@@ -287,7 +287,7 @@ app.get("/updateNews", (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) console.log("修改新闻信息: " + err);
         else {
-            const sql = `UPDATE news SET title = ${title}, tags = ${tags}, content = ${content}, author = ${author}, source = ${source} WHERE id = ${id}`;
+            const sql = `UPDATE news SET title = '${title}', tags = '${tags}', content = '${content}', author = '${author}', source = '${source}' WHERE id = ${id}`;
             connection.query(sql, (err, result) => {
                 if (err) console.log("增加news: " + err);
                 else res.end();
@@ -305,8 +305,55 @@ app.get("/addMessage", (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) console.log("增加留言: " + err);
         else {
-            connection.query(`INSERT INTO messages(name, phone, content) VALUES (${name}, ${phone}, ${content})`, (err, result) => {
+            connection.query(`INSERT INTO messages(name, phone, content) VALUES ('${name}', '${phone}', '${content}')`, (err, result) => {
                 if (err) console.log("增加message: " + err);
+                else res.end();
+                connection.release();
+            });
+        }
+    });
+});
+/*-------------------------------对dishes表的操作---------------------------------*/
+app.get("/addDishes", (req, res) => {
+    let name = req.query.name,
+        intro = req.query.intro,
+        rate = req.query.rate,
+        tags = req.query.tags;
+    pool.getConnection((err, connection) => {
+        if (err) console.log("增加菜品: " + err);
+        else {
+            connection.query(`INSERT INTO dishes(name, introduction, rate, tags) VALUES ('${name}', '${intro}', ${rate}, '${tags}')`, (err, result) => {
+                if (err) console.log("增加dishes: " + err);
+                else res.end();
+                connection.release();
+            });
+        }
+    });
+});
+app.get("/updateDishes", (req, res) => {
+    let id = req.query.id,
+        name = req.query.name,
+        intro = req.query.intro,
+        rate = req.query.rate,
+        tags = req.query.tags;
+    pool.getConnection((err, connection) => {
+        if (err) console.log("修改菜品: " + err);
+        else {
+            connection.query(`UPDATE dishes SET name = '${name}', introduction = '${intro}', rate = ${rate}, tags = '${tags}' WHERE id = ${id}`, (err, result) => {
+                if (err) console.log("修改dishes: " + err);
+                else res.end();
+                connection.release();
+            });
+        }
+    })
+});
+app.get("/deleteDishes", (req, res) => {
+    let id = req.query.id;
+    pool.getConnection((err, connection) => {
+        if (err) console.log("删除菜品: " + err);
+        else {
+            connection.query(`DELETE FROM dishes WHERE id = ${id}`, (err, result) => {
+                if (err) console.log("删除dishes: " + err);
                 else res.end();
                 connection.release();
             });
