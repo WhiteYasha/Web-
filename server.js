@@ -13,6 +13,9 @@ const express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
+var formidable = require('formidable');
+var path = require('path');
+var fs = require('fs');
 const port = 9000;
 const app = express();
 
@@ -21,6 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 var pool = mysql.createPool({
     host: "localhost",
@@ -294,6 +298,25 @@ app.get("/updateNews", (req, res) => {
                 connection.release();
             });
         }
+    });
+});
+app.post("/uploadNewsImg", (req, res) => {
+    var form = new formidable.IncomingForm();
+    form.uploadDir = './public/img';
+    form.maxFieldsSize = 10 * 1024 * 1024;
+
+    form.parse(req, (err, fields, files) => {
+        let oldpath = files.newsImg.path,
+            extname = files.newsImg.name;
+        let newpath = "./public/img/" + extname;
+        fs.rename(oldpath, newpath, (err) => {
+            if (err) {
+                console.log("新闻图片重命名失败: " + err);
+                res.send({errno: 1, data: []});
+            }
+            let respath = newpath.replace("./public", "http://localhost:9000");
+            res.send({errno: 0, data: [respath]});
+        });
     });
 });
 /*-------------------------------对messages表的操作---------------------------------*/
