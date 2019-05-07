@@ -14,7 +14,6 @@ import 'antd/lib/statistic/style/css';
 import 'antd/lib/card/style/css';
 import 'antd/lib/row/style/css';
 import VisitChart from './../../../component/Admin/visitChart/visitChart';
-import {Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 const {Content} = Layout;

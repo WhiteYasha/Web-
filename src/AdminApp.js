@@ -3,6 +3,7 @@ import {Layout} from 'antd';
 import 'antd/lib/layout/style/css';
 import Login from './component/Admin/Login/Login';
 import Home from './page/Admin/Home/Home';
+import AddNews from './page/Admin/AddNews/AddNews';
 import {Route} from 'react-router-dom';
 import axios from 'axios';
 import {connect} from 'react-redux';
@@ -54,6 +55,7 @@ class AdminApp extends Component {
                         <Layout>
                             <Route path="/admin" component={adminHeader}/>
                             <Route exact path="/admin" component={Home} />
+                            <Route exact path="/admin/add_news" component={AddNews}/>
                         </Layout>
                     </Layout>) : <Route path="/admin" component={Login} />
                 }
