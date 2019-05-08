@@ -302,13 +302,13 @@ app.get("/updateNews", (req, res) => {
 });
 app.post("/uploadNewsImg", (req, res) => {
     var form = new formidable.IncomingForm();
-    form.uploadDir = './public/img';
+    form.uploadDir = './public/tmp/newsImg';
     form.maxFieldsSize = 10 * 1024 * 1024;
 
     form.parse(req, (err, fields, files) => {
         let oldpath = files.newsImg.path,
             extname = files.newsImg.name;
-        let newpath = "./public/img/" + extname;
+        let newpath = "./public/tmp/newsImg/" + extname;
         fs.rename(oldpath, newpath, (err) => {
             if (err) {
                 console.log("新闻图片重命名失败: " + err);
