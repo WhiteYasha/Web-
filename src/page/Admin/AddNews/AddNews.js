@@ -1,7 +1,15 @@
 import React, {Component} from 'react';
-import {Layout, Form, Input, Button} from 'antd';
+import {
+    Layout,
+    Input,
+    Button,
+    message,
+    Row,
+    Col
+} from 'antd';
 import 'antd/lib/layout/style/css';
-import 'antd/lib/form/style/css';
+import 'antd/lib/row/style/css';
+import 'antd/lib/message/style/css';
 import 'antd/lib/input/style/css';
 import 'antd/lib/button/style/css';
 import E from 'wangeditor';
@@ -9,72 +17,102 @@ import E from 'wangeditor';
 const {Content} = Layout;
 
 class AddNews extends Component {
+    editor;
     constructor(props, context) {
         super(props, context);
         this.state = {
-            editorContent: ''
+            newsTitle: JSON.parse(localStorage.getItem("newsContent")) === null
+                ? ""
+                : JSON.parse(localStorage.getItem("newsContent")).title,
+            newsAuthor: JSON.parse(localStorage.getItem("newsContent")) === null
+                ? ""
+                : JSON.parse(localStorage.getItem("newsContent")).author,
+            newsResource: JSON.parse(localStorage.getItem("newsContent")) === null
+                ? ""
+                : JSON.parse(localStorage.getItem("newsContent")).resource,
+            editorContent: JSON.parse(localStorage.getItem("newsContent")) === null
+                ? ""
+                : JSON.parse(localStorage.getItem("newsContent")).content
         }
     }
-    render() {
-        const {getFieldDecorator} = this.props.form;
-        const formItemLayout = {
-            labelCol: {
-                xs: {
-                    span: 24
-                },
-                sm: {
-                    span: 2
+    handleSubmit = (e) => {
+        this.props.form.validateFields((err, values) => {
+            let data = {
+                params: {
+                    title: values.title,
+                    content: this.state.editorContent
                 }
-            },
-            wrapperCol: {
-                xs: {
-                    span: 24
-                },
-                sm: {
-                    span: 22
-                }
-            }
+            };
+
+        });
+    }
+    handleSave = (e) => {
+        let newsContent = {
+            title: this.props.form.getFieldValue("title"),
+            content: this.state.editorContent
         };
+        localStorage.setItem("newsContent", JSON.stringify(newsContent));
+        message.success("保存成功!");
+    }
+    handleClear = (e) => {
+        this.setState({newsTitle: '', newsAuthor: '', newsResource: '', ditorContent: ''});
+        this.editor.txt.clear();
+        localStorage.removeItem("newsContent");
+    }
+    render() {
         return (<Content style={{
                 padding: '16px calc(100% / 24)'
             }}>
-            <Form layout="vertical" {...formItemLayout}>
-                <Form.Item label="标题">
-                    {getFieldDecorator('title', {
-                        rules: [{
-                            required: true, message: '请输入标题!'
-                        }]
-                    })(<Input/>)}
-                </Form.Item>
-                <Form.Item label="内容">
-                    <div ref="editorElem" style={{
-                            textAlign: 'left',
-                            background: '#fff'
-                        }}/>
-                </Form.Item>
-                <Form.Item wrapperCol={{span: 4, offset: 20}}>
-                    <Button type="primary">发布</Button>
-                    <Button style={{marginLeft: '1em'}}>保存</Button>
-                </Form.Item>
-            </Form>
+                <Row style={{margin: '1em 0'}}>
+                    <Col span={2} style={{textAlign: 'center'}}>标题</Col>
+                    <Col span={22}>
+                        <Input defaultValue={this.state.newsTitle} onChange={(e) => this.setState({newsTitle: e.target.value})}/>
+                    </Col>
+                </Row>
+                <Row style={{margin: '1em 0'}}>
+                    <Col span={2} style={{textAlign: 'center'}}>作者</Col>
+                    <Col span={10}>
+                        <Input defaultValue={this.state.newsAuthor} onChange={(e) => this.setState({newsAuthor: e.target.value})}/>
+                    </Col>
+                    <Col span={2} style={{textAlign: 'center'}}>来源</Col>
+                    <Col span={10}>
+                        <Input defaultValue={this.state.newsResource} onChange={(e) => this.setState({newsResource: e.target.value})} />
+                    </Col>
+                </Row>
+                <div id="editArea" ref="editorElem" style={{
+                        textAlign: 'left',
+                        background: '#fff'
+                    }}/>
+                <Row style={{margin: '1em 0'}}>
+                    <Col offset={20} span={4}>
+                        <Button.Group>
+                            <Button type="primary" onClick={this.handleSubmit}>发布</Button>
+                            <Button onClick={this.handleSave}>保存</Button>
+                            <Button onClick={this.handleClear}>清空</Button>
+                        </Button.Group>
+                    </Col>
+                </Row>
         </Content>);
     }
     componentDidMount() {
         const elem = this.refs.editorElem;
-        const editor = new E(elem);
-        editor.customConfig.onchange = html => {
+        this.editor = new E(elem);
+        this.editor.customConfig.onchange = html => {
             this.setState({editorContent: html});
         };
-        editor.customConfig.uploadImgServer = 'http://localhost:9000/uploadNewsImg';
-        editor.customConfig.uploadFileName = 'newsImg';
-        editor.customConfig.uploadImgHooks = {
+        this.editor.customConfig.uploadImgServer = 'http://localhost:9000/uploadNewsImg';
+        this.editor.customConfig.uploadFileName = 'newsImg';
+        this.editor.customConfig.uploadImgHooks = {
             customInsert: function(insertImg, result, editor) {
                 var url = result.data[0];
                 insertImg(url);
             }
         }
-        editor.create();
+        this.editor.create();
+        if (JSON.parse(localStorage.getItem("newsContent")) !== null) {
+            this.editor.txt.html(JSON.parse(localStorage.getItem("newsContent")).content);
+        }
     }
 };
 
-export default Form.create()(AddNews);
+export default AddNews;
