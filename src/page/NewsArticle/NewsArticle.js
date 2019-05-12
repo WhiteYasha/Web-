@@ -5,7 +5,6 @@ import 'antd/lib/row/style/css';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import "github-markdown-css/github-markdown.css";
-import Markdown from 'react-markdown';
 
 const stateToProps = state => ({
     watchArticle: state.watchArticleID === -1
@@ -51,9 +50,7 @@ class NewsArticle extends Component {
                         </Col>
                     </Row>
                 </div>
-                <Markdown className="article-content markdown-body" source={
-                        this.props.watchArticle.content
-                    } />
+                <div dangerouslySetInnerHTML={{__html: this.props.watchArticle.content}} className="article-content"/>
             </div>);
         }
     }

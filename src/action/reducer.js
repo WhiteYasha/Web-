@@ -97,7 +97,7 @@ const appReducer = (state = initialState, action) => {
                 var newNewsList = state.newsList;
                 if (action.filterType !== "all") {
                     newNewsList = newNewsList.filter((item) => {
-                        return item.tags.indexOf(action.filterType) !== -1;
+                        return item.tag === action.filterType;
                     });
                 }
                 if (action.sortType === "newest") {
@@ -139,7 +139,7 @@ const appReducer = (state = initialState, action) => {
                 } else {
                     return Object.assign({}, state, {
                         showDishesList: state.dishesList.filter((item) => {
-                            return item.tags.indexOf(action.filterType) !== -1;
+                            return item.tag === action.filterType;
                         }),
                         loadState: Object.assign({}, state.loadState, {
                             newsState: state.loadState.newsState,

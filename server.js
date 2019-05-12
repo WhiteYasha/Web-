@@ -4,9 +4,9 @@
  *  deleteShop?id
  *  updateShop?id&name&address&phone
  *
- *  addNews?title&tags&content&author&source
+ *  addNews?title&tag&content&author&source
  *  deleteNews?id
- *  updateNews?id&title&tags&content&author&source
+ *  updateNews?id&title&tag&content&author&source
  */
 
 const express = require('express');
@@ -48,7 +48,7 @@ function formatDatetime(datetime) {
         minute = datetime.getMinutes(),
         second = datetime.getSeconds();
     var temp = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-    temp += ` ${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : '0'}${minute}:${second < 10 ? '0' : ''}${second}`;
+    temp += ` ${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}:${second < 10 ? '0' : ''}${second}`;
     return temp;
 }
 
@@ -83,7 +83,6 @@ app.get('/getNewsList', (req, res) => {
                 if (err) console.log("查询news: " + err);
                 else {
                     result.forEach((item) => {
-                        if (item.tags !== null) item.tags = item.tags.split(",");
                         let year = item.date.getFullYear(),
                             month = item.date.getMonth() + 1,
                             day = item.date.getDate();
@@ -118,7 +117,6 @@ app.get("/getDishesList", (req, res) => {
                 if (err) console.log("查询dishes: " + err);
                 else {
                     result.forEach((item) => {
-                        if (item.tags !== null) item.tags = item.tags.split(",");
                         item.rate = parseFloat(item.rate);
                     });
                     res.send(result);
@@ -253,14 +251,14 @@ app.get("/watchNews", (req, res) => {
 });
 app.get("/addNews", (req, res) => {
     let title = req.query.title,
-        tags = req.query.tags,
+        tag = req.query.tag,
         content = req.query.content,
         author = req.query.author,
         source = req.query.source;
     pool.getConnection((err, connection) => {
         if (err) console.log("增加新闻信息: " + err);
         else {
-            connection.query(`INSERT INTO news(title, tags, content, author, source) VALUES ('${title}', '${tags}', '${content}', '${author}', '${source}')`, (err, result) => {
+            connection.query(`INSERT INTO news(title, tag, content, author, source) VALUES ('${title}', '${tag}', '${content}', '${author}', '${source}')`, (err, result) => {
                 if (err) console.log("增加news: " + err);
                 else res.end();
                 connection.release();
@@ -284,14 +282,14 @@ app.get("/deleteNews", (req, res) => {
 app.get("/updateNews", (req, res) => {
     let id = req.query.id,
         title = req.query.title,
-        tags = req.query.tags,
+        tag = req.query.tag,
         content = req.query.content,
         author = req.query.author,
         source = req.query.source;
     pool.getConnection((err, connection) => {
         if (err) console.log("修改新闻信息: " + err);
         else {
-            const sql = `UPDATE news SET title = '${title}', tags = '${tags}', content = '${content}', author = '${author}', source = '${source}' WHERE id = ${id}`;
+            const sql = `UPDATE news SET title = '${title}', tag = '${tag}', content = '${content}', author = '${author}', source = '${source}' WHERE id = ${id}`;
             connection.query(sql, (err, result) => {
                 if (err) console.log("增加news: " + err);
                 else res.end();
@@ -341,11 +339,11 @@ app.get("/addDishes", (req, res) => {
     let name = req.query.name,
         intro = req.query.intro,
         rate = req.query.rate,
-        tags = req.query.tags;
+        tag = req.query.tag;
     pool.getConnection((err, connection) => {
         if (err) console.log("增加菜品: " + err);
         else {
-            connection.query(`INSERT INTO dishes(name, introduction, rate, tags) VALUES ('${name}', '${intro}', ${rate}, '${tags}')`, (err, result) => {
+            connection.query(`INSERT INTO dishes(name, introduction, rate, tag) VALUES ('${name}', '${intro}', ${rate}, '${tag}')`, (err, result) => {
                 if (err) console.log("增加dishes: " + err);
                 else res.end();
                 connection.release();
@@ -358,11 +356,11 @@ app.get("/updateDishes", (req, res) => {
         name = req.query.name,
         intro = req.query.intro,
         rate = req.query.rate,
-        tags = req.query.tags;
+        tag = req.query.tag;
     pool.getConnection((err, connection) => {
         if (err) console.log("修改菜品: " + err);
         else {
-            connection.query(`UPDATE dishes SET name = '${name}', introduction = '${intro}', rate = ${rate}, tags = '${tags}' WHERE id = ${id}`, (err, result) => {
+            connection.query(`UPDATE dishes SET name = '${name}', introduction = '${intro}', rate = ${rate}, tag = '${tag}' WHERE id = ${id}`, (err, result) => {
                 if (err) console.log("修改dishes: " + err);
                 else res.end();
                 connection.release();

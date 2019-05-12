@@ -30,6 +30,7 @@ class Newsfilter extends Component {
         else if (filterType === "industry") filterType = "行业新闻";
         else if (filterType === "media") filterType = "媒体新闻";
         else if (filterType === "employee") filterType = "员工天地";
+        else if (filterType === "hornor") filterType = "荣誉资质";
         this.props.doFilterNews(filterType, sortType);
     }
     componentWillMount() {
