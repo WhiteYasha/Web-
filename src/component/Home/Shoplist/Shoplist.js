@@ -4,7 +4,6 @@ import {List, Card} from 'antd';
 import 'antd/lib/list/style/css';
 import 'antd/lib/card/style/css';
 import {connect} from 'react-redux';
-import * as shopCovers from './../../../img/shopImgList';
 
 const {Meta} = Card;
 const stateToProps = state => ({shopList: state.shopList});
@@ -19,14 +18,14 @@ class Shoplist extends Component {
                     pageSize: 12
                 }}
                 grid={{
-                    gutter: 40,
-                    column: 3
+                    gutter: 16,
+                    column: 4
                 }}
                 renderItem={(item, key) => (
                     <List.Item>
                         <Card
                             hoverable
-                            cover={<img alt="" src={shopCovers[`shop${item.id}`]} />}
+                            cover={<img alt="" src={item.cover} />}
                         >
                             <Meta
                                 title={item.name}

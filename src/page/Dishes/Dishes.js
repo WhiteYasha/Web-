@@ -6,7 +6,6 @@ import 'antd/lib/list/style/css';
 import 'antd/lib/tag/style/css';
 import 'antd/lib/card/style/css';
 import 'antd/lib/rate/style/css';
-import * as dishCovers from './../../img/dishesImgList.js';
 import {connect} from 'react-redux';
 
 const {Meta} = Card;
@@ -50,18 +49,14 @@ class Dishes extends Component {
                     <List.Item>
                         <Card
                             hoverable
-                            cover={<img alt="" src = {dishCovers[`dish${item.id}`]} />}
+                            cover={<img alt="" src = {item.img} />}
                         >
                             <Meta
                                 title={item.name}
                                 description={
                                     <div>
                                         <div>
-                                            {
-                                                item.tags.map((tag, tagKey) => {
-                                                    return <Tag key={`${key}dish${tagKey}`}>{tag}</Tag>;
-                                                })
-                                            }
+                                            <Tag>{item.tag}</Tag>
                                         </div>
                                         <section>{item.introduction}</section>
                                         <Rate disabled allowHalf defaultValue={item.rate}/>

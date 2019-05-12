@@ -15,7 +15,7 @@ const stateToProps = state => ({
 class NewsArticle extends Component {
     render() {
         if (this.props.watchArticle === null)
-            return <Redirect to="/news"/>
+            return <Redirect to="/home/news"/>
         else
             return (<div style={{
                     background: "rgb(240, 240, 239)",
