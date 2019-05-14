@@ -43,7 +43,7 @@ class adminSider extends Component {
                     </Menu.Item>
                     <Menu.Item key="delete_dishes">
                         <Link to="/admin/dish" onClick={() => this.props.doChangeItem(["dishes", "delete_dishes"])}>
-                            删改菜品
+                            管理菜品
                         </Link>
                     </Menu.Item>
                 </SubMenu>
@@ -53,9 +53,9 @@ class adminSider extends Component {
                             添加店面
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="delete_shop">
+                    <Menu.Item key="manage_shop">
                         <Link to="/admin/shop" onClick={() => this.props.doChangeItem(["shops", "delete_shop"])}>
-                            删改店面
+                            管理店面
                         </Link>
                     </Menu.Item>
                 </SubMenu>
@@ -65,9 +65,9 @@ class adminSider extends Component {
                             添加新闻
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="delete_news">
+                    <Menu.Item key="manage_news">
                         <Link to="/admin/news" onClick={() => this.props.doChangeItem(["news", "delete_news"])}>
-                            删改新闻
+                            管理新闻
                         </Link>
                     </Menu.Item>
                 </SubMenu>
@@ -77,9 +77,9 @@ class adminSider extends Component {
                             添加招聘
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="delete_recruit">
+                    <Menu.Item key="manage_recruit">
                         <Link to="/admin/recruit" onClick={() => this.props.doChangeItem(["recruits", "delete_recruit"])}>
-                            删改招聘
+                            管理招聘
                         </Link>
                     </Menu.Item>
                 </SubMenu>

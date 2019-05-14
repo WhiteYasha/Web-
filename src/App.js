@@ -43,7 +43,7 @@ class App extends Component {
         if (window.location.pathname === "/")
             return <Redirect to="/home"/>
         else {
-            return (<div>
+            return (<div id="app">
                 <Route path="/home" component={Header}/>
                 <Switch>
                     <Route exact path="/home" component={Home}/>

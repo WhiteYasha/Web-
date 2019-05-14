@@ -4,6 +4,9 @@ const CHANGE_ITEM = "CHANGE_ITEM";
 const CHANGE_LOGIN_STATE = "CHANGE_LOGIN_STATE";
 const CHANGE_PATH = "CHANGE_PATH";
 const ADD_NEWS = "ADD_NEWS";
+const DELETE_NEWS = "DELETE_NEWS";
+const UPDATE_NEWS = "UPDATE_NEWS";
+const READ_MESSAGES = "READ_MESSAGES";
 
 const initialState = {
     loginState: false, //  登录状态
@@ -35,6 +38,18 @@ export const changePath = path => ({
 export const addNews = news => ({
     type: ADD_NEWS,
     news
+});
+export const deleteNews = id => ({
+    type: DELETE_NEWS,
+    id
+});
+export const updateNews = news => ({
+    type: UPDATE_NEWS,
+    news
+});
+export const readMessages = id => ({
+    type: READ_MESSAGES,
+    id
 });
 
 const appReducer = (state = initialState, action) => {
@@ -74,6 +89,26 @@ const appReducer = (state = initialState, action) => {
                 newNewsList.unshift(action.news);
                 return Object.assign({}, state, {
                     newsList: newNewsList
+                });
+            }
+        case DELETE_NEWS:
+            {
+                return Object.assign({}, state, {
+                    newsList: state.newsList.filter((item) => item.id !== action.id)
+                });
+            }
+        case UPDATE_NEWS:
+            {
+                return Object.assign({}, state, {
+                    newsList: state.newsList.map((item) => item.id === action.news.id ? action.news : item)
+                });
+            }
+        case READ_MESSAGES:
+            {
+                return Object.assign({}, state, {
+                    messageList: state.messageList.map((item) => action.id.indexOf(item.id) === -1 ? item : Object.assign({}, item, {
+                        watched: 1
+                    }))
                 });
             }
         default:

@@ -17,17 +17,17 @@
     background: transparent;
 }
 
-.ant-pagination-item:hover,
-.ant-pagination-item-active,
-.ant-pagination-prev[aria-disabled="false"]:hover .ant-pagination-item-link,
-.ant-pagination-next[aria-disabled="false"]:hover .ant-pagination-item-link {
+#app .ant-pagination-item:hover,
+#app .ant-pagination-item-active,
+#app .ant-pagination-prev[aria-disabled="false"]:hover .ant-pagination-item-link,
+#app .ant-pagination-next[aria-disabled="false"]:hover .ant-pagination-item-link {
     border-color: #e30202 !important;
     background: #fff !important;
 }
 
-.ant-pagination-item-active a,
-.ant-pagination-item:hover a,
-.ant-pagination-prev[aria-disabled="false"]:hover a,
-.ant-pagination-next[aria-disabled="false"]:hover a {
+#app .ant-pagination-item-active a,
+#app .ant-pagination-item:hover a,
+#app .ant-pagination-prev[aria-disabled="false"]:hover a,
+#app .ant-pagination-next[aria-disabled="false"]:hover a {
     color: #e30202 !important;
 }

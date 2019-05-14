@@ -147,6 +147,9 @@ app.get("/getMessageList", (req, res) => {
             connection.query("SELECT * FROM messages", (err, result) => {
                 if (err) console.log("获取messages: " + err);
                 else {
+                    result.forEach((item) => {
+                        item.date = formatDatetime(item.date);
+                    });
                     res.send(result);
                 }
                 connection.release();
@@ -328,6 +331,36 @@ app.get("/addMessage", (req, res) => {
         else {
             connection.query(`INSERT INTO messages(name, phone, content) VALUES ('${name}', '${phone}', '${content}')`, (err, result) => {
                 if (err) console.log("增加message: " + err);
+                else res.end();
+                connection.release();
+            });
+        }
+    });
+});
+app.get("/readMessages", (req, res) => {
+    let ids = "(";
+    for (var i = 0; i < req.query.id.length; i += 1) {
+        ids += req.query.id[i];
+        if (i < req.query.id.length - 1) ids += ", ";
+        else ids += ")";
+    }
+    pool.getConnection((err, connection) => {
+        if (err) console.log("已读留言: " + err);
+        else {
+            connection.query(`UPDATE messages SET watched = 1 WHERE id IN ${ids}`, (err, result) => {
+                if (err) console.log("更新messages: " + err);
+                else res.end();
+                connection.release();
+            });
+        }
+    });
+})
+app.post("/readAllMessages", (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) console.log("全部已读: " + err);
+        else {
+            connection.query(`UPDATE messages SET watched = 1 WHERE watched = 0`, (err, result) => {
+                if (err) console.log("更新messages: " + err);
                 else res.end();
                 connection.release();
             });

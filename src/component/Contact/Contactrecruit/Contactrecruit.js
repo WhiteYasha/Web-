@@ -19,7 +19,8 @@ class Contactrecruit extends Component {
         }, {
             title: '发布时间',
             dataIndex: 'startDate',
-            key: 'startDate'
+            key: 'startDate',
+            sorter: (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
         }, {
             title: '',
             key: 'more',

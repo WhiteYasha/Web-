@@ -9,7 +9,7 @@ import {connect} from 'react-redux';
 
 const {Header} = Layout;
 const stateToProps = state => ({
-    messageList: state.messageList
+    messageList: state.messageList.filter((item) => item.watched === 0)
 });
 const stateToDispatch = dispatch => {
     return {
