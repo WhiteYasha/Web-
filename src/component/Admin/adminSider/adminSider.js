@@ -37,12 +37,12 @@ class adminSider extends Component {
                 </Menu.Item>
                 <SubMenu key="dishes" title={<span> < Icon type = "coffee" /> 菜品管理</span>}>
                     <Menu.Item key="add_dishes" >
-                        <Link to="/admin/adddish" onClick={() => this.props.doChangeItem(["dishes", "add_dishes"])}>
+                        <Link to="/admin/add_dish" onClick={() => this.props.doChangeItem(["dishes", "add_dishes"])}>
                             添加菜品
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="delete_dishes">
-                        <Link to="/admin/dish" onClick={() => this.props.doChangeItem(["dishes", "delete_dishes"])}>
+                    <Menu.Item key="manage_dishes">
+                        <Link to="/admin/dish" onClick={() => this.props.doChangeItem(["dishes", "manage_dishes"])}>
                             管理菜品
                         </Link>
                     </Menu.Item>
@@ -54,7 +54,7 @@ class adminSider extends Component {
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="manage_shop">
-                        <Link to="/admin/shop" onClick={() => this.props.doChangeItem(["shops", "delete_shop"])}>
+                        <Link to="/admin/shop" onClick={() => this.props.doChangeItem(["shops", "manage_shop"])}>
                             管理店面
                         </Link>
                     </Menu.Item>
@@ -66,7 +66,7 @@ class adminSider extends Component {
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="manage_news">
-                        <Link to="/admin/news" onClick={() => this.props.doChangeItem(["news", "delete_news"])}>
+                        <Link to="/admin/news" onClick={() => this.props.doChangeItem(["news", "manage_news"])}>
                             管理新闻
                         </Link>
                     </Menu.Item>
@@ -78,7 +78,7 @@ class adminSider extends Component {
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="manage_recruit">
-                        <Link to="/admin/recruit" onClick={() => this.props.doChangeItem(["recruits", "delete_recruit"])}>
+                        <Link to="/admin/recruit" onClick={() => this.props.doChangeItem(["recruits", "manage_recruit"])}>
                             管理招聘
                         </Link>
                     </Menu.Item>
