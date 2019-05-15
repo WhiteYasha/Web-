@@ -1,6 +1,16 @@
 import React, {Component} from 'react';
-import {Layout, Table, Tag, Modal} from 'antd';
+import {
+    Layout,
+    Table,
+    Tag,
+    Modal,
+    Button,
+    Row,
+    Col
+} from 'antd';
 import 'antd/lib/table/style/css';
+import 'antd/lib/row/style/css';
+import 'antd/lib/button/style/css';
 import 'antd/lib/modal/style/css';
 import 'antd/lib/layout/style/css';
 import 'antd/lib/tag/style/css';
@@ -51,9 +61,7 @@ class Messages extends Component {
             dataIndex: 'date',
             sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
         }, {
-            render: (text, record) => (
-                <a onClick={() => this.handleClick(record)}>查看详情</a>
-            )
+            render: (text, record) => (<a onClick={() => this.handleClick(record)}>查看详情</a>)
         }
     ]
     constructor(props) {
@@ -61,7 +69,9 @@ class Messages extends Component {
         this.state = {
             selectedID: [],
             watchMessage: null,
-            visible: false
+            visible: false,
+            readButtonLoading: false,
+            readAllButtonLoading: false
         };
     }
     handleChange = (selectedRowKeys, selectedRows) => {
@@ -77,9 +87,29 @@ class Messages extends Component {
             }
         };
         this.props.doReadMessages(id);
-        axios.get("http://localhost:9000/readMessages", data)
-        .then(() => {
+        axios.get("http://localhost:9000/readMessages", data).then(() => {
             this.setState({visible: true, watchMessage: record});
+        });
+    }
+    handleRead = (e) => {
+        let id = this.state.selectedID;
+        let data = {
+            params: {
+                id: id
+            }
+        };
+        this.setState({readButtonLoading: true});
+        this.props.doReadMessages(id);
+        axios.get("http://localhost:9000/readMessages", data).then(() => {
+            this.setState({readButtonLoading: false});
+        });
+    }
+    handleReadAll = (e) => {
+        let id = this.props.messageList.filter((item) => item.watched === 0).map((item) => item.id);
+        this.setState({readAllButtonLoading: true});
+        this.props.doReadMessages(id);
+        axios.post("http://localhost:9000/readAllMessages").then(() => {
+            this.setState({readAllButtonLoading: false});
         });
     }
     render() {
@@ -89,14 +119,34 @@ class Messages extends Component {
             onChange: this.handleChange
         };
         return (<Content style={{
-                padding: '16px calc(100% / 24)'
+                padding: '16px 0'
             }}>
             <Modal visible={this.state.visible} title="留言详情" footer={null} onCancel={() => this.setState({visible: false})}>
-                {this.state.watchMessage === null ? "" : this.state.watchMessage.content}
+                {
+                    this.state.watchMessage === null
+                        ? ""
+                        : this.state.watchMessage.content
+                }
             </Modal>
-            <Table style={{
-                    background: '#fff'
-                }} columns={this.columns} dataSource={this.props.messageList} rowSelection={rowSelection} rowkey="id"/>
+            <Row>
+                <Col offset={1} span={2}>
+                    <Button type="primary" disabled={this.state.selectedID.length === 0} onClick={this.handleRead} loading={this.state.readButtonLoading}>已读</Button>
+                </Col>
+                <Col span={2}>
+                    <Button type="primary" onClick={this.handleReadAll} loading={this.state.readAllButtonLoading}>全部已读</Button>
+                </Col>
+            </Row>
+            <Row style={{
+                    marginTop: '16px'
+                }}>
+                <Col span={22} offset={1}>
+                    <Table style={{
+                            background: '#fff'
+                        }} columns={this.columns} dataSource={this.props.messageList} rowSelection={rowSelection} pagination={{
+                            pageSize: 20
+                        }}/>
+                </Col>
+            </Row>
         </Content>);
     }
 }
