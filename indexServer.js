@@ -325,7 +325,7 @@ app.post("/uploadNewsImg", (req, res) => {
                     data: []
                 });
             }
-            let respath = newpath.replace("./public", "http://localhost:9000");
+            let respath = newpath.replace("./public", "http://localhost:9001");
             res.send({
                 errno: 0,
                 data: [respath]
@@ -404,7 +404,7 @@ app.post("/uploadDishImg", (req, res) => {
                         data: []
                     });
                 }
-                let respath = newpath.replace("./public", "http://localhost:9000");
+                let respath = newpath.replace("./public", "http://localhost:9001");
                 res.send({
                     errno: 0,
                     data: [respath]
