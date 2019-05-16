@@ -18,7 +18,7 @@ const stateToProps = state => ({});
 const stateToDispatch = dispatch => {
     return {
         doInitList: () => {
-            axios.all([axios.get("http://localhost:9000/getShopList"), axios.get("http://localhost:9000/getDishesList"), axios.get("http://localhost:9000/getRecruitList"), axios.get("http://localhost:9000/getNewsList")]).then(axios.spread((shopResp, dishesResp, recruitResp, newsResp) => {
+            axios.all([axios.get("http://localhost:9001/getShopList"), axios.get("http://localhost:9001/getDishesList"), axios.get("http://localhost:9001/getRecruitList"), axios.get("http://localhost:9001/getNewsList")]).then(axios.spread((shopResp, dishesResp, recruitResp, newsResp) => {
                 var lists = {
                     shopList: shopResp.data,
                     dishesList: dishesResp.data,
@@ -35,7 +35,7 @@ class App extends Component {
     componentWillMount() {
         this.props.doInitList();
         if (!window.location.pathname.startsWith("/admin")) {
-            axios.get("http://localhost:9000/visit");
+            axios.get("http://localhost:9001/visit");
         }
         document.title = "杭州新白鹿餐饮管理有限公司";
     }

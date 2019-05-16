@@ -82,7 +82,7 @@ class ManageNews extends Component {
             }
         };
         this.props.doDeleteNews(id);
-        axios.get("http://localhost:9000/deleteNews", data).then(() => {
+        axios.get("http://localhost:9001/deleteNews", data).then(() => {
             this.setState({visible: false, focusID: -1});
         });
     }
@@ -90,12 +90,19 @@ class ManageNews extends Component {
         return (<Content style={{
                 padding: '16px calc(100% / 24)'
             }}>
-            <Modal title="删除新闻" visible={this.state.visible} okText="确定" cancelText="取消" onOk={this.handleDelete} onCancel={() => this.setState({visible: false})}>
-                <p>确定要删除吗?</p>
-            </Modal>
-            <Table columns={this.columns} dataSource={this.props.newsList} style={{
-                    background: '#fff'
-                }} rowKey="id"/>
+            <div style={{
+                    background: '#fff',
+                    border: '1px solid #ccc',
+                    height: '100vh',
+                    padding: '5%'
+                }}>
+                <Modal title="删除新闻" visible={this.state.visible} okText="确定" cancelText="取消" onOk={this.handleDelete} onCancel={() => this.setState({visible: false})}>
+                    <p>确定要删除吗?</p>
+                </Modal>
+                <Table bordered columns={this.columns} dataSource={this.props.newsList} style={{
+                        background: '#fff'
+                    }} rowKey="id"/>
+            </div>
         </Content>);
     }
 }

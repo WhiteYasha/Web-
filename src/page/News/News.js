@@ -28,7 +28,7 @@ class News extends Component {
                 id: e.target.id
             }
         };
-        axios.get("http://localhost:9000/watchNews", data);
+        axios.get("http://localhost:9001/watchNews", data);
         this.props.doChangeWatchArticle(parseInt(e.target.id));
     }
     render() {

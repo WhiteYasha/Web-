@@ -27,12 +27,12 @@ class AdminApp extends Component {
     componentWillMount() {
         document.title = "杭州新白鹿餐饮后台管理系统";
         axios.all([
-            axios.get("http://localhost:9000/getShopList"),
-            axios.get("http://localhost:9000/getDishesList"),
-            axios.get("http://localhost:9000/getRecruitList"),
-            axios.get("http://localhost:9000/getNewsList"),
-            axios.get("http://localhost:9000/getMessageList"),
-            axios.get("http://localhost:9000/getVisits")
+            axios.get("http://localhost:9001/getShopList"),
+            axios.get("http://localhost:9001/getDishesList"),
+            axios.get("http://localhost:9001/getRecruitList"),
+            axios.get("http://localhost:9001/getNewsList"),
+            axios.get("http://localhost:9001/getMessageList"),
+            axios.get("http://localhost:9001/getVisits")
         ]).then(axios.spread((shopResp, dishesResp, recruitResp, newsResp, messResp, visitResp) => {
             var lists = {
                 shopList: shopResp.data,

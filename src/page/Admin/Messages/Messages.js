@@ -87,7 +87,7 @@ class Messages extends Component {
             }
         };
         this.props.doReadMessages(id);
-        axios.get("http://localhost:9000/readMessages", data).then(() => {
+        axios.get("http://localhost:9001/readMessages", data).then(() => {
             this.setState({visible: true, watchMessage: record});
         });
     }
@@ -100,7 +100,7 @@ class Messages extends Component {
         };
         this.setState({readButtonLoading: true});
         this.props.doReadMessages(id);
-        axios.get("http://localhost:9000/readMessages", data).then(() => {
+        axios.get("http://localhost:9001/readMessages", data).then(() => {
             this.setState({readButtonLoading: false});
         });
     }
@@ -108,7 +108,7 @@ class Messages extends Component {
         let id = this.props.messageList.filter((item) => item.watched === 0).map((item) => item.id);
         this.setState({readAllButtonLoading: true});
         this.props.doReadMessages(id);
-        axios.post("http://localhost:9000/readAllMessages").then(() => {
+        axios.post("http://localhost:9001/readAllMessages").then(() => {
             this.setState({readAllButtonLoading: false});
         });
     }
@@ -119,34 +119,41 @@ class Messages extends Component {
             onChange: this.handleChange
         };
         return (<Content style={{
-                padding: '16px 0'
+                padding: '16px calc(100% / 24)'
             }}>
-            <Modal visible={this.state.visible} title="留言详情" footer={null} onCancel={() => this.setState({visible: false})}>
-                {
-                    this.state.watchMessage === null
-                        ? ""
-                        : this.state.watchMessage.content
-                }
-            </Modal>
-            <Row>
-                <Col offset={1} span={2}>
-                    <Button type="primary" disabled={this.state.selectedID.length === 0} onClick={this.handleRead} loading={this.state.readButtonLoading}>已读</Button>
-                </Col>
-                <Col span={2}>
-                    <Button type="primary" onClick={this.handleReadAll} loading={this.state.readAllButtonLoading}>全部已读</Button>
-                </Col>
-            </Row>
-            <Row style={{
-                    marginTop: '16px'
+            <div style={{
+                    background: '#fff',
+                    border: '1px solid #ccc',
+                    height: '100vh',
+                    padding: '5%'
                 }}>
-                <Col span={22} offset={1}>
-                    <Table style={{
-                            background: '#fff'
-                        }} columns={this.columns} dataSource={this.props.messageList} rowSelection={rowSelection} pagination={{
-                            pageSize: 20
-                        }}/>
-                </Col>
-            </Row>
+                <Modal visible={this.state.visible} title="留言详情" footer={null} onCancel={() => this.setState({visible: false})}>
+                    {
+                        this.state.watchMessage === null
+                            ? ""
+                            : this.state.watchMessage.content
+                    }
+                </Modal>
+                <Row>
+                    <Col span={2}>
+                        <Button type="primary" disabled={this.state.selectedID.length === 0} onClick={this.handleRead} loading={this.state.readButtonLoading}>已读</Button>
+                    </Col>
+                    <Col span={2}>
+                        <Button type="primary" onClick={this.handleReadAll} loading={this.state.readAllButtonLoading}>全部已读</Button>
+                    </Col>
+                </Row>
+                <Row style={{
+                        marginTop: '16px'
+                    }}>
+                    <Col span={24}>
+                        <Table style={{
+                                background: '#fff'
+                            }} columns={this.columns} dataSource={this.props.messageList} rowSelection={rowSelection} pagination={{
+                                pageSize: 20
+                            }}/>
+                    </Col>
+                </Row>
+            </div>
         </Content>);
     }
 }

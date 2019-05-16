@@ -20,9 +20,7 @@ import {connect} from 'react-redux';
 import {addNews} from './../../../action/adminReducer.js';
 
 const {Content} = Layout;
-const stateToProps = state => ({
-    newsList: state.newsList
-});
+const stateToProps = state => ({newsList: state.newsList});
 const stateToDispatch = dispatch => {
     return {
         doAddNews: (news) => {
@@ -39,8 +37,18 @@ function formatDatetime() {
         hour = now.getHours(),
         minute = now.getMinutes(),
         second = now.getSeconds();
-    var temp = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-    temp += ` ${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}:${second < 10 ? '0' : ''}${second}`;
+    var temp = `${year}-${month < 10
+        ? '0'
+        : ''}${month}-${day < 10
+            ? '0'
+            : ''}${day}`;
+    temp += ` ${hour < 10
+        ? '0'
+        : ''}${hour}:${minute < 10
+            ? '0'
+            : ''}${minute}:${second < 10
+                ? '0'
+                : ''}${second}`;
     return temp;
 }
 
@@ -75,7 +83,7 @@ class AddNews extends Component {
             content = this.state.editorContent;
         if (title === "") {
             message.error("标题不能为空!");
-            return ;
+            return;
         }
         if (this.state.newsTag === "company")
             tag = "公司新闻";
@@ -98,8 +106,7 @@ class AddNews extends Component {
             views: 0
         };
         this.props.doAddNews(news);
-        axios.get("http://localhost:9000/addNews", {params: news})
-        .then(() => {
+        axios.get("http://localhost:9001/addNews", {params: news}).then(() => {
             this.editor.txt.clear();
             localStorage.removeItem("newsContent");
             message.success("发布成功!");
@@ -111,7 +118,7 @@ class AddNews extends Component {
             tag: this.state.newsTag,
             author: this.state.newsAuthor,
             source: this.state.newsSource,
-            content: this.state.editorContent,
+            content: this.state.editorContent
         };
         localStorage.setItem("newsContent", JSON.stringify(newsContent));
         message.success("保存成功!");
@@ -120,63 +127,70 @@ class AddNews extends Component {
         return (<Content style={{
                 padding: '16px calc(100% / 24)'
             }}>
-            <Row style={{
-                    margin: '1em 0'
+            <div style={{
+                    background: '#fff',
+                    border: '1px solid #ccc',
+                    height: '100vh',
+                    padding: '5%'
                 }}>
-                <Col span={2} style={{
-                        textAlign: 'center'
-                    }}>标题</Col>
-                <Col span={22}>
-                    <Input defaultValue={this.state.newsTitle} onChange={(e) => this.setState({newsTitle: e.target.value})}/>
-                </Col>
-            </Row>
-            <Row style={{
-                    margin: '1em 0'
-                }}>
-                <Col span={2} style={{
-                        textAlign: 'center'
-                    }}>作者</Col>
-                <Col span={6}>
-                    <Input defaultValue={this.state.newsAuthor} onChange={(e) => this.setState({newsAuthor: e.target.value})}/>
-                </Col>
-                <Col span={2} style={{
-                        textAlign: 'center'
-                    }}>来源</Col>
-                <Col span={6}>
-                    <Input defaultValue={this.state.newsSource} onChange={(e) => this.setState({newsSource: e.target.value})}/>
-                </Col>
-                <Col span={2} style={{
-                        textAlign: 'center'
+                <Row style={{
+                        margin: '1em 0'
                     }}>
-                    标签
-                </Col>
-                <Col span={6}>
-                    <Select defaultValue={this.state.newsTag} onChange={(value) => this.setState({newsTag: value})} style={{
-                            width: '100%',
-                            zIndex: 999
+                    <Col span={2} style={{
+                            textAlign: 'center'
+                        }}>标题</Col>
+                    <Col span={22}>
+                        <Input defaultValue={this.state.newsTitle} onChange={(e) => this.setState({newsTitle: e.target.value})}/>
+                    </Col>
+                </Row>
+                <Row style={{
+                        margin: '1em 0'
+                    }}>
+                    <Col span={2} style={{
+                            textAlign: 'center'
+                        }}>作者</Col>
+                    <Col span={6}>
+                        <Input defaultValue={this.state.newsAuthor} onChange={(e) => this.setState({newsAuthor: e.target.value})}/>
+                    </Col>
+                    <Col span={2} style={{
+                            textAlign: 'center'
+                        }}>来源</Col>
+                    <Col span={6}>
+                        <Input defaultValue={this.state.newsSource} onChange={(e) => this.setState({newsSource: e.target.value})}/>
+                    </Col>
+                    <Col span={2} style={{
+                            textAlign: 'center'
                         }}>
-                        <Select.Option value="company">公司新闻</Select.Option>
-                        <Select.Option value="industry">行业新闻</Select.Option>
-                        <Select.Option value="media">媒体新闻</Select.Option>
-                        <Select.Option value="employee">员工天地</Select.Option>
-                        <Select.Option value="hornor">荣誉资质</Select.Option>
-                    </Select>
-                </Col>
-            </Row>
-            <div id="editArea" ref="editorElem" style={{
-                    textAlign: 'left',
-                    background: '#fff'
-                }}/>
-            <Row style={{
-                    margin: '1em 0'
-                }}>
-                <Col offset={20} span={4}>
-                    <Button.Group>
-                        <Button type="primary" onClick={this.handleSubmit}>发布</Button>
-                        <Button onClick={this.handleSave}>保存</Button>
-                    </Button.Group>
-                </Col>
-            </Row>
+                        标签
+                    </Col>
+                    <Col span={6}>
+                        <Select defaultValue={this.state.newsTag} onChange={(value) => this.setState({newsTag: value})} style={{
+                                width: '100%',
+                                zIndex: 999
+                            }}>
+                            <Select.Option value="company">公司新闻</Select.Option>
+                            <Select.Option value="industry">行业新闻</Select.Option>
+                            <Select.Option value="media">媒体新闻</Select.Option>
+                            <Select.Option value="employee">员工天地</Select.Option>
+                            <Select.Option value="hornor">荣誉资质</Select.Option>
+                        </Select>
+                    </Col>
+                </Row>
+                <div id="editArea" ref="editorElem" style={{
+                        textAlign: 'left',
+                        background: '#fff'
+                    }}/>
+                <Row style={{
+                        margin: '1em 0'
+                    }}>
+                    <Col offset={20} span={4}>
+                        <Button.Group>
+                            <Button type="primary" onClick={this.handleSubmit}>发布</Button>
+                            <Button onClick={this.handleSave}>保存</Button>
+                        </Button.Group>
+                    </Col>
+                </Row>
+            </div>
         </Content>);
     }
     componentDidMount() {

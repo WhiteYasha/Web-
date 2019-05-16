@@ -26,7 +26,7 @@ class Login extends Component {
                 password: this.props.form.getFieldValue("password")
             }
         };
-        axios.get("http://localhost:9000/login", data)
+        axios.get("http://localhost:9001/login", data)
         .then((response) => {
             let state = response.data.state;
             if (state === -1) message.error("该用户不存在!");

@@ -16,7 +16,7 @@ var mysql = require('mysql');
 var formidable = require('formidable');
 var path = require('path');
 var fs = require('fs');
-const port = 9000;
+const port = 9001;
 const app = express();
 
 app.use(cors());
@@ -40,6 +40,7 @@ function formatDate(date) {
         day = date.getDate();
     return `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
 }
+
 function formatDatetime(datetime) {
     let year = datetime.getFullYear(),
         month = datetime.getMonth() + 1,
@@ -62,10 +63,16 @@ app.get("/login", (req, res) => {
             connection.query(`SELECT * FROM users WHERE name = '${name}'`, (err, result) => {
                 if (err) console.log("查询users: " + err);
                 else {
-                    if (result.length === 0) res.send({state: -1});
+                    if (result.length === 0) res.send({
+                        state: -1
+                    });
                     else {
-                        if (result[0].password === password) res.send({state: 1});
-                        else res.send({state: 0});
+                        if (result[0].password === password) res.send({
+                            state: 1
+                        });
+                        else res.send({
+                            state: 0
+                        });
                     }
                 }
                 connection.release();
@@ -313,10 +320,16 @@ app.post("/uploadNewsImg", (req, res) => {
         fs.rename(oldpath, newpath, (err) => {
             if (err) {
                 console.log("新闻图片重命名失败: " + err);
-                res.send({errno: 1, data: []});
+                res.send({
+                    errno: 1,
+                    data: []
+                });
             }
             let respath = newpath.replace("./public", "http://localhost:9000");
-            res.send({errno: 0, data: [respath]});
+            res.send({
+                errno: 0,
+                data: [respath]
+            });
         });
     });
 });
@@ -368,15 +381,48 @@ app.post("/readAllMessages", (req, res) => {
     });
 });
 /*-------------------------------对dishes表的操作---------------------------------*/
+app.post("/uploadDishImg", (req, res) => {
+    var form = new formidable.IncomingForm();
+    form.uploadDir = './public/tmp/newsImg';
+    form.maxFieldsSize = 10 * 1024 * 1024;
+
+    form.parse(req, (err, fields, files) => {
+        let oldpath = files.newsImg.path,
+            extname = files.newsImg.name;
+        if (!extname.endsWith("jpg") && !extname.endsWith("jpeg") && !extname.endsWith("png")) {
+            res.send({
+                errno: 1,
+                message: "请上传jpg/jpeg/png格式的图片!"
+            });
+        } else {
+            let newpath = "./public/tmp/dishesImg/" + extname;
+            fs.rename(oldpath, newpath, (err) => {
+                if (err) {
+                    console.log("新闻图片重命名失败: " + err);
+                    res.send({
+                        errno: 1,
+                        data: []
+                    });
+                }
+                let respath = newpath.replace("./public", "http://localhost:9000");
+                res.send({
+                    errno: 0,
+                    data: [respath]
+                });
+            });
+        }
+    });
+});
 app.get("/addDishes", (req, res) => {
     let name = req.query.name,
         intro = req.query.intro,
         rate = req.query.rate,
-        tag = req.query.tag;
+        tag = req.query.tag,
+        img = req.query.img;
     pool.getConnection((err, connection) => {
         if (err) console.log("增加菜品: " + err);
         else {
-            connection.query(`INSERT INTO dishes(name, introduction, rate, tag) VALUES ('${name}', '${intro}', ${rate}, '${tag}')`, (err, result) => {
+            connection.query(`INSERT INTO dishes(name, introduction, rate, tag, img) VALUES ('${name}', '${intro}', ${rate}, '${tag}', '${img}')`, (err, result) => {
                 if (err) console.log("增加dishes: " + err);
                 else res.end();
                 connection.release();
@@ -389,11 +435,12 @@ app.get("/updateDishes", (req, res) => {
         name = req.query.name,
         intro = req.query.intro,
         rate = req.query.rate,
-        tag = req.query.tag;
+        tag = req.query.tag,
+        img = req.query.img;
     pool.getConnection((err, connection) => {
         if (err) console.log("修改菜品: " + err);
         else {
-            connection.query(`UPDATE dishes SET name = '${name}', introduction = '${intro}', rate = ${rate}, tag = '${tag}' WHERE id = ${id}`, (err, result) => {
+            connection.query(`UPDATE dishes SET name = '${name}', introduction = '${intro}', rate = ${rate}, tag = '${tag}', img = '${img}' WHERE id = ${id}`, (err, result) => {
                 if (err) console.log("修改dishes: " + err);
                 else res.end();
                 connection.release();
