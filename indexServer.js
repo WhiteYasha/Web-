@@ -387,8 +387,8 @@ app.post("/uploadDishImg", (req, res) => {
     form.maxFieldsSize = 10 * 1024 * 1024;
 
     form.parse(req, (err, fields, files) => {
-        let oldpath = files.newsImg.path,
-            extname = files.newsImg.name;
+        let oldpath = files.dishesImg.path,
+            extname = files.dishesImg.name;
         if (!extname.endsWith("jpg") && !extname.endsWith("jpeg") && !extname.endsWith("png")) {
             res.send({
                 errno: 1,
@@ -398,7 +398,7 @@ app.post("/uploadDishImg", (req, res) => {
             let newpath = "./public/tmp/dishesImg/" + extname;
             fs.rename(oldpath, newpath, (err) => {
                 if (err) {
-                    console.log("新闻图片重命名失败: " + err);
+                    console.log("菜品图片重命名失败: " + err);
                     res.send({
                         errno: 1,
                         data: []
@@ -415,7 +415,7 @@ app.post("/uploadDishImg", (req, res) => {
 });
 app.get("/addDishes", (req, res) => {
     let name = req.query.name,
-        intro = req.query.intro,
+        intro = req.query.introduction,
         rate = req.query.rate,
         tag = req.query.tag,
         img = req.query.img;

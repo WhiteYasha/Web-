@@ -7,6 +7,7 @@ const ADD_NEWS = "ADD_NEWS";
 const DELETE_NEWS = "DELETE_NEWS";
 const UPDATE_NEWS = "UPDATE_NEWS";
 const READ_MESSAGES = "READ_MESSAGES";
+const ADD_DISHES = "ADD_DISHES";
 
 const initialState = {
     loginState: false, //  登录状态
@@ -50,6 +51,10 @@ export const updateNews = news => ({
 export const readMessages = id => ({
     type: READ_MESSAGES,
     id
+});
+export const addDishes = dish => ({
+    type: ADD_DISHES,
+    dish
 });
 
 const appReducer = (state = initialState, action) => {
@@ -109,6 +114,14 @@ const appReducer = (state = initialState, action) => {
                     messageList: state.messageList.map((item) => action.id.indexOf(item.id) === -1 ? item : Object.assign({}, item, {
                         watched: 1
                     }))
+                });
+            }
+        case ADD_DISHES:
+            {
+                var newDishesList = state.dishesList;
+                newDishesList.push(action.dish);
+                return Object.assign({}, state, {
+                    dishesList: newDishesList
                 });
             }
         default:
