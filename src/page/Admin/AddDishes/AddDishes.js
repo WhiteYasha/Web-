@@ -36,7 +36,6 @@ const stateToDispatch = dispatch => {
 };
 
 function beforeUpload(file) {
-    console.log(file);
     const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJPG) {
         message.error('仅支持JPG/JPEG/PNG格式的图片!');
@@ -55,19 +54,19 @@ class AddDishes extends Component {
         this.state = {
             loading: false,
             name: saveDish
-                ? saveDish.name
+                ? JSON.parse(localStorage.getItem("dishContent")).name
                 : "",
             introduction: saveDish
-                ? saveDish.introduction
+                ? JSON.parse(localStorage.getItem("dishContent")).introduction
                 : "",
             rate: saveDish
-                ? saveDish.rate
+                ? JSON.parse(localStorage.getItem("dishContent")).rate
                 : 0,
             tag: saveDish
-                ? saveDish.tag
+                ? JSON.parse(localStorage.getItem("dishContent")).tag
                 : "招牌菜",
             img: saveDish
-                ? saveDish.img
+                ? JSON.parse(localStorage.getItem("dishContent")).img
                 : ""
         };
     }
@@ -88,7 +87,8 @@ class AddDishes extends Component {
             tag: this.state.tag,
             img: this.state.img
         };
-        localStorage.setItem("dishContent", data);
+        localStorage.setItem("dishContent", JSON.stringify(data));
+        message.success("保存成功!");
     }
     handleSubmit = () => {
         let dish = {
@@ -142,7 +142,7 @@ class AddDishes extends Component {
                 <Row gutter={16}>
                     <Col span={2}>名称<span style={{color: 'red'}}>*</span></Col>
                     <Col span={8}>
-                        <Input onChange={(e) => this.setState({name: e.target.value})} ref="nameInput" />
+                        <Input onChange={(e) => this.setState({name: e.target.value})} defaultValue={state.name} />
                     </Col>
                 </Row>
                 <Row gutter={16} style={{
@@ -165,7 +165,7 @@ class AddDishes extends Component {
                         <Input.TextArea autosize={{
                                 minRows: 4,
                                 maxRows: 4
-                            }} onChange={(e) => this.setState({introduction: e.target.value})}/>
+                            }} onChange={(e) => this.setState({introduction: e.target.value})} defaultValue={state.introduction}/>
                     </Col>
                 </Row>
                 <Row gutter={16} style={{
@@ -173,7 +173,7 @@ class AddDishes extends Component {
                     }}>
                     <Col span={2}>评分</Col>
                     <Col span={8}>
-                        <Rate allowHalf onChange={(value) => this.setState({rate: value})}/>
+                        <Rate allowHalf onChange={(value) => this.setState({rate: value})} defaultValue={state.rate}/>
                     </Col>
                 </Row>
                 <Row gutter={16} style={{
@@ -181,7 +181,7 @@ class AddDishes extends Component {
                     }}>
                     <Col span={2}>菜品图片</Col>
                     <Col span={8}>
-                        <Upload name="dishesImg" listType="picture-card" className="cover-uploader" showUploadList={false} action="http://localhost:9001/uploadDishImg" beforeUpload={beforeUpload} onChange={this.handleChange}>
+                        <Upload name="dishesImg" listType="picture-card" className="dishImg-uploader" showUploadList={false} action="http://localhost:9001/uploadDishImg" beforeUpload={beforeUpload} onChange={this.handleChange}>
                             {
                                 this.state.img
                                     ? <img src={this.state.img} style={{

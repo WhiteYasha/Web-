@@ -38,29 +38,29 @@ class Home extends Component {
             {
                 shopContent === null
                     ? ""
-                    : <Badge dot="dot">
+                    : <Badge dot>
                             <p>继续编辑店铺信息</p>
                         </Badge>
             }
             {
                 newsContent === null
                     ? ""
-                    : <Badge dot="dot">
-                            <p>继续编辑店铺信息</p>
+                    : <Badge dot>
+                            <p>继续编辑新闻信息</p>
                         </Badge>
             }
             {
                 dishContent === null
                     ? ""
-                    : <Badge dot="dot">
-                            <p>继续编辑店铺信息</p>
+                    : <Badge dot>
+                            <p>继续编辑菜品信息</p>
                         </Badge>
             }
             {
                 recruitContent === null
                     ? ""
-                    : <Badge dot="dot">
-                            <p>继续编辑店铺信息</p>
+                    : <Badge dot>
+                            <p>继续编辑招聘信息</p>
                         </Badge>
             }
             {

@@ -198,6 +198,38 @@ app.get("/visit", (req, res) => {
     });
 });
 /*-------------------------------对shops表的操作--------------------------------*/
+app.post("/uploadShopImg", (req, res) => {
+    var form = new formidable.IncomingForm();
+    form.uploadDir = './public/tmp/shopImg';
+    form.maxFieldsSize = 10 * 1024 * 1024;
+
+    form.parse(req, (err, fields, files) => {
+        let oldpath = files.dishesImg.path,
+            extname = files.dishesImg.name;
+        if (!extname.endsWith("jpg") && !extname.endsWith("jpeg") && !extname.endsWith("png")) {
+            res.send({
+                errno: 1,
+                message: "请上传jpg/jpeg/png格式的图片!"
+            });
+        } else {
+            let newpath = "./public/tmp/shopImg/" + extname;
+            fs.rename(oldpath, newpath, (err) => {
+                if (err) {
+                    console.log("菜品图片重命名失败: " + err);
+                    res.send({
+                        errno: 1,
+                        data: []
+                    });
+                }
+                let respath = newpath.replace("./public", "http://localhost:9001");
+                res.send({
+                    errno: 0,
+                    data: [respath]
+                });
+            });
+        }
+    });
+});
 //  增加门店
 app.get("/addShop", (req, res) => {
     let name = res.query.name,
