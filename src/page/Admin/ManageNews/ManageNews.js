@@ -93,7 +93,7 @@ class ManageNews extends Component {
             <div style={{
                     background: '#fff',
                     border: '1px solid #ccc',
-                    height: '100vh',
+                    height: 'auto',
                     padding: '5%'
                 }}>
                 <Modal title="删除新闻" visible={this.state.visible} okText="确定" cancelText="取消" onOk={this.handleDelete} onCancel={() => this.setState({visible: false})}>

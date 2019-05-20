@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
 import {Layout} from 'antd';
 import 'antd/lib/layout/style/css';
-import Login from './component/Admin/Login/Login';
+import Loginpage from './page/Loginpage/Loginpage';
 import Home from './page/Admin/Home/Home';
 import AddNews from './page/Admin/AddNews/AddNews';
 import Messages from './page/Admin/Messages/Messages';
 import ManageNews from './page/Admin/ManageNews/ManageNews';
+import ManageDishes from './page/Admin/ManageDishes/ManageDishes';
 import AddDishes from './page/Admin/AddDishes/AddDishes';
+import adminHeader from './component/Admin/adminHeader/adminHeader';
+import adminSider from './component/Admin/adminSider/adminSider';
 import {Route} from 'react-router-dom';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {initList} from './action/adminReducer.js';
-import adminHeader from './component/Admin/adminHeader/adminHeader';
-import adminSider from './component/Admin/adminSider/adminSider';
 
 const stateToProps = state => ({loginState: state.loginState});
 const stateToDispatch = dispatch => {
@@ -58,12 +59,13 @@ class AdminApp extends Component {
                         <Layout>
                             <Route path="/admin" component={adminHeader} />
                             <Route exact path="/admin" component={Home} />
+                            <Route exact path="/admin/add_dish" component={AddDishes} />
+                            <Route exact path="/admin/dish" component={ManageDishes} />
                             <Route exact path="/admin/news" component={ManageNews} />
                             <Route exact path="/admin/add_news" component={AddNews} />
                             <Route exact path="/admin/messages" component={Messages} />
-                            <Route exact path="/admin/add_dish" component={AddDishes} />
                         </Layout>
-                    </Layout>) : <Route path="/admin" component={Login} />
+                    </Layout>) : <Route path="/admin" component={Loginpage} />
                 }
             </div>
         );

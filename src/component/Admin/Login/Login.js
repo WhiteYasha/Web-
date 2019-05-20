@@ -41,15 +41,14 @@ class Login extends Component {
         const {getFieldDecorator} = this.props.form;
         return (<div style={{
                 height: '400px',
-                width: '500px',
-                margin: '200px calc(50% - 250px)'
+                width: '500px'
             }}>
             <Content
                 style={{
                     background: '#fafafa',
-                    height: '100%',
+                    height: 'auto',
                     padding: '10%',
-                    boxShadow: '0px 0px 10px 5px #aaa',
+                    border: '1px solid #ccc',
                     textAlign: 'center'
                 }}
             >

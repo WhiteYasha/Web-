@@ -130,7 +130,7 @@ class AddNews extends Component {
             <div style={{
                     background: '#fff',
                     border: '1px solid #ccc',
-                    height: '100vh',
+                    height: 'auto',
                     padding: '5%'
                 }}>
                 <Row style={{

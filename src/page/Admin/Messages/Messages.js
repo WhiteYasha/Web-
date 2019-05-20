@@ -124,7 +124,7 @@ class Messages extends Component {
             <div style={{
                     background: '#fff',
                     border: '1px solid #ccc',
-                    height: '100vh',
+                    height: 'auto',
                     padding: '5%'
                 }}>
                 <Modal visible={this.state.visible} title="留言详情" footer={null} onCancel={() => this.setState({visible: false})}>

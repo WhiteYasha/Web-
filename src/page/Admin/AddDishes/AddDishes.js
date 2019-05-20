@@ -36,9 +36,10 @@ const stateToDispatch = dispatch => {
 };
 
 function beforeUpload(file) {
-    const isJPG = file.type === 'image/jpeg';
+    console.log(file);
+    const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJPG) {
-        message.error('仅支持JPG格式的图片!');
+        message.error('仅支持JPG/JPEG/PNG格式的图片!');
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
@@ -135,10 +136,9 @@ class AddDishes extends Component {
             <div style={{
                     background: '#fff',
                     border: '1px solid #ccc',
-                    height: '100vh',
+                    height: 'auto',
                     padding: '5%'
                 }}>
-
                 <Row gutter={16}>
                     <Col span={2}>名称<span style={{color: 'red'}}>*</span></Col>
                     <Col span={8}>
