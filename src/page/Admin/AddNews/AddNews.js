@@ -53,7 +53,6 @@ function formatDatetime() {
 }
 
 class AddNews extends Component {
-    editor;
     constructor(props, context) {
         super(props, context);
         let saveNews = JSON.parse(localStorage.getItem("newsContent")) === null;
@@ -97,7 +96,7 @@ class AddNews extends Component {
         else if (this.state.newsTag === "hornor")
             tag = "荣誉资质";
         let news = {
-            id: this.props.newsList[0].id + 1,
+            id: this.props.newsList.length > 0 ? this.props.newsList[0].id + 1 : 1,
             tag: tag,
             title: title,
             author: author,
@@ -109,7 +108,6 @@ class AddNews extends Component {
         this.setState({loading: true});
         this.props.doAddNews(news);
         axios.get("http://localhost:9001/addNews", {params: news}).then(() => {
-            this.editor.txt.clear();
             localStorage.removeItem("newsContent");
             message.success("发布成功!");
             this.setState({
@@ -205,22 +203,22 @@ class AddNews extends Component {
     }
     componentDidMount() {
         const elem = this.refs.editorElem;
-        this.editor = new E(elem);
-        this.editor.customConfig.onchange = html => {
+        var editor = new E(elem);
+        editor.customConfig.onchange = html => {
             this.setState({editorContent: html});
         };
-        this.editor.customConfig.zIndex = 100;
-        this.editor.customConfig.uploadImgServer = 'http://localhost:9000/uploadNewsImg';
-        this.editor.customConfig.uploadFileName = 'newsImg';
-        this.editor.customConfig.uploadImgHooks = {
+        editor.customConfig.zIndex = 100;
+        editor.customConfig.uploadImgServer = 'http://localhost:9000/uploadNewsImg';
+        editor.customConfig.uploadFileName = 'newsImg';
+        editor.customConfig.uploadImgHooks = {
             customInsert: function(insertImg, result, editor) {
                 var url = result.data[0];
                 insertImg(url);
             }
         }
-        this.editor.create();
+        editor.create();
         if (JSON.parse(localStorage.getItem("newsContent")) !== null) {
-            this.editor.txt.html(JSON.parse(localStorage.getItem("newsContent")).content);
+            editor.txt.html(JSON.parse(localStorage.getItem("newsContent")).content);
         }
     }
 };

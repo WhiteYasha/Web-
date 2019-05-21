@@ -83,7 +83,6 @@ class AddDishes extends Component {
     };
     handleSave = () => {
         let data = {
-            id: this.props.dishesList[this.props.dishesList.length - 1].id + 1,
             name: this.state.name,
             introduction: this.state.introduction,
             rate: this.state.rate,
@@ -95,7 +94,7 @@ class AddDishes extends Component {
     }
     handleSubmit = () => {
         let dish = {
-            id: this.props.dishesList[this.props.dishesList.length - 1].id + 1,
+            id: this.props.dishesList.length > 0 ? this.props.dishesList[this.props.dishesList.length - 1].id + 1 : 1,
             name: this.state.name,
             introduction: this.state.introduction,
             rate: this.state.rate,

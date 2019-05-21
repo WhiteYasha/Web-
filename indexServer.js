@@ -1,14 +1,3 @@
-/**
- * 接口说明:
- *  addShop?name&address&phone
- *  deleteShop?id
- *  updateShop?id&name&address&phone
- *
- *  addNews?title&tag&content&author&source
- *  deleteNews?id
- *  updateNews?id&title&tag&content&author&source
- */
-
 const express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
@@ -491,6 +480,27 @@ app.get("/deleteDishes", (req, res) => {
         else {
             connection.query(`DELETE FROM dishes WHERE id = ${id}`, (err, result) => {
                 if (err) console.log("删除dishes: " + err);
+                else res.end();
+                connection.release();
+            });
+        }
+    });
+});
+/*-------------------------------对recruit表的操作---------------------------------*/
+app.get("/addRecruit", (req, res) => {
+    let id = req.query.id,
+        name = req.query.name,
+        department = req.query.department,
+        position = req.query.position,
+        startDate = req.query.startDate ? formatDate(req.query.startDate) : "",
+        endDate = req.query.startDate ? formatDate(req.query.endDate) : "",
+        content = req.query.content;
+    pool.getConnection((err, connection) => {
+        if (err) console.log("增加招聘: " + err);
+        else {
+            let sql = `INSERT INTO recruit(id, name, department, position, startDate, endDate, content) VALUES (${id}, '${name}', '${department}', '${position}', '${startDate}', '${endDate}', '${content}')`;
+            connection.query(sql, (err, result) => {
+                if (err) console.log("增加recruit: " + err);
                 else res.end();
                 connection.release();
             });

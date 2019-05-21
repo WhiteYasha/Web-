@@ -97,7 +97,7 @@ class AddShop extends Component {
     }
     handleSubmit = (e) => {
         let shop = {
-            id: this.props.shopList[this.props.shopList.length - 1].id + 1,
+            id: this.props.shopList.length > 0 ? this.props.shopList[this.props.shopList.length - 1].id + 1 : 1,
             name: this.state.name,
             phone: concatPhone(this.state.prePhone, this.state.sufPhone),
             address: this.state.address,
@@ -127,7 +127,6 @@ class AddShop extends Component {
     }
     handleSave = (e) => {
         let shop = {
-            id: this.props.shopList[this.props.shopList.length - 1].id + 1,
             name: this.state.name,
             phone: concatPhone(this.state.prePhone, this.state.sufPhone),
             address: this.state.address,

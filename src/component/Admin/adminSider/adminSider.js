@@ -24,6 +24,21 @@ class adminSider extends Component {
             collapsed: false
         };
     }
+    componentWillMount() {
+        let pathname = window.location.pathname,
+            defaultItem;
+        if (pathname === "/admin/add_dish") defaultItem = ["dishes", "add_dishes"];
+        else if (pathname === "/admin/dish") defaultItem = ["dishes", "manage_dishes"];
+        else if (pathname === "/admin/add_shop") defaultItem = ["shops", "add_shop"];
+        else if (pathname === "/admin/shop") defaultItem = ["shops", "manage_shop"];
+        else if (pathname === "/admin/add_news") defaultItem = ["news", "add_news"];
+        else if (pathname === "/admin/news") defaultItem = ["news", "manage_news"];
+        else if (pathname === "/admin/add_recruit") defaultItem = ["recruits", "add_recruit"];
+        else if (pathname === "/admin/recruit") defaultItem = ["recruits", "manage_recruit"];
+        else if (pathname === "/admin/messages") defaultItem = ["messages"];
+        else defaultItem = ["home"];
+        this.props.doChangeItem(defaultItem);
+    }
     onCollapse = (collapsed) => {
         this.setState({collapsed});
     }

@@ -5,6 +5,7 @@ import Loginpage from './page/Loginpage/Loginpage';
 import Home from './page/Admin/Home/Home';
 import AddNews from './page/Admin/AddNews/AddNews';
 import AddShop from './page/Admin/AddShop/AddShop';
+import AddRecruit from './page/Admin/AddRecruit/AddRecruit';
 import Messages from './page/Admin/Messages/Messages';
 import ManageNews from './page/Admin/ManageNews/ManageNews';
 import ManageDishes from './page/Admin/ManageDishes/ManageDishes';
@@ -67,6 +68,7 @@ class AdminApp extends Component {
                             <Route exact path="/admin/shop" component={ManageShop} />
                             <Route exact path="/admin/add_news" component={AddNews} />
                             <Route exact path="/admin/news" component={ManageNews} />
+                            <Route exact path="/admin/add_recruit" component={AddRecruit} />
                             <Route exact path="/admin/messages" component={Messages} />
                         </Layout>
                     </Layout>) : <Route path="/admin" component={Loginpage} />
