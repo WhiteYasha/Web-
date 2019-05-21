@@ -15,6 +15,9 @@ const DELETE_DISHES = "DELETE_DISHES";
 //
 const ADD_SHOP = "ADD_SHOP";
 const DELETE_SHOP = "DELETE_SHOP";
+//
+const ADD_RECRUIT = "ADD_RECRUIT";
+const DELETE_RECRUIT = "DELETE_RECRUIT";
 
 const initialState = {
     loginState: false, //  登录状态
@@ -74,7 +77,15 @@ export const addShop = shop => ({
 export const deleteShop = id => ({
     type: DELETE_SHOP,
     id
-})
+});
+export const addRecruit = recruit => ({
+    type: ADD_RECRUIT,
+    recruit
+});
+export const deleteRecruit = id => ({
+    type: DELETE_RECRUIT,
+    id
+});
 
 const appReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -162,6 +173,20 @@ const appReducer = (state = initialState, action) => {
                 return Object.assign({}, state, {
                     shopList: state.shopList.filter((item) => item.id !== action.id)
                 })
+            }
+        case ADD_RECRUIT:
+            {
+                var newRecruitList = state.recruitList;
+                newRecruitList.push(action.recruit);
+                return Object.assign({}, state, {
+                    recruitList: newRecruitList
+                });
+            }
+        case DELETE_RECRUIT:
+            {
+                return Object.assign({}, state, {
+                    recruitList: state.recruitList.filter((item) => item.id !== action.id)
+                });
             }
         default:
             return state;
