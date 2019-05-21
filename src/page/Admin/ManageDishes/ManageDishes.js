@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Layout, List, Card, Modal, message, Icon} from 'antd';
+import {Layout, List, Card, Modal, message, Icon, Rate} from 'antd';
 import 'antd/lib/layout/style/css';
 import 'antd/lib/message/style/css';
 import 'antd/lib/list/style/css';
@@ -56,6 +56,7 @@ class ManageDishes extends Component {
                                     <a onClick={() => this.setState({visible: true, deleteID: item.id})}><Icon type="delete" />删除</a>
                                 ]}>
                                     <Card.Meta title={item.name} description={item.introduction} />
+                                    <Rate disabled allowHalf defaultValue={item.rate}/>
                                 </Card>
                             </List.Item>
                         )}

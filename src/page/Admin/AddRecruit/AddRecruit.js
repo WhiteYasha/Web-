@@ -16,6 +16,8 @@ import 'antd/lib/button/style/css';
 import 'antd/lib/date-picker/style/css';
 import E from 'wangeditor';
 import {connect} from 'react-redux';
+import axios from 'axios';
+import {addRecruit} from './../../../action/adminReducer.js';
 
 const {Content} = Layout;
 const {RangePicker} = DatePicker;
@@ -23,6 +25,13 @@ const dateFormat = 'YYYY/MM/DD';
 const stateToProps = state => ({
     recruitList: state.recruitList
 });
+const stateToDispatch = dispatch => {
+    return {
+        doAddRecruit: (recruit) => {
+            dispatch(addRecruit(recruit));
+        }
+    };
+};
 
 function disabledDate(current) {
     return current && current < moment().endOf('day');
@@ -77,6 +86,18 @@ class AddRecruit extends Component {
             endDate: this.state.endDate,
             content: this.state.content
         };
+        if (recruitInfo.name === "" || recruitInfo.department === "") {
+            message.error("请填写完整信息!");
+            return ;
+        }
+        this.setState({loading: true});
+        this.props.doAddRecruit(recruitInfo);
+        axios.get("http://localhost:9001/addRecruit", {params: recruitInfo})
+        .then(() => {
+            localStorage.removeItem("recruitContent");
+            message.success("发布成功!");
+            this.setState({loading: false, name: "", department: "", position: "", startDate: null, endDate: null, content: ""});
+        });
     }
     render() {
         return (<Content style={{
@@ -95,19 +116,7 @@ class AddRecruit extends Component {
             }}>*</span>
                     </Col>
                     <Col span={8}>
-                        <Input defaultValue={this.state.name}/>
-                    </Col>
-                </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
-                    <Col span={2}>
-                        部门<span style={{
-                color: 'red'
-            }}>*</span>
-                    </Col>
-                    <Col span={8}>
-                        <Input defaultValue={this.state.department}/>
+                        <Input defaultValue={this.state.name} onChange={(e) => this.setState({name: e.target.value})}/>
                     </Col>
                 </Row>
                 <Row gutter={16} style={{
@@ -128,6 +137,22 @@ class AddRecruit extends Component {
                 <Row gutter={16} style={{
                         marginTop: '16px'
                     }}>
+                    <Col span={2}>
+                        部门<span style={{
+                color: 'red'
+            }}>*</span>
+                    </Col>
+                    <Col span={10}>
+                        <Input defaultValue={this.state.department} onChange={(e) => this.setState({department: e.target.value})} />
+                    </Col>
+                    <Col span={2} offset={2}>工作地点</Col>
+                    <Col span={8}>
+                        <Input defaultValue={this.state.position} onChange={(e) => this.setState({position: e.target.value})}/>
+                    </Col>
+                </Row>
+                <Row gutter={16} style={{
+                        marginTop: '16px'
+                    }}>
                     <Col span={2}>内容</Col>
                     <Col span={22}>
                         <div id="editArea" ref="editorElem" style={{
@@ -140,7 +165,7 @@ class AddRecruit extends Component {
                         marginTop: '16px'
                     }}>
                     <Col span={2} offset={20}>
-                        <Button type="primary" loading={this.state.loading}>发布</Button>
+                        <Button type="primary" loading={this.state.loading} onClick={this.handleSubmit}>发布</Button>
                     </Col>
                     <Col span={2}>
                         <Button loading={this.state.loading} onClick={this.handleSave}>保存</Button>
@@ -163,4 +188,4 @@ class AddRecruit extends Component {
     }
 }
 
-export default connect(stateToProps)(AddRecruit);
+export default connect(stateToProps, stateToDispatch)(AddRecruit);

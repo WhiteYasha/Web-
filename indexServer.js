@@ -492,13 +492,13 @@ app.get("/addRecruit", (req, res) => {
         name = req.query.name,
         department = req.query.department,
         position = req.query.position,
-        startDate = req.query.startDate ? formatDate(req.query.startDate) : "",
-        endDate = req.query.startDate ? formatDate(req.query.endDate) : "",
+        startDate = req.query.startDate ? `'${req.query.startDate}'` : null,
+        endDate = req.query.startDate ? `'${req.query.endDate}'` : null,
         content = req.query.content;
     pool.getConnection((err, connection) => {
         if (err) console.log("增加招聘: " + err);
         else {
-            let sql = `INSERT INTO recruit(id, name, department, position, startDate, endDate, content) VALUES (${id}, '${name}', '${department}', '${position}', '${startDate}', '${endDate}', '${content}')`;
+            let sql = `INSERT INTO recruit(id, name, department, position, startDate, endDate, content) VALUES (${id}, '${name}', '${department}', '${position}', ${startDate}, ${endDate}, '${content}')`;
             connection.query(sql, (err, result) => {
                 if (err) console.log("增加recruit: " + err);
                 else res.end();
