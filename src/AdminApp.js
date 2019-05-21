@@ -8,6 +8,7 @@ import AddShop from './page/Admin/AddShop/AddShop';
 import Messages from './page/Admin/Messages/Messages';
 import ManageNews from './page/Admin/ManageNews/ManageNews';
 import ManageDishes from './page/Admin/ManageDishes/ManageDishes';
+import ManageShop from './page/Admin/ManageShop/ManageShop';
 import AddDishes from './page/Admin/AddDishes/AddDishes';
 import adminHeader from './component/Admin/adminHeader/adminHeader';
 import adminSider from './component/Admin/adminSider/adminSider';
@@ -63,6 +64,7 @@ class AdminApp extends Component {
                             <Route exact path="/admin/add_dish" component={AddDishes} />
                             <Route exact path="/admin/dish" component={ManageDishes} />
                             <Route exact path="/admin/add_shop" component={AddShop} />
+                            <Route exact path="/admin/shop" component={ManageShop} />
                             <Route exact path="/admin/add_news" component={AddNews} />
                             <Route exact path="/admin/news" component={ManageNews} />
                             <Route exact path="/admin/messages" component={Messages} />

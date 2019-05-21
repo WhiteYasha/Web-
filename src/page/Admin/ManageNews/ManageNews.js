@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Layout, Table, Divider, Modal} from 'antd';
+import {Layout, Table, Divider, Modal, Icon} from 'antd';
 import 'antd/lib/layout/style/css';
 import 'antd/lib/modal/style/css';
 import 'antd/lib/table/style/css';
@@ -68,9 +68,9 @@ class ManageNews extends Component {
             title: '管理',
             key: 'action',
             render: (text, record) => (<span>
-                <a>编辑</a>
+                <a><Icon type="edit"/>编辑</a>
                 <Divider type="vertical"/>
-                <a onClick={() => this.setState({visible: true, focusID: record.id})}>删除</a>
+                <a onClick={() => this.setState({visible: true, focusID: record.id})}><Icon type="delete" />删除</a>
             </span>)
         }
     ];

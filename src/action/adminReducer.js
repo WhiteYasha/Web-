@@ -14,6 +14,7 @@ const ADD_DISHES = "ADD_DISHES";
 const DELETE_DISHES = "DELETE_DISHES";
 //
 const ADD_SHOP = "ADD_SHOP";
+const DELETE_SHOP = "DELETE_SHOP";
 
 const initialState = {
     loginState: false, //  登录状态
@@ -70,6 +71,10 @@ export const addShop = shop => ({
     type: ADD_SHOP,
     shop
 });
+export const deleteShop = id => ({
+    type: DELETE_SHOP,
+    id
+})
 
 const appReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -151,6 +156,12 @@ const appReducer = (state = initialState, action) => {
                 return Object.assign({}, state, {
                     shopList: newShopList
                 });
+            }
+        case DELETE_SHOP:
+            {
+                return Object.assign({}, state, {
+                    shopList: state.shopList.filter((item) => item.id !== action.id)
+                })
             }
         default:
             return state;

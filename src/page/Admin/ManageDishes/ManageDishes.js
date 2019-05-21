@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Layout, List, Card, Modal, message} from 'antd';
+import {Layout, List, Card, Modal, message, Icon} from 'antd';
 import 'antd/lib/layout/style/css';
 import 'antd/lib/message/style/css';
 import 'antd/lib/list/style/css';
@@ -51,9 +51,10 @@ class ManageDishes extends Component {
                         pagination={{pageSize: 12}}
                         renderItem={item => (
                             <List.Item>
-                                <Card hoverable cover={<img src={item.img} alt=""/>} extra={
-                                    <span><a>编辑</a>&nbsp;&nbsp;<a onClick={() => this.setState({visible: true, deleteID: item.id})}>删除</a></span>
-                                }>
+                                <Card hoverable cover={<img src={item.img} alt=""/>} actions={[
+                                    <a><Icon type="edit" />编辑</a>,
+                                    <a onClick={() => this.setState({visible: true, deleteID: item.id})}><Icon type="delete" />删除</a>
+                                ]}>
                                     <Card.Meta title={item.name} description={item.introduction} />
                                 </Card>
                             </List.Item>
