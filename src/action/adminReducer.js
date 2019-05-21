@@ -12,6 +12,8 @@ const READ_MESSAGES = "READ_MESSAGES";
 //菜品
 const ADD_DISHES = "ADD_DISHES";
 const DELETE_DISHES = "DELETE_DISHES";
+//
+const ADD_SHOP = "ADD_SHOP";
 
 const initialState = {
     loginState: false, //  登录状态
@@ -63,6 +65,10 @@ export const addDishes = dish => ({
 export const deleteDishes = id => ({
     type: DELETE_DISHES,
     id
+});
+export const addShop = shop => ({
+    type: ADD_SHOP,
+    shop
 });
 
 const appReducer = (state = initialState, action) => {
@@ -136,6 +142,14 @@ const appReducer = (state = initialState, action) => {
             {
                 return Object.assign({}, state, {
                     dishesList: state.dishesList.filter((item) => item.id !== action.id)
+                });
+            }
+        case ADD_SHOP:
+            {
+                var newShopList = state.shopList;
+                newShopList.push(action.shop);
+                return Object.assign({}, state, {
+                    shopList: newShopList
                 });
             }
         default:

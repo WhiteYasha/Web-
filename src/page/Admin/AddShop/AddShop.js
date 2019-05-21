@@ -16,9 +16,21 @@ import 'antd/lib/row/style/css';
 import 'antd/lib/input/style/css';
 import 'antd/lib/upload/style/css';
 import 'antd/lib/button/style/css';
+import axios from 'axios';
+import {addShop} from './../../../action/adminReducer.js';
 import {connect} from 'react-redux';
 
 const {Content} = Layout;
+const stateToProps = state => ({
+    shopList: state.shopList
+});
+const stateToDispatch = dispatch => {
+    return {
+        doAddShop: (shop) => {
+            dispatch(addShop(shop));
+        }
+    };
+};
 
 function concatPhone(pre, suf) {
     if (pre !== "" && suf !== "") {
@@ -77,9 +89,29 @@ class AddShop extends Component {
             this.setState({cover: info.file.response.data[0], loading: false});
         }
     }
-    handleSubmit = (e) => {}
+    handleSubmit = (e) => {
+        let shop = {
+            id: this.props.shopList[this.props.shopList.length - 1].id + 1,
+            name: this.state.name,
+            phone: concatPhone(this.state.prePhone, this.state.sufPhone),
+            address: this.state.address,
+            cover: this.state.cover
+        };
+        if (shop.name === "" || shop.address === "") {
+            message.error("请填写完整信息!");
+            return ;
+        }
+        this.props.doAddShop(shop);
+        axios.get("http://localhost:9001/addShop", {params: shop})
+        .then(() => {
+            localStorage.removeItem("shopContent");
+            message.success("发布成功!");
+            this.setState({loading: false, name: "", prePhone: "", sufPhone: "", address: "", cover: ""});
+        });
+    }
     handleSave = (e) => {
         let shop = {
+            id: this.props.shopList[this.props.shopList.length - 1].id + 1,
             name: this.state.name,
             phone: concatPhone(this.state.prePhone, this.state.sufPhone),
             address: this.state.address,
@@ -163,10 +195,10 @@ class AddShop extends Component {
                         marginTop: '16px'
                     }}>
                     <Col span={2} offset={12}>
-                        <Button type="primary" onClick={this.handleSubmit}>发布</Button>
+                        <Button type="primary" onClick={this.handleSubmit} loading={this.state.loading}>发布</Button>
                     </Col>
                     <Col span={2}>
-                        <Button onClick={this.handleSave}>保存</Button>
+                        <Button onClick={this.handleSave} loading={this.state.loading}>保存</Button>
                     </Col>
                 </Row>
             </div>
@@ -174,4 +206,4 @@ class AddShop extends Component {
     }
 }
 
-export default AddShop;
+export default connect(stateToProps, stateToDispatch)(AddShop);

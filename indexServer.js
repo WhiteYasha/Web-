@@ -204,8 +204,8 @@ app.post("/uploadShopImg", (req, res) => {
     form.maxFieldsSize = 10 * 1024 * 1024;
 
     form.parse(req, (err, fields, files) => {
-        let oldpath = files.dishesImg.path,
-            extname = files.dishesImg.name;
+        let oldpath = files.shopImg.path,
+            extname = files.shopImg.name;
         if (!extname.endsWith("jpg") && !extname.endsWith("jpeg") && !extname.endsWith("png")) {
             res.send({
                 errno: 1,
@@ -232,13 +232,15 @@ app.post("/uploadShopImg", (req, res) => {
 });
 //  增加门店
 app.get("/addShop", (req, res) => {
-    let name = res.query.name,
-        address = res.query.address,
-        phone = res.query.phone;
+    let id = req.query.id,
+        name = req.query.name,
+        address = req.query.address,
+        phone = req.query.phone,
+        cover = req.query.cover;
     pool.getConnection((err, connection) => {
         if (err) console.log("增加门店信息: " + err);
         else {
-            connection.query(`INSERT INTO shops(name, address, phone) VALUES ('${name}', '${address}', '${phone}')`, (err, result) => {
+            connection.query(`INSERT INTO shops(id, name, address, phone, cover) VALUES (${id}, '${name}', '${address}', '${phone}', '${cover}')`, (err, result) => {
                 if (err) console.log("增加shops: " + err);
                 else res.end();
                 connection.release();
@@ -248,7 +250,7 @@ app.get("/addShop", (req, res) => {
 });
 //  删除门店
 app.get("/deleteShop", (req, res) => {
-    let id = res.query.id;
+    let id = req.query.id;
     pool.getConnection((err, connection) => {
         if (err) console.log("删除门店信息: " + err);
         else {
@@ -262,10 +264,10 @@ app.get("/deleteShop", (req, res) => {
 });
 //  修改门店信息
 app.get("/updateShop", (req, res) => {
-    let id = res.query.id,
-        name = res.query.name,
-        address = res.query.address,
-        phone = res.query.phone;
+    let id = req.query.id,
+        name = req.query.name,
+        address = req.query.address,
+        phone = req.query.phone;
     pool.getConnection((err, connection) => {
         if (err) console.log("修改门店信息: " + err);
         else {
@@ -292,7 +294,8 @@ app.get("/watchNews", (req, res) => {
     });
 });
 app.get("/addNews", (req, res) => {
-    let title = req.query.title,
+    let id = req.query.id,
+        title = req.query.title,
         tag = req.query.tag,
         content = req.query.content,
         author = req.query.author,
@@ -300,7 +303,7 @@ app.get("/addNews", (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) console.log("增加新闻信息: " + err);
         else {
-            connection.query(`INSERT INTO news(title, tag, content, author, source) VALUES ('${title}', '${tag}', '${content}', '${author}', '${source}')`, (err, result) => {
+            connection.query(`INSERT INTO news(id, title, tag, content, author, source) VALUES (${id}, '${title}', '${tag}', '${content}', '${author}', '${source}')`, (err, result) => {
                 if (err) console.log("增加news: " + err);
                 else res.end();
                 connection.release();
@@ -446,7 +449,8 @@ app.post("/uploadDishImg", (req, res) => {
     });
 });
 app.get("/addDishes", (req, res) => {
-    let name = req.query.name,
+    let id = req.query.id,
+        name = req.query.name,
         intro = req.query.introduction,
         rate = req.query.rate,
         tag = req.query.tag,
@@ -454,7 +458,7 @@ app.get("/addDishes", (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) console.log("增加菜品: " + err);
         else {
-            connection.query(`INSERT INTO dishes(name, introduction, rate, tag, img) VALUES ('${name}', '${intro}', ${rate}, '${tag}', '${img}')`, (err, result) => {
+            connection.query(`INSERT INTO dishes(id, name, introduction, rate, tag, img) VALUES (${id}, '${name}', '${intro}', ${rate}, '${tag}', '${img}')`, (err, result) => {
                 if (err) console.log("增加dishes: " + err);
                 else res.end();
                 connection.release();

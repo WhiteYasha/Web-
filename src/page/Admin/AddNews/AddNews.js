@@ -58,6 +58,7 @@ class AddNews extends Component {
         super(props, context);
         let saveNews = JSON.parse(localStorage.getItem("newsContent")) === null;
         this.state = {
+            loading: false,
             newsTitle: saveNews
                 ? ""
                 : JSON.parse(localStorage.getItem("newsContent")).title,
@@ -105,11 +106,20 @@ class AddNews extends Component {
             date: formatDatetime(),
             views: 0
         };
+        this.setState({loading: true});
         this.props.doAddNews(news);
         axios.get("http://localhost:9001/addNews", {params: news}).then(() => {
             this.editor.txt.clear();
             localStorage.removeItem("newsContent");
             message.success("发布成功!");
+            this.setState({
+                loading: false,
+                newsTitle: "",
+                newsAuthor: "",
+                newsSource: "",
+                newsTag: "",
+                editorContent: ""
+            });
         });
     }
     handleSave = (e) => {
@@ -185,8 +195,8 @@ class AddNews extends Component {
                     }}>
                     <Col offset={20} span={4}>
                         <Button.Group>
-                            <Button type="primary" onClick={this.handleSubmit}>发布</Button>
-                            <Button onClick={this.handleSave}>保存</Button>
+                            <Button type="primary" onClick={this.handleSubmit} loading={this.state.loading}>发布</Button>
+                            <Button onClick={this.handleSave} loading={this.state.loading}>保存</Button>
                         </Button.Group>
                     </Col>
                 </Row>

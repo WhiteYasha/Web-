@@ -26,7 +26,9 @@ import {addDishes} from './../../../action/adminReducer.js';
 
 const {Content} = Layout;
 const {CheckableTag} = Tag;
-const stateToProps = state => ({});
+const stateToProps = state => ({
+    dishesList: state.dishesList
+});
 const stateToDispatch = dispatch => {
     return {
         doAddDishes: (dish) => {
@@ -81,6 +83,7 @@ class AddDishes extends Component {
     };
     handleSave = () => {
         let data = {
+            id: this.props.dishesList[this.props.dishesList.length - 1].id + 1,
             name: this.state.name,
             introduction: this.state.introduction,
             rate: this.state.rate,
@@ -92,6 +95,7 @@ class AddDishes extends Component {
     }
     handleSubmit = () => {
         let dish = {
+            id: this.props.dishesList[this.props.dishesList.length - 1].id + 1,
             name: this.state.name,
             introduction: this.state.introduction,
             rate: this.state.rate,
@@ -108,7 +112,7 @@ class AddDishes extends Component {
         .then(() => {
             localStorage.removeItem("dishContent");
             message.success("发布成功!");
-            this.setState({loading: false});
+            this.setState({loading: false, name: "", introduction: "", rate: 0, tag: "招牌菜", img: ""});
         });
     }
     render() {
