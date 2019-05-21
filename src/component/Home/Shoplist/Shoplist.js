@@ -19,7 +19,7 @@ class Shoplist extends Component {
                 }}
                 grid={{
                     gutter: 16,
-                    column: 4
+                    column: 3
                 }}
                 renderItem={(item, key) => (
                     <List.Item>

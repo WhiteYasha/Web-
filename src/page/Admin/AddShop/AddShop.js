@@ -21,9 +21,7 @@ import {addShop} from './../../../action/adminReducer.js';
 import {connect} from 'react-redux';
 
 const {Content} = Layout;
-const stateToProps = state => ({
-    shopList: state.shopList
-});
+const stateToProps = state => ({shopList: state.shopList});
 const stateToDispatch = dispatch => {
     return {
         doAddShop: (shop) => {
@@ -55,6 +53,14 @@ function beforeUpload(file) {
         message.error('图片必须小于2MB!');
     }
     return isJPG && isLt2M;
+}
+function isNumber(value) {
+    var patrn = /^[0-9]*$/;
+    if (patrn.exec(value) == null) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 class AddShop extends Component {
@@ -99,14 +105,24 @@ class AddShop extends Component {
         };
         if (shop.name === "" || shop.address === "") {
             message.error("请填写完整信息!");
-            return ;
+            return;
+        }
+        if (!isNumber(this.state.prePhone) || !isNumber(this.state.sufPhone)) {
+            message.info("电话号码只能输入数字!");
+            return;
         }
         this.props.doAddShop(shop);
-        axios.get("http://localhost:9001/addShop", {params: shop})
-        .then(() => {
+        axios.get("http://localhost:9001/addShop", {params: shop}).then(() => {
             localStorage.removeItem("shopContent");
             message.success("发布成功!");
-            this.setState({loading: false, name: "", prePhone: "", sufPhone: "", address: "", cover: ""});
+            this.setState({
+                loading: false,
+                name: "",
+                prePhone: "",
+                sufPhone: "",
+                address: "",
+                cover: ""
+            });
         });
     }
     handleSave = (e) => {
