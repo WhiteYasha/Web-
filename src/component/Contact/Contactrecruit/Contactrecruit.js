@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import moment from 'moment';
 import {Table, Modal, Row, Col, Divider, Button} from 'antd';
 import 'antd/lib/table/style/css';
 import 'antd/lib/button/style/css';
@@ -7,7 +6,6 @@ import 'antd/lib/row/style/css';
 import 'antd/lib/modal/style/css';
 import {connect} from 'react-redux';
 
-const formatDate = "YYYY/MM/DD";
 const stateToProps = state => ({recruitList: state.recruitList});
 
 class Contactrecruit extends Component {
@@ -24,9 +22,6 @@ class Contactrecruit extends Component {
             title: '开始时间',
             dataIndex: 'startDate',
             key: 'startDate',
-            render: (text, record) => (
-                <p>{moment(text).format(formatDate)}</p>
-            ),
             sorter: (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
         }, {
             title: '',
@@ -75,9 +70,9 @@ class Contactrecruit extends Component {
                         <Col span={2}>工作地点</Col>
                         <Col span={6}>{this.state.selectRecruit ? this.state.selectRecruit.position : ""}</Col>
                         <Col span={2}>开始时间</Col>
-                        <Col span={6}>{this.state.selectRecruit ? moment(this.state.selectRecruit.startDate).format(formatDate) : ""}</Col>
+                        <Col span={6}>{this.state.selectRecruit ? this.state.selectRecruit.startDate : ""}</Col>
                         <Col span={2}>结束时间</Col>
-                        <Col span={6}>{this.state.selectRecruit ? moment(this.state.selectRecruit.endDate).format(formatDate) : ""}</Col>
+                        <Col span={6}>{this.state.selectRecruit ? this.state.selectRecruit.endDate : ""}</Col>
                     </Row>
                     <Divider />
                     <Row style={{marginTop: '16px'}}>

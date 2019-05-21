@@ -5,6 +5,7 @@ var mysql = require('mysql');
 var formidable = require('formidable');
 var path = require('path');
 var fs = require('fs');
+var moment = require('moment');
 const port = 9001;
 const app = express();
 
@@ -23,24 +24,8 @@ var pool = mysql.createPool({
     password: "123456"
 });
 
-function formatDate(date) {
-    let year = date.getFullYear(),
-        month = date.getMonth() + 1,
-        day = date.getDate();
-    return `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-}
-
-function formatDatetime(datetime) {
-    let year = datetime.getFullYear(),
-        month = datetime.getMonth() + 1,
-        day = datetime.getDate(),
-        hour = datetime.getHours(),
-        minute = datetime.getMinutes(),
-        second = datetime.getSeconds();
-    var temp = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-    temp += ` ${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}:${second < 10 ? '0' : ''}${second}`;
-    return temp;
-}
+const formatDate = "YYYY/MM/DD";
+const formatDatetime = "YYYY/MM/DD HH:mm:ss";
 
 //  用户登录接口
 app.get("/login", (req, res) => {
@@ -79,10 +64,7 @@ app.get('/getNewsList', (req, res) => {
                 if (err) console.log("查询news: " + err);
                 else {
                     result.forEach((item) => {
-                        let year = item.date.getFullYear(),
-                            month = item.date.getMonth() + 1,
-                            day = item.date.getDate();
-                        item.date = formatDatetime(item.date);
+                        item.date = moment(item.date).format(formatDatetime);
                     });
                     res.send(result);
                 }
@@ -129,7 +111,13 @@ app.get("/getRecruitList", (req, res) => {
         else {
             connection.query("SELECT * FROM recruit", (err, result) => {
                 if (err) console.log("查询recruit: " + err);
-                else res.send(result);
+                else {
+                    result.forEach((item) => {
+                        if (item.startDate) item.startDate = moment(item.startDate).format(formatDate);
+                        if (item.endDate) item.endDate = moment(item.endDate).format(formatDate);
+                    });
+                    res.send(result);
+                }
                 connection.release();
             });
         }
@@ -144,7 +132,7 @@ app.get("/getMessageList", (req, res) => {
                 if (err) console.log("获取messages: " + err);
                 else {
                     result.forEach((item) => {
-                        item.date = formatDatetime(item.date);
+                        item.date = moment(item.date).format(formatDatetime);
                     });
                     res.send(result);
                 }
@@ -162,7 +150,7 @@ app.get("/getVisits", (req, res) => {
                 if (err) console.log("获取visit: " + err);
                 else {
                     result.forEach((item) => {
-                        item.day = formatDate(item.day);
+                        item.day = moment(item.day).format(formatDate);
                     });
                     res.send(result);
                 }
