@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
-import {Table, Modal} from 'antd';
+import moment from 'moment';
+import {Table, Modal, Row, Col, Divider, Button} from 'antd';
 import 'antd/lib/table/style/css';
+import 'antd/lib/button/style/css';
+import 'antd/lib/row/style/css';
 import 'antd/lib/modal/style/css';
 import {connect} from 'react-redux';
 
+const formatDate = "YYYY/MM/DD";
 const stateToProps = state => ({recruitList: state.recruitList});
 
 class Contactrecruit extends Component {
@@ -17,16 +21,19 @@ class Contactrecruit extends Component {
             dataIndex: 'department',
             key: 'department'
         }, {
-            title: '发布时间',
+            title: '开始时间',
             dataIndex: 'startDate',
             key: 'startDate',
+            render: (text, record) => (
+                <p>{moment(text).format(formatDate)}</p>
+            ),
             sorter: (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
         }, {
             title: '',
             key: 'more',
             render: (text, record) => (<span>
                 <a onClick={() => {
-                        this.setState({modalVisible: true, modalContent: text.content, modalTitle: text.title});
+                        this.setState({modalVisible: true, selectRecruit: text});
                     }}>查看详情</a>
             </span>)
         }
@@ -36,8 +43,7 @@ class Contactrecruit extends Component {
         super();
         this.state = {
             modalVisible: false,
-            modalContent: "",
-            modalTitle: ""
+            selectRecruit: null
         };
     }
     render() {
@@ -52,16 +58,33 @@ class Contactrecruit extends Component {
                     padding: '1em'
                 }}>
                 <Table
+                    rowKey="id"
                     columns={this.columns}
                     dataSource={this.props.recruitList}
                 />
                 <Modal
+                    width={1024}
                     visible={this.state.modalVisible}
-                    title={this.state.modalTitle}
-                    onOk={() => this.setState({modalVisible: false})}
+                    title={this.state.selectRecruit ? this.state.selectRecruit.name : ""}
+                    footer={[
+                        <Button type="primary" onClick={() => this.setState({modalVisible: false})}>确定</Button>
+                    ]}
                     onCancel={() => this.setState({modalVisible: false})}
                 >
-                    {this.state.modalContent}
+                    <Row gutter={16}>
+                        <Col span={2}>工作地点</Col>
+                        <Col span={6}>{this.state.selectRecruit ? this.state.selectRecruit.position : ""}</Col>
+                        <Col span={2}>开始时间</Col>
+                        <Col span={6}>{this.state.selectRecruit ? moment(this.state.selectRecruit.startDate).format(formatDate) : ""}</Col>
+                        <Col span={2}>结束时间</Col>
+                        <Col span={6}>{this.state.selectRecruit ? moment(this.state.selectRecruit.endDate).format(formatDate) : ""}</Col>
+                    </Row>
+                    <Divider />
+                    <Row style={{marginTop: '16px'}}>
+                        <Col span={24}>
+                            <div dangerouslySetInnerHTML={{__html: this.state.selectRecruit ? this.state.selectRecruit.content : ""}} />
+                        </Col>
+                    </Row>
                 </Modal>
             </div>
         </div>);

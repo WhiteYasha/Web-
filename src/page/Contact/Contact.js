@@ -5,7 +5,7 @@ import 'antd/lib/button/style/css';
 import Contactmap from './../../component/Contact/Contactmap/Contactmap';
 import Contactmessage from './../../component/Contact/Contactmessage/Contactmessage';
 import Contactrecruit from './../../component/Contact/Contactrecruit/Contactrecruit';
-import {Route} from 'react-router-dom';
+import {Route, Link} from 'react-router-dom';
 
 class Contact extends Component {
     constructor() {
@@ -32,14 +32,14 @@ class Contact extends Component {
                 <div style={{
                         textAlign: 'center'
                     }}>
-                    <Button href="/home/contact">
-                        <Icon type="smile"/>联系我们
+                    <Button>
+                        <Link to="/home/contact"><Icon type="smile" style={{marginRight: '8px'}}/>联系我们</Link>
                     </Button>
-                    <Button href="/home/contact/message">
-                        <Icon type="message"/>在线留言
+                    <Button>
+                        <Link to="/home/contact/message"><Icon type="message" style={{marginRight: '8px'}}/>在线留言</Link>
                     </Button>
-                    <Button href="/home/contact/recruit">
-                        <Icon type="team"/>人才招聘
+                    <Button>
+                        <Link to="/home/contact/recruit"><Icon type="team" style={{marginRight: '8px'}}/>人才招聘</Link>
                     </Button>
                     <Button>
                         <Icon type="link"/>友情链接
