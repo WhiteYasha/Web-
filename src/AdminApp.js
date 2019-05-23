@@ -11,6 +11,7 @@ import ManageNews from './page/Admin/ManageNews/ManageNews';
 import ManageDishes from './page/Admin/ManageDishes/ManageDishes';
 import ManageShop from './page/Admin/ManageShop/ManageShop';
 import AddDishes from './page/Admin/AddDishes/AddDishes';
+import ManageRecruit from './page/Admin/ManageRecruit/ManageRecruit';
 import adminHeader from './component/Admin/adminHeader/adminHeader';
 import adminSider from './component/Admin/adminSider/adminSider';
 import {Route} from 'react-router-dom';
@@ -69,6 +70,7 @@ class AdminApp extends Component {
                             <Route exact path="/admin/add_news" component={AddNews} />
                             <Route exact path="/admin/news" component={ManageNews} />
                             <Route exact path="/admin/add_recruit" component={AddRecruit} />
+                            <Route exact path="/admin/recruit" component={ManageRecruit} />
                             <Route exact path="/admin/messages" component={Messages} />
                         </Layout>
                     </Layout>) : <Route path="/admin" component={Loginpage} />

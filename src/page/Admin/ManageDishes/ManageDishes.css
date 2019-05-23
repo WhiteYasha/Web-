@@ -1,0 +1,5 @@
+.admin-dishcard .ant-card-meta-description {
+    height: 2em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

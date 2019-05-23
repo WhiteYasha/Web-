@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {findDOMNode} from 'react-dom';
 import './AddShop.css';
 import {
     Layout,
@@ -115,6 +116,10 @@ class AddShop extends Component {
         axios.get("http://localhost:9001/addShop", {params: shop}).then(() => {
             localStorage.removeItem("shopContent");
             message.success("发布成功!");
+            findDOMNode(this.refs.nameInput).value = "";
+            findDOMNode(this.refs.prePhoneInput).value = "";
+            findDOMNode(this.refs.sufPhoneInput).value = "";
+            findDOMNode(this.refs.addressInput).value = "";
             this.setState({
                 loading: false,
                 name: "",
@@ -157,7 +162,7 @@ class AddShop extends Component {
             }}>*</span>
                     </Col>
                     <Col span={8}>
-                        <Input defaultValue={this.state.name} onChange={(e) => this.setState({name: e.target.value})}/>
+                        <Input defaultValue={this.state.name} onChange={(e) => this.setState({name: e.target.value})} ref="nameInput"/>
                     </Col>
                 </Row>
                 <Row gutter={16} style={{
@@ -170,11 +175,11 @@ class AddShop extends Component {
                                     width: '40%'
                                 }} defaultValue={this.state.prePhone} suffix={<Tooltip title = "请填写电话号码区号" > <Icon type="info-circle" style={{
                                         color: 'rgba(0,0,0,.45)'
-                                    }}/>
+                                    }} ref="prePhoneInput"/>
                             </Tooltip>} onChange={(e) => this.setState({prePhone: e.target.value})}/>
                             <Input style={{
                                     width: '60%'
-                                }} defaultValue={this.state.sufPhone} onChange={(e) => this.setState({sufPhone: e.target.value})}/>
+                                }} defaultValue={this.state.sufPhone} onChange={(e) => this.setState({sufPhone: e.target.value})} ref="sufPhoneInput"/>
                         </Input.Group>
                     </Col>
                 </Row>
@@ -186,7 +191,7 @@ class AddShop extends Component {
             }}>*</span>
                     </Col>
                     <Col span={10}>
-                        <Input defaultValue={this.state.address} onChange={(e) => this.setState({address: e.target.value})}/>
+                        <Input defaultValue={this.state.address} onChange={(e) => this.setState({address: e.target.value})} ref="addressInput"/>
                     </Col>
                 </Row>
                 <Row gutter={16} style={{

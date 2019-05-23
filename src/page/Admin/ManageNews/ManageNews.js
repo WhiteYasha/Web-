@@ -99,9 +99,7 @@ class ManageNews extends Component {
                 <Modal title="删除新闻" visible={this.state.visible} okText="确定" cancelText="取消" onOk={this.handleDelete} onCancel={() => this.setState({visible: false})}>
                     <p>确定要删除吗?</p>
                 </Modal>
-                <Table bordered columns={this.columns} dataSource={this.props.newsList} style={{
-                        background: '#fff'
-                    }} rowKey="id"/>
+                <Table bordered columns={this.columns} dataSource={this.props.newsList} rowKey="id"/>
             </div>
         </Content>);
     }

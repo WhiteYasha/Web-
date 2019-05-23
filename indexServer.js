@@ -495,5 +495,16 @@ app.get("/addRecruit", (req, res) => {
         }
     });
 });
+app.get("/deleteRecruit", (req, res) => {
+    let id = req.query.id;
+    pool.getConnection((err, connection) => {
+        if (err) console.log("删除招聘: " + err);
+        else connection.query(`DELETE FROM recruit WHERE id = ${id}`, (err, result) => {
+            if (err) console.log("删除recruit: " + err);
+            else res.end();
+            connection.release();
+        });
+    });
+});
 
 app.listen(port, () => console.log(`成功: 端口${port}`));
