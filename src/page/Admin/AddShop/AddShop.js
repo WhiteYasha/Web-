@@ -57,6 +57,17 @@ function isNumber(value) {
         return true;
     }
 }
+function checkInputLength(name, text, max, min = 0) {
+    if (text.length > max) {
+        message.error(`${name}最大长度不能超过${max}个字!`);
+        return false;
+    }
+    if (text.length < min) {
+        message.error(`${name}最小长度不能少于${min}个字!`);
+        return false;
+    }
+    return true;
+}
 
 class AddShop extends Component {
     constructor(props) {
@@ -70,6 +81,20 @@ class AddShop extends Component {
             address: saveShop ? saveShop.address : "",
             cover: saveShop ? saveShop.cover : ""
         };
+    }
+    clear = () => {
+        this.refs.nameInput.state.value = "";
+        this.refs.prePhoneInput.state.value = "";
+        this.refs.sufPhoneInput.state.value = "";
+        this.refs.addressInput.state.value = "";
+        localStorage.removeItem("shopContent");
+        this.setState({
+            name: "",
+            prePhone: "",
+            sufPhone: "",
+            address: "",
+            cover: ""
+        });
     }
     handleChange = (info) => {
         if (info.file.status === 'uploading') {
@@ -88,30 +113,19 @@ class AddShop extends Component {
             address: this.state.address,
             cover: this.state.cover
         };
-        if (shop.name === "" || shop.address === "") {
-            message.error("请填写完整信息!");
-            return;
-        }
+        if (!checkInputLength("店铺名称", shop.name, 30, 1)) return ;
+        if (!checkInputLength("店铺地址", shop.address, 50, 1)) return ;
+        if (!checkInputLength("订餐电话", shop.phone, 20, 1)) return ;
         if (!isNumber(this.state.prePhone) || !isNumber(this.state.sufPhone)) {
             message.info("电话号码只能输入数字!");
             return;
         }
+        this.setState({loading: true});
         this.props.doAddShop(shop);
         axios.get("http://localhost:9001/addShop", {params: shop}).then(() => {
-            localStorage.removeItem("shopContent");
             message.success("发布成功!");
-            this.refs.nameInput.state.value = "";
-            this.refs.prePhoneInput.state.value = "";
-            this.refs.sufPhoneInput.state.value = "";
-            this.refs.addressInput.state.value = "";
-            this.setState({
-                loading: false,
-                name: "",
-                prePhone: "",
-                sufPhone: "",
-                address: "",
-                cover: ""
-            });
+            this.clear();
+            this.setState({loading: false});
         });
     }
     handleSave = (e) => {
@@ -203,6 +217,9 @@ class AddShop extends Component {
                     </Col>
                     <Col span={2}>
                         <Button onClick={this.handleSave} loading={this.state.loading}>保存</Button>
+                    </Col>
+                    <Col span={2}>
+                        <Button onClick={this.clear}>清空</Button>
                     </Col>
                 </Row>
             </div>);

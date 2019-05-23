@@ -42,6 +42,18 @@ function beforeUpload(file) {
     return isJPG && isLt2M;
 }
 
+function checkInputLength(name, text, max, min = 0) {
+    if (text.length > max) {
+        message.error(`${name}最大长度不能超过${max}个字!`);
+        return false;
+    }
+    if (text.length < min) {
+        message.error(`${name}最小长度不能少于${min}个字!`);
+        return false;
+    }
+    return true;
+}
+
 class AddDishes extends Component {
     constructor(props) {
         super(props);
@@ -54,6 +66,12 @@ class AddDishes extends Component {
             tag: saveDish ? saveDish.tag : "招牌菜",
             img: saveDish ? saveDish.img : ""
         };
+    }
+    clear = () => {
+        this.refs.nameInput.state.value = "";
+        this.refs.introInput.state.value = "";
+        localStorage.removeItem("dishContent");
+        this.setState({name: "", introduction: "", rate: 0, tag: "招牌菜", img: ""});
     }
     handleChange = (info) => {
         if (info.file.status === 'uploading') {
@@ -84,19 +102,15 @@ class AddDishes extends Component {
             tag: this.state.tag,
             img: this.state.img
         };
-        if (dish.name === "") {
-            message.error("请输入名称!");
-            return ;
-        }
+        if (!checkInputLength("菜品名称", dish.name, 10, 1)) return ;
+        if (!checkInputLength("菜品介绍", dish.introduction, 30)) return ;
         this.setState({loading: true});
         this.props.doAddDishes(dish);
         axios.get("http://localhost:9001/addDishes", {params: dish})
         .then(() => {
-            localStorage.removeItem("dishContent");
             message.success("发布成功!");
-            this.refs.nameInput.state.value = "";
-            this.refs.introInput.state.value = "";
-            this.setState({loading: false, name: "", introduction: "", rate: 0, tag: "招牌菜", img: ""});
+            this.clear();
+            this.setState({loading: false});
         });
     }
     render() {
@@ -184,8 +198,8 @@ class AddDishes extends Component {
                             onChange={this.handleChange}
                         >
                             {
-                                this.state.img ?
-                                    <img src={this.state.img} style={{width: '256px', height: '256px'}} alt=""/>
+                                this.state.img
+                                    ? <img src={this.state.img} style={{width: '256px', height: '256px'}} alt=""/>
                                     : uploadButton
                             }
                         </Upload>
@@ -197,6 +211,9 @@ class AddDishes extends Component {
                     </Col>
                     <Col span={2}>
                         <Button onClick={this.handleSave} loading={this.state.loading}>保存</Button>
+                    </Col>
+                    <Col span={2}>
+                        <Button onClick={this.clear}>清空</Button>
                     </Col>
                 </Row>
             </div>

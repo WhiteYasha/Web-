@@ -25,6 +25,18 @@ const stateToDispatch = dispatch => {
     }
 };
 
+function checkInputLength(name, text, max, min = 0) {
+    if (text.length > max) {
+        message.error(`${name}最大长度不能超过${max}个字!`);
+        return false;
+    }
+    if (text.length < min) {
+        message.error(`${name}最小长度不能少于${min}个字!`);
+        return false;
+    }
+    return true;
+}
+
 class AddNews extends Component {
     editor;
     constructor(props, context) {
@@ -39,16 +51,29 @@ class AddNews extends Component {
             editorContent: saveNews ? saveNews.content : ""
         }
     }
+    clear = () => {
+        this.refs.titleInput.state.value = "";
+        this.refs.authorInput.state.value = "";
+        this.refs.sourceInput.state.value = "";
+        this.editor.txt.clear();
+        localStorage.removeItem("newsContent");
+        this.setState({
+            newsTitle: "",
+            newsAuthor: "",
+            newsSource: "",
+            newsTag: "",
+            editorContent: ""
+        });
+    }
     handleSubmit = (e) => {
         let title = this.state.newsTitle,
             author = this.state.newsAuthor,
             source = this.state.newsSource,
             tag = "公司新闻",
             content = this.state.editorContent;
-        if (title === "") {
-            message.error("标题不能为空!");
-            return;
-        }
+        if (!checkInputLength("新闻标题", title, 50, 1)) return ;
+        if (!checkInputLength("新闻作者", author, 15)) return ;
+        if (!checkInputLength("新闻来源", source, 15)) return ;
         switch (this.state.newsTag) {
             case "industry": {
                 tag = "行业新闻";
@@ -82,20 +107,9 @@ class AddNews extends Component {
         this.setState({loading: true});
         this.props.doAddNews(news);
         axios.get("http://localhost:9001/addNews", {params: news}).then(() => {
-            localStorage.removeItem("newsContent");
             message.success("发布成功!");
-            this.refs.titleInput.state.value = "";
-            this.refs.authorInput.state.value = "";
-            this.refs.sourceInput.state.value = "";
-            this.editor.txt.clear();
-            this.setState({
-                loading: false,
-                newsTitle: "",
-                newsAuthor: "",
-                newsSource: "",
-                newsTag: "",
-                editorContent: ""
-            });
+            this.clear();
+            this.setState({loading: false});
         });
     }
     handleSave = (e) => {
@@ -166,10 +180,11 @@ class AddNews extends Component {
                     </Col>
                 </Row>
                 <Row gutter={16} style={{marginTop: '16px'}}>
-                    <Col span={4} offset={20}>
+                    <Col span={5} offset={19}>
                         <Button.Group>
                             <Button type="primary" onClick={this.handleSubmit} loading={this.state.loading}>发布</Button>
                             <Button onClick={this.handleSave} loading={this.state.loading}>保存</Button>
+                            <Button onClick={this.clear}>清空</Button>
                         </Button.Group>
                     </Col>
                 </Row>

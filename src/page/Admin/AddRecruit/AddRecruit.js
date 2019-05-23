@@ -18,6 +18,8 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import {addRecruit} from './../../../action/adminReducer.js';
 
+moment.locale('zh-cn');
+
 const {RangePicker} = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
 const stateToProps = state => ({
@@ -34,8 +36,18 @@ const stateToDispatch = dispatch => {
 function disabledDate(current) {
     return current && current < moment().endOf('day');
 }
+function checkInputLength(name, text, max, min = 0) {
+    if (text.length > max) {
+        message.error(`${name}最大长度不能超过${max}个字!`);
+        return false;
+    }
+    if (text.length < min) {
+        message.error(`${name}最小长度不能少于${min}个字!`);
+        return false;
+    }
+    return true;
+}
 
-moment.locale('zh-cn');
 class AddRecruit extends Component {
     editor;
     constructor(props) {
@@ -50,6 +62,14 @@ class AddRecruit extends Component {
             endDate: saveRecruit ? saveRecruit.endDate : null,
             content: saveRecruit ? saveRecruit.content : ""
         };
+    }
+    clear() {
+        this.refs.nameInput.state.value = "";
+        this.refs.departmentInput.state.value = "";
+        this.refs.positionInput.state.value = "";
+        this.editor.txt.clear();
+        localStorage.removeItem("recruitContent");
+        this.setState({name: "", department: "", position: "", startDate: null, endDate: null, content: ""});
     }
     handleSave = () => {
         let recruitInfo = {
@@ -73,21 +93,16 @@ class AddRecruit extends Component {
             endDate: this.state.endDate,
             content: this.state.content
         };
-        if (recruitInfo.name === "" || recruitInfo.department === "") {
-            message.error("请填写完整信息!");
-            return ;
-        }
+        if (!checkInputLength("职位名称", recruitInfo.name, 30, 1)) return ;
+        if (!checkInputLength("工作部门", recruitInfo.department, 20, 1)) return ;
+        if (!checkInputLength("工作地点", recruitInfo.position, 20)) return ;
         this.setState({loading: true});
         this.props.doAddRecruit(recruitInfo);
         axios.get("http://localhost:9001/addRecruit", {params: recruitInfo})
         .then(() => {
-            localStorage.removeItem("recruitContent");
             message.success("发布成功!");
-            this.refs.nameInput.state.value = "";
-            this.refs.departmentInput.state.value = "";
-            this.refs.positionInput.state.value = "";
-            this.editor.txt.clear();
-            this.setState({loading: false, name: "", department: "", position: "", startDate: null, endDate: null, content: ""});
+            this.clear();
+            this.setState({loading: false});
         });
     }
     render() {
@@ -151,11 +166,14 @@ class AddRecruit extends Component {
                     </Col>
                 </Row>
                 <Row gutter={16} style={{marginTop: '16px'}}>
-                    <Col span={2} offset={20}>
+                    <Col span={2} offset={18}>
                         <Button type="primary" loading={this.state.loading} onClick={this.handleSubmit}>发布</Button>
                     </Col>
                     <Col span={2}>
                         <Button loading={this.state.loading} onClick={this.handleSave}>保存</Button>
+                    </Col>
+                    <Col span={2}>
+                        <Button onClick={this.clear}>清空</Button>
                     </Col>
                 </Row>
             </div>
