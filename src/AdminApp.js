@@ -1,19 +1,6 @@
 import React, {Component} from 'react';
-import {Layout} from 'antd';
-import 'antd/lib/layout/style/css';
 import Loginpage from './page/Loginpage/Loginpage';
-import Home from './page/Admin/Home/Home';
-import AddNews from './page/Admin/AddNews/AddNews';
-import AddShop from './page/Admin/AddShop/AddShop';
-import AddRecruit from './page/Admin/AddRecruit/AddRecruit';
-import Messages from './page/Admin/Messages/Messages';
-import ManageNews from './page/Admin/ManageNews/ManageNews';
-import ManageDishes from './page/Admin/ManageDishes/ManageDishes';
-import ManageShop from './page/Admin/ManageShop/ManageShop';
-import AddDishes from './page/Admin/AddDishes/AddDishes';
-import ManageRecruit from './page/Admin/ManageRecruit/ManageRecruit';
-import adminHeader from './component/Admin/adminHeader/adminHeader';
-import adminSider from './component/Admin/adminSider/adminSider';
+import Admin from './page/Admin/Admin';
 import {Route} from 'react-router-dom';
 import axios from 'axios';
 import {connect} from 'react-redux';
@@ -56,24 +43,7 @@ class AdminApp extends Component {
             <div>
                 {
                     this.props.loginState ?
-                    (<Layout style={{
-                            minHeight: '100vh'
-                        }}>
-                        <Route path="/admin" component={adminSider}/>
-                        <Layout>
-                            <Route path="/admin" component={adminHeader} />
-                            <Route exact path="/admin" component={Home} />
-                            <Route exact path="/admin/add_dish" component={AddDishes} />
-                            <Route exact path="/admin/dish" component={ManageDishes} />
-                            <Route exact path="/admin/add_shop" component={AddShop} />
-                            <Route exact path="/admin/shop" component={ManageShop} />
-                            <Route exact path="/admin/add_news" component={AddNews} />
-                            <Route exact path="/admin/news" component={ManageNews} />
-                            <Route exact path="/admin/add_recruit" component={AddRecruit} />
-                            <Route exact path="/admin/recruit" component={ManageRecruit} />
-                            <Route exact path="/admin/messages" component={Messages} />
-                        </Layout>
-                    </Layout>) : <Route path="/admin" component={Loginpage} />
+                    <Admin /> : <Route path="/admin" component={Loginpage} />
                 }
             </div>
         );

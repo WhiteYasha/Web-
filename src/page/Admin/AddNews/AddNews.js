@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-    Layout,
     Input,
     Button,
     message,
@@ -8,18 +7,15 @@ import {
     Col,
     Select
 } from 'antd';
-import 'antd/lib/layout/style/css';
 import 'antd/lib/row/style/css';
-import 'antd/lib/select/style/css';
-import 'antd/lib/message/style/css';
-import 'antd/lib/input/style/css';
 import 'antd/lib/button/style/css';
 import axios from 'axios';
 import E from 'wangeditor';
 import {connect} from 'react-redux';
 import {addNews} from './../../../action/adminReducer.js';
+import moment from 'moment';
 
-const {Content} = Layout;
+const formatDatetime = "YYYY/MM/DD HH:mm:ss";
 const stateToProps = state => ({newsList: state.newsList});
 const stateToDispatch = dispatch => {
     return {
@@ -29,50 +25,18 @@ const stateToDispatch = dispatch => {
     }
 };
 
-function formatDatetime() {
-    let now = new Date();
-    let year = now.getFullYear(),
-        month = now.getMonth() + 1,
-        day = now.getDate(),
-        hour = now.getHours(),
-        minute = now.getMinutes(),
-        second = now.getSeconds();
-    var temp = `${year}-${month < 10
-        ? '0'
-        : ''}${month}-${day < 10
-            ? '0'
-            : ''}${day}`;
-    temp += ` ${hour < 10
-        ? '0'
-        : ''}${hour}:${minute < 10
-            ? '0'
-            : ''}${minute}:${second < 10
-                ? '0'
-                : ''}${second}`;
-    return temp;
-}
-
 class AddNews extends Component {
+    editor;
     constructor(props, context) {
         super(props, context);
-        let saveNews = JSON.parse(localStorage.getItem("newsContent")) === null;
+        let saveNews = JSON.parse(localStorage.getItem("newsContent"));
         this.state = {
             loading: false,
-            newsTitle: saveNews
-                ? ""
-                : JSON.parse(localStorage.getItem("newsContent")).title,
-            newsAuthor: saveNews
-                ? ""
-                : JSON.parse(localStorage.getItem("newsContent")).author,
-            newsSource: saveNews
-                ? ""
-                : JSON.parse(localStorage.getItem("newsContent")).source,
-            newsTag: saveNews
-                ? "company"
-                : JSON.parse(localStorage.getItem("newsContent")).tag,
-            editorContent: saveNews
-                ? ""
-                : JSON.parse(localStorage.getItem("newsContent")).content
+            newsTitle: saveNews ? saveNews.title : "",
+            newsAuthor: saveNews ? saveNews.author : "",
+            newsSource: saveNews ? saveNews.source : "",
+            newsTag: saveNews ? saveNews.tag : "company",
+            editorContent: saveNews ? saveNews.content : ""
         }
     }
     handleSubmit = (e) => {
@@ -85,16 +49,26 @@ class AddNews extends Component {
             message.error("标题不能为空!");
             return;
         }
-        if (this.state.newsTag === "company")
-            tag = "公司新闻";
-        else if (this.state.newsTag === "industry")
-            tag = "行业新闻";
-        else if (this.state.newsTag === "media")
-            tag = "媒体新闻";
-        else if (this.state.newsTag === "employee")
-            tag = "员工天地";
-        else if (this.state.newsTag === "hornor")
-            tag = "荣誉资质";
+        switch (this.state.newsTag) {
+            case "industry": {
+                tag = "行业新闻";
+                break;
+            }
+            case "media": {
+                tag = "媒体新闻";
+                break;
+            }
+            case "employee": {
+                tag = "员工天地";
+                break;
+            }
+            case "hornor": {
+                tag = "荣誉资质";
+                break;
+            }
+            default:
+                tag = "公司新闻";
+        }
         let news = {
             id: this.props.newsList.length > 0 ? this.props.newsList[0].id + 1 : 1,
             tag: tag,
@@ -102,7 +76,7 @@ class AddNews extends Component {
             author: author,
             source: source,
             content: content,
-            date: formatDatetime(),
+            date: moment().format(formatDatetime),
             views: 0
         };
         this.setState({loading: true});
@@ -110,6 +84,10 @@ class AddNews extends Component {
         axios.get("http://localhost:9001/addNews", {params: news}).then(() => {
             localStorage.removeItem("newsContent");
             message.success("发布成功!");
+            this.refs.titleInput.state.value = "";
+            this.refs.authorInput.state.value = "";
+            this.refs.sourceInput.state.value = "";
+            this.editor.txt.clear();
             this.setState({
                 loading: false,
                 newsTitle: "",
@@ -132,50 +110,44 @@ class AddNews extends Component {
         message.success("保存成功!");
     }
     render() {
-        return (<Content style={{
-                padding: '16px calc(100% / 24)'
-            }}>
-            <div style={{
-                    background: '#fff',
-                    border: '1px solid #ccc',
-                    height: 'auto',
-                    padding: '5%'
-                }}>
-                <Row style={{
-                        margin: '1em 0'
-                    }}>
-                    <Col span={2} style={{
-                            textAlign: 'center'
-                        }}>标题</Col>
+        return (
+            <div>
+                <Row gutter={16}>
+                    <Col span={2}>
+                        标题<span style={{color: 'red'}}>*</span>
+                    </Col>
                     <Col span={22}>
-                        <Input defaultValue={this.state.newsTitle} onChange={(e) => this.setState({newsTitle: e.target.value})}/>
+                        <Input
+                            defaultValue={this.state.newsTitle}
+                            onChange={(e) => this.setState({newsTitle: e.target.value})}
+                            ref="titleInput"
+                        />
                     </Col>
                 </Row>
-                <Row style={{
-                        margin: '1em 0'
-                    }}>
-                    <Col span={2} style={{
-                            textAlign: 'center'
-                        }}>作者</Col>
+                <Row gutter={16} style={{marginTop: '16px'}}>
+                    <Col span={2}>作者</Col>
                     <Col span={6}>
-                        <Input defaultValue={this.state.newsAuthor} onChange={(e) => this.setState({newsAuthor: e.target.value})}/>
+                        <Input
+                            defaultValue={this.state.newsAuthor}
+                            onChange={(e) => this.setState({newsAuthor: e.target.value})}
+                            ref="authorInput"
+                        />
                     </Col>
-                    <Col span={2} style={{
-                            textAlign: 'center'
-                        }}>来源</Col>
+                    <Col span={2}>来源</Col>
                     <Col span={6}>
-                        <Input defaultValue={this.state.newsSource} onChange={(e) => this.setState({newsSource: e.target.value})}/>
+                        <Input
+                            defaultValue={this.state.newsSource}
+                            onChange={(e) => this.setState({newsSource: e.target.value})}
+                            ref="sourceInput"
+                        />
                     </Col>
-                    <Col span={2} style={{
-                            textAlign: 'center'
-                        }}>
-                        标签
-                    </Col>
+                    <Col span={2}>标签</Col>
                     <Col span={6}>
-                        <Select defaultValue={this.state.newsTag} onChange={(value) => this.setState({newsTag: value})} style={{
-                                width: '100%',
-                                zIndex: 999
-                            }}>
+                        <Select
+                            defaultValue={this.state.newsTag}
+                            onChange={(value) => this.setState({newsTag: value})}
+                            style={{width: '100%', zIndex: 999}}
+                        >
                             <Select.Option value="company">公司新闻</Select.Option>
                             <Select.Option value="industry">行业新闻</Select.Option>
                             <Select.Option value="media">媒体新闻</Select.Option>
@@ -184,41 +156,43 @@ class AddNews extends Component {
                         </Select>
                     </Col>
                 </Row>
-                <div id="editArea" ref="editorElem" style={{
-                        textAlign: 'left',
-                        background: '#fff'
-                    }}/>
-                <Row style={{
-                        margin: '1em 0'
-                    }}>
-                    <Col offset={20} span={4}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
+                    <Col span={24}>
+                        <div
+                            id="editArea"
+                            ref="editorElem"
+                            style={{textAlign: 'left'}}
+                        />
+                    </Col>
+                </Row>
+                <Row gutter={16} style={{marginTop: '16px'}}>
+                    <Col span={4} offset={20}>
                         <Button.Group>
                             <Button type="primary" onClick={this.handleSubmit} loading={this.state.loading}>发布</Button>
                             <Button onClick={this.handleSave} loading={this.state.loading}>保存</Button>
                         </Button.Group>
                     </Col>
                 </Row>
-            </div>
-        </Content>);
+            </div>);
     }
     componentDidMount() {
         const elem = this.refs.editorElem;
-        var editor = new E(elem);
-        editor.customConfig.onchange = html => {
+        this.editor = new E(elem);
+        this.editor.customConfig.onchange = html => {
             this.setState({editorContent: html});
         };
-        editor.customConfig.zIndex = 100;
-        editor.customConfig.uploadImgServer = 'http://localhost:9000/uploadNewsImg';
-        editor.customConfig.uploadFileName = 'newsImg';
-        editor.customConfig.uploadImgHooks = {
+        this.editor.customConfig.zIndex = 100;
+        this.editor.customConfig.uploadImgServer = 'http://localhost:9000/uploadNewsImg';
+        this.editor.customConfig.uploadFileName = 'newsImg';
+        this.editor.customConfig.uploadImgHooks = {
             customInsert: function(insertImg, result, editor) {
                 var url = result.data[0];
                 insertImg(url);
             }
         }
-        editor.create();
+        this.editor.create();
         if (JSON.parse(localStorage.getItem("newsContent")) !== null) {
-            editor.txt.html(JSON.parse(localStorage.getItem("newsContent")).content);
+            this.editor.txt.html(JSON.parse(localStorage.getItem("newsContent")).content);
         }
     }
 };

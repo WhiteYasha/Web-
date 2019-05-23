@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './AddDishes.css';
 import {
-    Layout,
     Rate,
     Row,
     Col,
@@ -13,18 +12,12 @@ import {
     Button
 } from 'antd';
 import 'antd/lib/button/style/css';
-import 'antd/lib/message/style/css';
-import 'antd/lib/rate/style/css';
-import 'antd/lib/upload/style/css';
-import 'antd/lib/tag/style/css';
 import 'antd/lib/row/style/css';
-import 'antd/lib/input/style/css';
-import 'antd/lib/layout/style/css';
+import 'antd/lib/upload/style/css';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {addDishes} from './../../../action/adminReducer.js';
 
-const {Content} = Layout;
 const {CheckableTag} = Tag;
 const stateToProps = state => ({
     dishesList: state.dishesList
@@ -55,21 +48,11 @@ class AddDishes extends Component {
         let saveDish = localStorage.getItem("dishContent");
         this.state = {
             loading: false,
-            name: saveDish
-                ? JSON.parse(localStorage.getItem("dishContent")).name
-                : "",
-            introduction: saveDish
-                ? JSON.parse(localStorage.getItem("dishContent")).introduction
-                : "",
-            rate: saveDish
-                ? JSON.parse(localStorage.getItem("dishContent")).rate
-                : 0,
-            tag: saveDish
-                ? JSON.parse(localStorage.getItem("dishContent")).tag
-                : "招牌菜",
-            img: saveDish
-                ? JSON.parse(localStorage.getItem("dishContent")).img
-                : ""
+            name: saveDish ? saveDish.name : "",
+            introduction: saveDish ? saveDish.introduction : "",
+            rate: saveDish ? saveDish.rate : 0,
+            tag: saveDish ? saveDish.tag : "招牌菜",
+            img: saveDish ? saveDish.img : ""
         };
     }
     handleChange = (info) => {
@@ -111,16 +94,18 @@ class AddDishes extends Component {
         .then(() => {
             localStorage.removeItem("dishContent");
             message.success("发布成功!");
+            this.refs.nameInput.state.value = "";
+            this.refs.introInput.state.value = "";
             this.setState({loading: false, name: "", introduction: "", rate: 0, tag: "招牌菜", img: ""});
         });
     }
     render() {
-        const uploadButton = (<div>
-            <Icon type={this.state.loading
-                    ? 'loading'
-                    : 'plus'}/>
-            <div className="ant-upload-text">Upload</div>
-        </div>);
+        const uploadButton = (
+            <div>
+                <Icon type={this.state.loading ? 'loading' : 'plus'} />
+                <div className="ant-upload-text">上传图片</div>
+            </div>
+        );
         const tags = [
             "招牌菜",
             "头盘冷菜",
@@ -133,72 +118,80 @@ class AddDishes extends Component {
             "饮料酒水"
         ];
         const state = this.state;
-        return (<Content style={{
-                padding: '16px calc(100% / 24)'
-            }}>
-            <div style={{
-                    background: '#fff',
-                    border: '1px solid #ccc',
-                    height: 'auto',
-                    padding: '5%'
-                }}>
+        return (
+            <div>
                 <Row gutter={16}>
-                    <Col span={2}>名称<span style={{color: 'red'}}>*</span></Col>
+                    <Col span={2}>
+                        名称<span style={{color: 'red'}}>*</span>
+                    </Col>
                     <Col span={8}>
-                        <Input onChange={(e) => this.setState({name: e.target.value})} defaultValue={state.name} />
+                        <Input
+                            onChange={(e) => this.setState({name: e.target.value})}
+                            defaultValue={state.name}
+                            ref="nameInput"
+                        />
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2}>分类</Col>
                     <Col span={16}>
                         {
                             tags.map((item, key) => {
-                                return <CheckableTag key={`tag${key}`} checked={state.tag === item} onChange={() => this.setState({tag: item})}>{item}</CheckableTag>;
+                                return (
+                                    <CheckableTag
+                                        key={`tag${key}`}
+                                        checked={state.tag === item}
+                                        onChange={() => this.setState({tag: item})}
+                                    >
+                                        {item}
+                                    </CheckableTag>
+                                );
                             })
                         }
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2}>介绍</Col>
-                    <Col span={10}>
-                        <Input.TextArea autosize={{
-                                minRows: 4,
-                                maxRows: 4
-                            }} onChange={(e) => this.setState({introduction: e.target.value})} defaultValue={state.introduction}/>
+                    <Col span={12}>
+                        <Input
+                            onChange={(e) => this.setState({introduction: e.target.value})}
+                            defaultValue={state.introduction}
+                            ref="introInput"
+                        />
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2}>评分</Col>
                     <Col span={8}>
-                        <Rate allowHalf onChange={(value) => this.setState({rate: value})} defaultValue={state.rate}/>
+                        <Rate
+                            allowHalf
+                            onChange={(value) => this.setState({rate: value})}
+                            defaultValue={state.rate}
+                            ref="rateCounter"
+                        />
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2}>菜品图片</Col>
                     <Col span={8}>
-                        <Upload name="dishesImg" listType="picture-card" className="dishImg-uploader" showUploadList={false} action="http://localhost:9001/uploadDishImg" beforeUpload={beforeUpload} onChange={this.handleChange}>
+                        <Upload
+                            name="dishesImg"
+                            listType="picture-card"
+                            className="dishImg-uploader"
+                            showUploadList={false}
+                            action="http://localhost:9001/uploadDishImg"
+                            beforeUpload={beforeUpload}
+                            onChange={this.handleChange}
+                        >
                             {
-                                this.state.img
-                                    ? <img src={this.state.img} style={{
-                                                width: '256px',
-                                                height: '256px'
-                                            }} alt=""/>
+                                this.state.img ?
+                                    <img src={this.state.img} style={{width: '256px', height: '256px'}} alt=""/>
                                     : uploadButton
                             }
                         </Upload>
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2} offset={12}>
                         <Button type="primary" onClick={this.handleSubmit} loading={this.state.loading}>发布</Button>
                     </Col>
@@ -207,7 +200,7 @@ class AddDishes extends Component {
                     </Col>
                 </Row>
             </div>
-        </Content>);
+        );
     }
 }
 

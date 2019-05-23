@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import {
-    Layout,
     Row,
     Col,
     Input,
@@ -19,7 +18,6 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import {addRecruit} from './../../../action/adminReducer.js';
 
-const {Content} = Layout;
 const {RangePicker} = DatePicker;
 const dateFormat = 'YYYY/MM/DD';
 const stateToProps = state => ({
@@ -39,29 +37,18 @@ function disabledDate(current) {
 
 moment.locale('zh-cn');
 class AddRecruit extends Component {
+    editor;
     constructor(props) {
         super(props);
-        let saveRecruit = JSON.parse(localStorage.getItem("recruitContent")) !== null;
+        let saveRecruit = JSON.parse(localStorage.getItem("recruitContent"));
         this.state = {
             loading: false,
-            name: saveRecruit
-                ? JSON.parse(localStorage.getItem("recruitContent")).name
-                : "",
-            department: saveRecruit
-                ? JSON.parse(localStorage.getItem("recruitContent")).department
-                : "",
-            position: saveRecruit
-                ? JSON.parse(localStorage.getItem("recruitContent")).position
-                : "",
-            startDate: saveRecruit
-                ? JSON.parse(localStorage.getItem("recruitContent")).startDate
-                : null,
-            endDate: saveRecruit
-                ? JSON.parse(localStorage.getItem("recruitContent")).endDate
-                : null,
-            content: saveRecruit
-                ? JSON.parse(localStorage.getItem("recruitContent")).content
-                : ""
+            name: saveRecruit ? saveRecruit.name : "",
+            department: saveRecruit ? saveRecruit.department : "",
+            position: saveRecruit ? saveRecruit.position : "",
+            startDate: saveRecruit ? saveRecruit.startDate : null,
+            endDate: saveRecruit ? saveRecruit.endDate : null,
+            content: saveRecruit ? saveRecruit.content : ""
         };
     }
     handleSave = () => {
@@ -96,74 +83,74 @@ class AddRecruit extends Component {
         .then(() => {
             localStorage.removeItem("recruitContent");
             message.success("发布成功!");
+            this.refs.nameInput.state.value = "";
+            this.refs.departmentInput.state.value = "";
+            this.refs.positionInput.state.value = "";
+            this.editor.txt.clear();
             this.setState({loading: false, name: "", department: "", position: "", startDate: null, endDate: null, content: ""});
         });
     }
     render() {
-        return (<Content style={{
-                padding: '16px calc(100% / 24)'
-            }}>
-            <div style={{
-                    background: '#fff',
-                    border: '1px solid #ccc',
-                    height: 'auto',
-                    padding: '5%'
-                }}>
+        return (
+            <div>
                 <Row gutter={16}>
                     <Col span={2}>
-                        职位名称<span style={{
-                color: 'red'
-            }}>*</span>
+                        职位名称<span style={{color: 'red'}}>*</span>
                     </Col>
                     <Col span={8}>
-                        <Input defaultValue={this.state.name} onChange={(e) => this.setState({name: e.target.value})}/>
+                        <Input
+                            defaultValue={this.state.name}
+                            onChange={(e) => this.setState({name: e.target.value})}
+                            ref="nameInput"
+                        />
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2}>发布时间</Col>
                     <Col span={10}>
-                        <RangePicker size="default" locale={locale} disabledDate={disabledDate} defaultValue={[
-                                this.state.startDate
-                                    ? moment(this.state.startDate, dateFormat)
-                                    : null,
-                                this.state.endDate
-                                    ? moment(this.state.endDate, dateFormat)
-                                    : null
-                            ]} onChange={(date, dateString) => this.setState({startDate: dateString[0], endDate: dateString[1]})}/>
+                        <RangePicker
+                            locale={locale}
+                            disabledDate={disabledDate}
+                            defaultValue={[
+                                this.state.startDate ? moment(this.state.startDate, dateFormat) : null,
+                                this.state.endDate ? moment(this.state.endDate, dateFormat) : null
+                            ]}
+                            onChange={(date, dateString) => this.setState({startDate: dateString[0], endDate: dateString[1]})}
+                            ref="datePicker"
+                        />
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2}>
-                        部门<span style={{
-                color: 'red'
-            }}>*</span>
+                        部门<span style={{color: 'red'}}>*</span>
                     </Col>
                     <Col span={10}>
-                        <Input defaultValue={this.state.department} onChange={(e) => this.setState({department: e.target.value})} />
+                        <Input
+                            defaultValue={this.state.department}
+                            onChange={(e) => this.setState({department: e.target.value})}
+                            ref="departmentInput"
+                        />
                     </Col>
                     <Col span={2} offset={2}>工作地点</Col>
                     <Col span={8}>
-                        <Input defaultValue={this.state.position} onChange={(e) => this.setState({position: e.target.value})}/>
+                        <Input
+                            defaultValue={this.state.position}
+                            onChange={(e) => this.setState({position: e.target.value})}
+                            ref="positionInput"
+                        />
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2}>内容</Col>
                     <Col span={22}>
-                        <div id="editArea" ref="editorElem" style={{
-                                textAlign: 'left',
-                                background: '#fff'
-                            }}/>
+                        <div
+                            id="editArea"
+                            ref="editorElem"
+                            style={{textAlign: 'left', background: '#fff'}}
+                        />
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2} offset={20}>
                         <Button type="primary" loading={this.state.loading} onClick={this.handleSubmit}>发布</Button>
                     </Col>
@@ -172,18 +159,18 @@ class AddRecruit extends Component {
                     </Col>
                 </Row>
             </div>
-        </Content>);
+        );
     }
     componentDidMount() {
         const elem = this.refs.editorElem;
-        var editor = new E(elem);
-        editor.customConfig.onchange = html => {
+        this.editor = new E(elem);
+        this.editor.customConfig.onchange = html => {
             this.setState({content: html});
         };
-        editor.customConfig.zIndex = 100;
-        editor.create();
+        this.editor.customConfig.zIndex = 100;
+        this.editor.create();
         if (JSON.parse(localStorage.getItem("recruitContent")) !== null) {
-            editor.txt.html(JSON.parse(localStorage.getItem("recruitContent")).content);
+            this.editor.txt.html(JSON.parse(localStorage.getItem("recruitContent")).content);
         }
     }
 }

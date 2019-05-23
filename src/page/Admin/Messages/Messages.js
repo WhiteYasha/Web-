@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-    Layout,
     Table,
     Tag,
     Modal,
@@ -8,17 +7,12 @@ import {
     Row,
     Col
 } from 'antd';
-import 'antd/lib/table/style/css';
 import 'antd/lib/row/style/css';
 import 'antd/lib/button/style/css';
-import 'antd/lib/modal/style/css';
-import 'antd/lib/layout/style/css';
-import 'antd/lib/tag/style/css';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {readMessages} from './../../../action/adminReducer.js';
 
-const {Content} = Layout;
 const stateToProps = state => ({messageList: state.messageList});
 const stateToDispatch = dispatch => {
     return {
@@ -33,21 +27,12 @@ class Messages extends Component {
         {
             title: '状态',
             dataIndex: 'watched',
-            render: (text, record) => (<Tag color={record.watched
-                    ? "#87d068"
-                    : "#f50"}>{
-                    record.watched
-                        ? "已读"
-                        : "未读"
-                }</Tag>),
+            render: (text, record) => (
+                <Tag color={record.watched ? "#87d068" : "#f50"}>{record.watched ? "已读" : "未读"}</Tag>
+            ),
             filters: [
-                {
-                    text: '已读',
-                    value: 1
-                }, {
-                    text: '未读',
-                    value: 0
-                }
+                {text: '已读', value: 1},
+                {text: '未读', value: 0}
             ],
             onFilter: (value, record) => record.watched === value
         }, {
@@ -61,6 +46,7 @@ class Messages extends Component {
             dataIndex: 'date',
             sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
         }, {
+            key: "action",
             render: (text, record) => (<a onClick={() => this.handleClick(record)}>查看详情</a>)
         }
     ]
@@ -75,9 +61,7 @@ class Messages extends Component {
         };
     }
     handleChange = (selectedRowKeys, selectedRows) => {
-        this.setState({
-            selectedID: selectedRows.map((item) => item.id)
-        });
+        this.setState({selectedID: selectedRows.map((item) => item.id)});
     };
     handleClick = (record) => {
         let id = [record.id];
@@ -118,43 +102,41 @@ class Messages extends Component {
             selectedID,
             onChange: this.handleChange
         };
-        return (<Content style={{
-                padding: '16px calc(100% / 24)'
-            }}>
-            <div style={{
-                    background: '#fff',
-                    border: '1px solid #ccc',
-                    height: 'auto',
-                    padding: '5%'
-                }}>
-                <Modal visible={this.state.visible} title="留言详情" footer={null} onCancel={() => this.setState({visible: false})}>
-                    {
-                        this.state.watchMessage === null
-                            ? ""
-                            : this.state.watchMessage.content
-                    }
+        return (
+            <div>
+                <Modal
+                    visible={this.state.visible}
+                    title="留言详情"
+                    footer={null}
+                    onCancel={() => this.setState({visible: false})}
+                >
+                    {this.state.watchMessage ? this.state.watchMessage.content : ""}
                 </Modal>
                 <Row>
                     <Col span={2}>
-                        <Button type="primary" disabled={this.state.selectedID.length === 0} onClick={this.handleRead} loading={this.state.readButtonLoading}>已读</Button>
+                        <Button type="primary" disabled={this.state.selectedID.length === 0} onClick={this.handleRead} loading={this.state.readButtonLoading}>
+                            已读
+                        </Button>
                     </Col>
                     <Col span={2}>
-                        <Button type="primary" onClick={this.handleReadAll} loading={this.state.readAllButtonLoading}>全部已读</Button>
+                        <Button type="primary" onClick={this.handleReadAll} loading={this.state.readAllButtonLoading}>
+                            全部已读
+                        </Button>
                     </Col>
                 </Row>
-                <Row style={{
-                        marginTop: '16px'
-                    }}>
+                <Row style={{marginTop: '16px'}}>
                     <Col span={24}>
-                        <Table style={{
-                                background: '#fff'
-                            }} columns={this.columns} dataSource={this.props.messageList} rowSelection={rowSelection} pagination={{
-                                pageSize: 20
-                            }}/>
+                        <Table
+                            rowKey="id"
+                            columns={this.columns}
+                            dataSource={this.props.messageList}
+                            rowSelection={rowSelection}
+                            pagination={{pageSize: 20}}
+                        />
                     </Col>
                 </Row>
             </div>
-        </Content>);
+        );
     }
 }
 

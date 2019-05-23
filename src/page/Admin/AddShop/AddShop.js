@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import {findDOMNode} from 'react-dom';
 import './AddShop.css';
 import {
-    Layout,
     Input,
     Upload,
     Button,
@@ -12,16 +10,12 @@ import {
     Col,
     Tooltip
 } from 'antd';
-import 'antd/lib/layout/style/css';
 import 'antd/lib/row/style/css';
-import 'antd/lib/input/style/css';
-import 'antd/lib/upload/style/css';
 import 'antd/lib/button/style/css';
 import axios from 'axios';
 import {addShop} from './../../../action/adminReducer.js';
 import {connect} from 'react-redux';
 
-const {Content} = Layout;
 const stateToProps = state => ({shopList: state.shopList});
 const stateToDispatch = dispatch => {
     return {
@@ -70,21 +64,11 @@ class AddShop extends Component {
         let saveShop = localStorage.getItem("shopContent");
         this.state = {
             loading: false,
-            name: saveShop
-                ? JSON.parse(localStorage.getItem("shopContent")).name
-                : "",
-            prePhone: saveShop
-                ? splitPhone(JSON.parse(localStorage.getItem("shopContent")).phone)[0]
-                : "",
-            sufPhone: saveShop
-                ? splitPhone(JSON.parse(localStorage.getItem("shopContent")).phone)[1]
-                : "",
-            address: saveShop
-                ? JSON.parse(localStorage.getItem("shopContent")).address
-                : "",
-            cover: saveShop
-                ? JSON.parse(localStorage.getItem("shopContent")).cover
-                : ""
+            name: saveShop ? saveShop.name : "",
+            prePhone: saveShop ? splitPhone(saveShop.phone)[0] : "",
+            sufPhone: saveShop ? splitPhone(saveShop.phone)[1] : "",
+            address: saveShop ? saveShop.address : "",
+            cover: saveShop ? saveShop.cover : ""
         };
     }
     handleChange = (info) => {
@@ -116,10 +100,10 @@ class AddShop extends Component {
         axios.get("http://localhost:9001/addShop", {params: shop}).then(() => {
             localStorage.removeItem("shopContent");
             message.success("发布成功!");
-            findDOMNode(this.refs.nameInput).value = "";
-            findDOMNode(this.refs.prePhoneInput).value = "";
-            findDOMNode(this.refs.sufPhoneInput).value = "";
-            findDOMNode(this.refs.addressInput).value = "";
+            this.refs.nameInput.state.value = "";
+            this.refs.prePhoneInput.state.value = "";
+            this.refs.sufPhoneInput.state.value = "";
+            this.refs.addressInput.state.value = "";
             this.setState({
                 loading: false,
                 name: "",
@@ -141,79 +125,79 @@ class AddShop extends Component {
         message.success("保存成功!");
     }
     render() {
-        const uploadButton = (<div>
-            <Icon type={this.state.loading
-                    ? 'loading'
-                    : 'plus'}/>
-            <div className="ant-upload-text">Upload</div>
-        </div>);
-        return (<Content style={{
-                padding: '16px calc(100% / 24)'
-            }}>
-            <div style={{
-                    background: '#fff',
-                    border: '1px solid #ccc',
-                    height: 'auto',
-                    padding: '5%'
-                }}>
+        const uploadButton = (
+            <div>
+                <Icon type={this.state.loading ? 'loading' : 'plus'}/>
+                <div className="ant-upload-text">上传图片</div>
+            </div>
+        );
+        return (
+            <div>
                 <Row gutter={16}>
-                    <Col span={2}>店名<span style={{
-                color: 'red'
-            }}>*</span>
+                    <Col span={2}>
+                        店名<span style={{color: 'red'}}>*</span>
                     </Col>
                     <Col span={8}>
-                        <Input defaultValue={this.state.name} onChange={(e) => this.setState({name: e.target.value})} ref="nameInput"/>
+                        <Input
+                            defaultValue={this.state.name}
+                            onChange={(e) => this.setState({name: e.target.value})}
+                            ref="nameInput"
+                        />
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2}>电话</Col>
                     <Col span={8}>
-                        <Input.Group compact="compact">
-                            <Input style={{
-                                    width: '40%'
-                                }} defaultValue={this.state.prePhone} suffix={<Tooltip title = "请填写电话号码区号" > <Icon type="info-circle" style={{
-                                        color: 'rgba(0,0,0,.45)'
-                                    }} ref="prePhoneInput"/>
-                            </Tooltip>} onChange={(e) => this.setState({prePhone: e.target.value})}/>
-                            <Input style={{
-                                    width: '60%'
-                                }} defaultValue={this.state.sufPhone} onChange={(e) => this.setState({sufPhone: e.target.value})} ref="sufPhoneInput"/>
+                        <Input.Group compact>
+                            <Input
+                                style={{width: '40%'}}
+                                defaultValue={this.state.prePhone}
+                                suffix={<Tooltip title="请填写电话号码区号"><Icon type="info-circle" style={{color: 'rgba(0,0,0,.45)'}}/></Tooltip>}
+                                onChange={(e) => this.setState({prePhone: e.target.value})}
+                                ref="prePhoneInput"
+                            />
+                            <Input
+                                style={{width: '60%'}}
+                                defaultValue={this.state.sufPhone}
+                                onChange={(e) => this.setState({sufPhone: e.target.value})}
+                                ref="sufPhoneInput"
+                            />
                         </Input.Group>
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
-                    <Col span={2}>地址<span style={{
-                color: 'red'
-            }}>*</span>
+                <Row gutter={16} style={{marginTop: '16px'}}>
+                    <Col span={2}>
+                        地址<span style={{color: 'red'}}>*</span>
                     </Col>
                     <Col span={10}>
-                        <Input defaultValue={this.state.address} onChange={(e) => this.setState({address: e.target.value})} ref="addressInput"/>
+                        <Input
+                            defaultValue={this.state.address}
+                            onChange={(e) => this.setState({address: e.target.value})}
+                            ref="addressInput"
+                        />
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2}>图片</Col>
                     <Col span={8}>
-                        <Upload name="shopImg" listType="picture-card" className="shopImg-uploader" showUploadList={false} action="http://localhost:9001/uploadShopImg" beforeUpload={beforeUpload} onChange={this.handleChange}>
+                        <Upload
+                            name="shopImg"
+                            listType="picture-card"
+                            className="shopImg-uploader"
+                            showUploadList={false}
+                            action="http://localhost:9001/uploadShopImg"
+                            beforeUpload={beforeUpload}
+                            onChange={this.handleChange}
+                        >
                             {
                                 this.state.cover
-                                    ? <img src={this.state.cover} style={{
-                                                width: '384px',
-                                                height: '256px'
-                                            }} alt=""/>
+                                    ? <img src={this.state.cover} style={{width: '384px', height: '256px'}} alt=""/>
                                     : uploadButton
                             }
                         </Upload>
                     </Col>
                 </Row>
-                <Row gutter={16} style={{
-                        marginTop: '16px'
-                    }}>
+                <Row gutter={16} style={{marginTop: '16px'}}>
                     <Col span={2} offset={12}>
                         <Button type="primary" onClick={this.handleSubmit} loading={this.state.loading}>发布</Button>
                     </Col>
@@ -221,8 +205,7 @@ class AddShop extends Component {
                         <Button onClick={this.handleSave} loading={this.state.loading}>保存</Button>
                     </Col>
                 </Row>
-            </div>
-        </Content>);
+            </div>);
     }
 }
 
