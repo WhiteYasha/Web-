@@ -63,9 +63,7 @@ class Newsfilter extends Component {
                         getFieldDecorator('order', {
                             initialValue: "newest"
                         })(
-                            <Select style={{
-                                    minWidth: '100px'
-                                }}>
+                            <Select style={{minWidth: '100px'}}>
                                 <Option value="newest">最新</Option>
                                 <Option value="viewmost">最多浏览</Option>
                             </Select>

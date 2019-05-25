@@ -19,19 +19,14 @@ class Contact extends Component {
     }
     render() {
         return (
-            <div style={{
-                background: "rgb(240, 240, 239)",
-                padding: '0 0 60px 0'
-            }}>
+            <div style={{background: "rgb(240, 240, 239)", padding: '0 0 60px 0'}}>
             <div className="page-cover contact-page-cover">
                 <header>联系我们</header>
                 <section>做最好的服务，最好的出品，最好的环境。树餐饮服务标杆，用真诚感动每一位顾客。</section>
             </div>
             <div className="contact-router">
                 <header>{this.state.header}</header>
-                <div style={{
-                        textAlign: 'center'
-                    }}>
+                <div style={{textAlign: 'center'}}>
                     <Button>
                         <Link to="/home/contact"><Icon type="smile" style={{marginRight: '8px'}}/>联系我们</Link>
                     </Button>

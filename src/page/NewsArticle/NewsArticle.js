@@ -17,25 +17,18 @@ class NewsArticle extends Component {
         if (this.props.watchArticle === null)
             return <Redirect to="/home/news"/>
         else
-            return (<div style={{
-                    background: "rgb(240, 240, 239)",
-                    padding: '0 0 60px 0'
-                }}>
+            return (<div style={{background: "rgb(240, 240, 239)", padding: '0 0 60px 0'}}>
                 <div className="page-cover news-page-cover">
                     <header>新闻中心</header>
                     <section>挑战蕴含机遇，创新成就伟业。</section>
                 </div>
                 <div className="article-header">
-                    <Row style={{
-                            height: '70%'
-                        }}>
+                    <Row style={{height: '70%'}}>
                         <Col span={20} offset={2} className="article-header-title">
                             {this.props.watchArticle.title}
                         </Col>
                     </Row>
-                    <Row style={{
-                            height: '30%'
-                        }}>
+                    <Row style={{height: '30%'}}>
                         <Col span={6} className="article-header-section">
                             {`作者: ${this.props.watchArticle.author}`}
                         </Col>

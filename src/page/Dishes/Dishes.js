@@ -10,10 +10,7 @@ import {connect} from 'react-redux';
 
 const {Meta} = Card;
 const listHeader = (<header className="dishes-list-header">
-    <Icon type="coffee" style={{
-            fontSize: '24px',
-            padding: '0 0.2em'
-        }}/>
+    <Icon type="coffee" style={{fontSize: '24px', padding: '0 0.2em'}}/>
     <span>DISH DISPLAY</span>
     <section>Create a food life</section>
 </header>);
@@ -24,10 +21,7 @@ const stateToProps = state => ({
 
 class Dishes extends Component {
     render() {
-        return (<div style={{
-                background: 'rgb(240, 240, 230)',
-                padding: '0 0 60px 0'
-            }}>
+        return (<div style={{background: 'rgb(240, 240, 230)', padding: '0 0 60px 0'}}>
             <div className="page-cover dishes-page-cover">
                 <header>菜品展示</header>
                 <section>创造美食人生。</section>
@@ -35,21 +29,16 @@ class Dishes extends Component {
             <Dishselect/>
             <div className="dishes-content">
                 <List
-                    grid={{
-                        gutter: 16,
-                        column: 3
-                    }}
+                    grid={{gutter: 16, column: 3}}
                     loading={!this.props.dishState}
                     header={listHeader}
                     dataSource={this.props.showDishesList}
-                    pagination={{
-                        pageSize: 12
-                    }}
+                    pagination={{pageSize: 12}}
                     renderItem={(item, key) => (
                     <List.Item>
                         <Card
                             hoverable
-                            cover={<img alt="" src = {item.img} />}
+                            cover={<img alt="" src ={item.img} />}
                         >
                             <Meta
                                 title={item.name}

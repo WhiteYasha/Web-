@@ -33,10 +33,7 @@ class News extends Component {
     }
     render() {
         return (
-            <div style={{
-                background: 'rgb(240, 240, 230)',
-                padding: '0 0 60px 0'
-            }}>
+            <div style={{background: 'rgb(240, 240, 230)', padding: '0 0 60px 0'}}>
             <div className="page-cover news-page-cover">
                 <header>新闻中心</header>
                 <section>挑战蕴含机遇，创新成就伟业。</section>

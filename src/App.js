@@ -18,7 +18,12 @@ const stateToProps = state => ({});
 const stateToDispatch = dispatch => {
     return {
         doInitList: () => {
-            axios.all([axios.get("http://localhost:9001/getShopList"), axios.get("http://localhost:9001/getDishesList"), axios.get("http://localhost:9001/getRecruitList"), axios.get("http://localhost:9001/getNewsList")]).then(axios.spread((shopResp, dishesResp, recruitResp, newsResp) => {
+            axios.all([
+                axios.get("http://localhost:9001/getShopList"),
+                axios.get("http://localhost:9001/getDishesList"),
+                axios.get("http://localhost:9001/getRecruitList"),
+                axios.get("http://localhost:9001/getNewsList")
+            ]).then(axios.spread((shopResp, dishesResp, recruitResp, newsResp) => {
                 var lists = {
                     shopList: shopResp.data,
                     dishesList: dishesResp.data,
