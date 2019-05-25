@@ -12,12 +12,15 @@ const READ_MESSAGES = "READ_MESSAGES";
 //菜品
 const ADD_DISHES = "ADD_DISHES";
 const DELETE_DISHES = "DELETE_DISHES";
+const UPDATE_DISHES = "UPDATE_DISHES";
 //
 const ADD_SHOP = "ADD_SHOP";
 const DELETE_SHOP = "DELETE_SHOP";
+const UPDATE_SHOP = "UPDATE_SHOP";
 //
 const ADD_RECRUIT = "ADD_RECRUIT";
 const DELETE_RECRUIT = "DELETE_RECRUIT";
+const UPDATE_RECRUIT = "UPDATE_RECRUIT";
 
 const initialState = {
     loginState: false, //  登录状态
@@ -70,6 +73,10 @@ export const deleteDishes = id => ({
     type: DELETE_DISHES,
     id
 });
+export const updateDishes = dish => ({
+    type: UPDATE_DISHES,
+    dish
+});
 export const addShop = shop => ({
     type: ADD_SHOP,
     shop
@@ -78,6 +85,10 @@ export const deleteShop = id => ({
     type: DELETE_SHOP,
     id
 });
+export const updateShop = shop => ({
+    type: UPDATE_SHOP,
+    shop
+});
 export const addRecruit = recruit => ({
     type: ADD_RECRUIT,
     recruit
@@ -85,6 +96,10 @@ export const addRecruit = recruit => ({
 export const deleteRecruit = id => ({
     type: DELETE_RECRUIT,
     id
+});
+export const updateRecruit = recruit => ({
+    type: UPDATE_RECRUIT,
+    recruit
 });
 
 const appReducer = (state = initialState, action) => {
@@ -160,6 +175,12 @@ const appReducer = (state = initialState, action) => {
                     dishesList: state.dishesList.filter((item) => item.id !== action.id)
                 });
             }
+        case UPDATE_DISHES:
+            {
+                return Object.assign({}, state, {
+                    dishesList: state.dishesList.map((item) => item.id === action.dish.id ? action.dish : item)
+                });
+            }
         case ADD_SHOP:
             {
                 var newShopList = state.shopList;
@@ -172,7 +193,13 @@ const appReducer = (state = initialState, action) => {
             {
                 return Object.assign({}, state, {
                     shopList: state.shopList.filter((item) => item.id !== action.id)
-                })
+                });
+            }
+        case UPDATE_SHOP:
+            {
+                return Object.assign({}, state, {
+                    shopList: state.shopList.map((item) => item.id === action.shop.id ? action.shop : item)
+                });
             }
         case ADD_RECRUIT:
             {
@@ -186,6 +213,12 @@ const appReducer = (state = initialState, action) => {
             {
                 return Object.assign({}, state, {
                     recruitList: state.recruitList.filter((item) => item.id !== action.id)
+                });
+            }
+        case UPDATE_RECRUIT:
+            {
+                return Object.assign({}, state, {
+                    recruitList: state.recruitList.map((item) => item.id === action.recruit.id ? action.recruit : item)
                 });
             }
         default:

@@ -11,23 +11,39 @@ import {
 import 'antd/lib/row/style/css';
 import 'antd/lib/button/style/css';
 import {connect} from 'react-redux';
-import {deleteRecruit} from './../../../action/adminReducer.js';
+import {deleteRecruit, updateRecruit} from './../../../action/adminReducer.js';
 import axios from 'axios';
+import EditRecruit from './../../../component/Admin/EditRecruit/EditRecruit';
 
 const stateToProps = state => ({recruitList: state.recruitList});
 const stateToDispatch = dispatch => {
     return {
         doDeleteRecruit: (id) => {
             dispatch(deleteRecruit(id));
+        },
+        doUpdateRecruit: (recruit) => {
+            dispatch(updateRecruit(recruit));
         }
     };
 };
+
+function checkInputLength(name, text, max, min = 0) {
+    if (text.length > max) {
+        message.error(`${name}最大长度不能超过${max}个字!`);
+        return false;
+    }
+    if (text.length < min) {
+        message.error(`${name}最小长度不能少于${min}个字!`);
+        return false;
+    }
+    return true;
+}
 
 class ManageRecruit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            deleteVisible: false,
+            editVisible: false,
             contentVisible: false,
             loading: false,
             selectRecruit: null
@@ -84,13 +100,37 @@ class ManageRecruit extends Component {
                 <span>
                     <a onClick={() => this.handleWatch(text)}>查看详情</a>
                     <Divider type="vertical"/>
-                    <a>编辑</a>
+                    <a onClick={() => this.handleEdit(text)}>编辑</a>
                     <Divider type="vertical"/>
                     <a onClick={() => this.showDeleteConfirm(text.id)}>删除</a>
                 </span>
             )
         }
     ];
+    handleEdit = (recruit) => {
+        this.setState({editVisible: true, selectRecruit: recruit});
+    }
+    handleUpdate = () => {
+        let recruitInfo = {
+            id: this.refs.recruitContent.state.id,
+            name: this.refs.recruitContent.state.name,
+            department: this.refs.recruitContent.state.department,
+            position: this.refs.recruitContent.state.position,
+            startDate: this.refs.recruitContent.state.startDate,
+            endDate: this.refs.recruitContent.state.endDate,
+            content: this.refs.recruitContent.state.content
+        };
+        if (!checkInputLength("职位名称", recruitInfo.name, 30, 1)) return ;
+        if (!checkInputLength("工作部门", recruitInfo.department, 20, 1)) return ;
+        if (!checkInputLength("工作地点", recruitInfo.position, 20)) return ;
+        this.setState({loading: true});
+        this.props.doUpdateRecruit(recruitInfo);
+        axios.get("http://localhost:9001/updateRecruit", {params: recruitInfo})
+        .then(() => {
+            message.success("修改成功!");
+            this.setState({loading: false, editVisible: false, selectRecruit: null});
+        });
+    }
     render() {
         return (
             <div>
@@ -110,7 +150,7 @@ class ManageRecruit extends Component {
                             确定
                         </Button>
                     ]}
-                    >
+                >
                     <Row gutter={16}>
                         <Col span={2}>工作地点</Col>
                         <Col span={6}>
@@ -135,6 +175,21 @@ class ManageRecruit extends Component {
                             />
                         </Col>
                     </Row>
+                </Modal>
+                <Modal
+                    title="编辑招聘信息"
+                    visible={this.state.editVisible}
+                    width={1024}
+                    okText="确认修改"
+                    cancelText="取消"
+                    onOk={this.handleUpdate}
+                    onCancel={() => this.setState({editVisible: false})}
+                    destroyOnClose
+                >
+                    <EditRecruit
+                        ref="recruitContent"
+                        defaultValue={this.state.selectRecruit}
+                    />
                 </Modal>
             </div>
         );

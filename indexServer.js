@@ -244,11 +244,12 @@ app.get("/updateShop", (req, res) => {
     let id = req.query.id,
         name = req.query.name,
         address = req.query.address,
-        phone = req.query.phone;
+        phone = req.query.phone,
+        cover = req.query.cover;
     pool.getConnection((err, connection) => {
         if (err) console.log("修改门店信息: " + err);
         else {
-            connection.query(`UPDATE shops SET name = '${name}', address = '${address}', phone='${phone}' WHERE id = '${id}'`, (err, result) => {
+            connection.query(`UPDATE shops SET name = '${name}', address = '${address}', phone='${phone}', cover='${cover}' WHERE id = ${id}`, (err, result) => {
                 if (err) console.log("修改shops: " + err);
                 else res.end();
                 connection.release();
@@ -446,14 +447,14 @@ app.get("/addDishes", (req, res) => {
 app.get("/updateDishes", (req, res) => {
     let id = req.query.id,
         name = req.query.name,
-        intro = req.query.intro,
+        introduction = req.query.introduction,
         rate = req.query.rate,
         tag = req.query.tag,
         img = req.query.img;
     pool.getConnection((err, connection) => {
         if (err) console.log("修改菜品: " + err);
         else {
-            connection.query(`UPDATE dishes SET name = '${name}', introduction = '${intro}', rate = ${rate}, tag = '${tag}', img = '${img}' WHERE id = ${id}`, (err, result) => {
+            connection.query(`UPDATE dishes SET name = '${name}', introduction = '${introduction}', rate = ${rate}, tag = '${tag}', img = '${img}' WHERE id = ${id}`, (err, result) => {
                 if (err) console.log("修改dishes: " + err);
                 else res.end();
                 connection.release();
@@ -504,6 +505,26 @@ app.get("/deleteRecruit", (req, res) => {
             else res.end();
             connection.release();
         });
+    });
+});
+app.get("/updateRecruit", (req, res) => {
+    let id = req.query.id,
+        name = req.query.name,
+        department = req.query.department,
+        position = req.query.position,
+        startDate = req.query.startDate ? `'${req.query.startDate}'` : null,
+        endDate = req.query.startDate ? `'${req.query.endDate}'` : null,
+        content = req.query.content;
+    pool.getConnection((err, connection) => {
+        if (err) console.log("修改招聘: " + err);
+        else {
+            let sql = `UPDATE recruit SET name='${name}', department='${department}', position='${position}', startDate=${startDate}, endDate=${endDate}, content='${content}' WHERE id=${id}`;
+            connection.query(sql, (err, result) => {
+                if (err) console.log("修改recruit: " + err);
+                else res.end();
+                connection.release();
+            });
+        }
     });
 });
 

@@ -11,21 +11,37 @@ import {
 } from 'antd';
 import {connect} from 'react-redux';
 import axios from 'axios';
-import {deleteDishes} from './../../../action/adminReducer.js';
+import {deleteDishes, updateDishes} from './../../../action/adminReducer.js';
+import EditDish from './../../../component/Admin/EditDish/EditDish';
 
 const stateToProps = state => ({dishesList: state.dishesList});
 const stateToDispatch = dispatch => {
     return {
         doDeleteDishes: (id) => {
             dispatch(deleteDishes(id));
+        },
+        doUpdateDIshes: (dish) => {
+            dispatch(updateDishes(dish));
         }
     };
 };
 
+function checkInputLength(name, text, max, min = 0) {
+    if (text.length > max) {
+        message.error(`${name}最大长度不能超过${max}个字!`);
+        return false;
+    }
+    if (text.length < min) {
+        message.error(`${name}最小长度不能少于${min}个字!`);
+        return false;
+    }
+    return true;
+}
+
 class ManageDishes extends Component {
     constructor(props) {
         super(props);
-        this.state = {loading: false};
+        this.state = {loading: false, visible: false, selectDish: null};
     }
     showDeleteModal = (id) => {
         const self = this;
@@ -46,6 +62,28 @@ class ManageDishes extends Component {
             }
         })
     }
+    handleEdit = (dish) => {
+        this.setState({visible: true, selectDish: dish});
+    }
+    handleUpdate = (e) => {
+        let dish = {
+            id: this.refs.dishContent.state.id,
+            name: this.refs.dishContent.state.name,
+            introduction: this.refs.dishContent.state.introduction,
+            rate: this.refs.dishContent.state.rate,
+            tag: this.refs.dishContent.state.tag,
+            img: this.refs.dishContent.state.img
+        };
+        if (!checkInputLength("菜品名称", dish.name, 10, 1)) return ;
+        if (!checkInputLength("菜品介绍", dish.introduction, 30)) return ;
+        this.setState({loading: true});
+        this.props.doUpdateDIshes(dish);
+        axios.get("http://localhost:9001/updateDishes", {params: dish})
+        .then(() => {
+            message.success("修改成功!");
+            this.setState({visible: false, loading: false, selectDish: null});
+        });
+    }
     render() {
         return (
             <div>
@@ -60,7 +98,7 @@ class ManageDishes extends Component {
                             hoverable
                             cover={<img src={item.img} alt="" />}
                             actions={[
-                                <a><Icon type="edit"/>编辑</a>,
+                                <a onClick={() => this.handleEdit(item)}><Icon type="edit"/>编辑</a>,
                                 <a onClick={() => this.showDeleteModal(item.id)}><Icon type="delete"/>删除</a>
                             ]}
                         >
@@ -69,11 +107,27 @@ class ManageDishes extends Component {
                                 description={item.introduction}
                                 className="admin-dishcard"
                             />
-                            <Rate disabled allowHalf defaultValue={item.rate} />
+                            <Rate disabled allowHalf value={item.rate} />
                         </Card>
                     </List.Item>
                 )}
             />
+            <Modal
+                title="编辑菜品"
+                visible={this.state.visible}
+                okText="确认修改"
+                cancelText="取消"
+                onOk={this.handleUpdate}
+                onCancel={() => this.setState({visible: false})}
+                width={1024}
+                destroyOnClose
+            >
+                <EditDish
+                    ref="dishContent"
+                    defaultValue={this.state.selectDish}
+                    loading={this.state.loading}
+                />
+            </Modal>
         </div>)
     }
 }
