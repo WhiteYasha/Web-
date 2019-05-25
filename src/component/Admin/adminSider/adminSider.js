@@ -44,14 +44,23 @@ class adminSider extends Component {
         this.setState({collapsed});
     }
     render() {
-        return (<Sider collapsible="collapsible" collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-            <Menu mode="inline" theme="dark" selectedKeys={this.props.activeMenuItem}>
+        return (
+            <Sider
+                collapsible
+                collapsed={this.state.collapsed}
+                onCollapse={this.onCollapse}
+            >
+            <Menu
+                mode="inline"
+                theme="dark"
+                selectedKeys={this.props.activeMenuItem}
+            >
                 <Menu.Item key="home">
                     <Link to="/admin" onClick={() => this.props.doChangeItem(["home"])}>
                         <Icon type="home"/>首页
                     </Link>
                 </Menu.Item>
-                <SubMenu key="dishes" title={<span> < Icon type = "coffee" /> 菜品管理</span>}>
+                <SubMenu key="dishes" title={<span><Icon type="coffee"/>菜品信息</span>}>
                     <Menu.Item key="add_dishes" >
                         <Link to="/admin/add_dish" onClick={() => this.props.doChangeItem(["dishes", "add_dishes"])}>
                             添加菜品
@@ -63,7 +72,7 @@ class adminSider extends Component {
                         </Link>
                     </Menu.Item>
                 </SubMenu>
-                <SubMenu key="shops" title={<span> < Icon type = "shop" /> 店面管理</span>}>
+                <SubMenu key="shops" title={<span><Icon type="shop" />店面信息</span>}>
                     <Menu.Item key="add_shop">
                         <Link to="/admin/add_shop" onClick={() => this.props.doChangeItem(["shops", "add_shop"])}>
                             添加店面
@@ -75,7 +84,7 @@ class adminSider extends Component {
                         </Link>
                     </Menu.Item>
                 </SubMenu>
-                <SubMenu key="news" title={<span> < Icon type = "read" /> 新闻管理</span>}>
+                <SubMenu key="news" title={<span><Icon type="read" />新闻信息</span>}>
                     <Menu.Item key="add_news">
                         <Link to="/admin/add_news" onClick={() => this.props.doChangeItem(["news", "add_news"])}>
                             添加新闻
@@ -87,7 +96,7 @@ class adminSider extends Component {
                         </Link>
                     </Menu.Item>
                 </SubMenu>
-                <SubMenu key="recruits" title={<span> < Icon type = "team" /> 招聘管理</span>}>
+                <SubMenu key="recruits" title={<span><Icon type="team" />招聘信息</span>}>
                     <Menu.Item key="add_recruit">
                         <Link to="/admin/add_recruit" onClick={() => this.props.doChangeItem(["recruits", "add_recruit"])}>
                             添加招聘
@@ -101,7 +110,7 @@ class adminSider extends Component {
                 </SubMenu>
                 <Menu.Item key="messages">
                     <Link to="/admin/messages" onClick={() => this.props.doChangeItem(["messages"])}>
-                        <Icon type="message"/>留言管理
+                        <Icon type="message"/>留言信息
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="setting">

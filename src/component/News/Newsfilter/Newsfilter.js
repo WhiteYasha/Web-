@@ -23,7 +23,6 @@ const stateToDispatch = dispatch => {
 class Newsfilter extends Component {
     handleSubmit = (e) => {
         this.props.doChangenewsState(false);
-        // eslint-disable-next-line {/*处理筛选类型和排序方式*/}
         let filterType = this.props.form.getFieldValue("filter"),
             sortType = this.props.form.getFieldValue("order");
         if (filterType === "company") filterType = "公司新闻";

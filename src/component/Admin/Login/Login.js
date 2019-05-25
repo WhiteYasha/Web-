@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import {Layout, Button, Form, Input, Icon, message} from 'antd';
 import 'antd/lib/button/style/css';
-import 'antd/lib/message/style/css';
-import 'antd/lib/form/style/css';
-import 'antd/lib/input/style/css';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {changeLoginState} from './../../../action/adminReducer.js';
@@ -39,22 +36,20 @@ class Login extends Component {
     }
     render() {
         const {getFieldDecorator} = this.props.form;
-        return (<div style={{
-                height: '400px',
-                width: '500px'
-            }}>
-            <Content
-                style={{
-                    background: '#fafafa',
-                    height: 'auto',
-                    padding: '10%',
-                    border: '1px solid #ccc',
-                    textAlign: 'center'
-                }}
-            >
+        return (
+            <div style={{height: '400px', width: '500px'}}>
+                <Content
+                    style={{
+                        background: '#fafafa',
+                        height: 'auto',
+                        padding: '10%',
+                        border: '1px solid #ccc',
+                        textAlign: 'center'
+                    }}
+                >
                     <Form>
                         <Form.Item>
-                            <h1>管理系统</h1>
+                            <h1>后台管理系统</h1>
                         </Form.Item>
                         <Form.Item>
                             {

@@ -40,14 +40,7 @@ class Contactmessage extends Component {
     render() {
         const {getFieldDecorator} = this.props.form;
         return (
-            <div
-                id="messagebox"
-                style={{
-                    margin: '0 20%',
-                    background: '#fff',
-                    padding: '5%'
-                }}
-            >
+            <div id="messagebox" style={{margin: '0 20%', background: '#fff', padding: '5%'}}>
             <Form labelAlign="left">
                 <Form.Item label="姓名">
                     {

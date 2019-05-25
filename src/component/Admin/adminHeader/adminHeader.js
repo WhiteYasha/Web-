@@ -39,11 +39,7 @@ class adminHeader extends Component {
                 }}>
                 <Row>
                     <Col span={1} offset={21}>
-                        {
-                            this.props.messageList.length === 0 ?
-                                this.notificationNoMessage :
-                                this.notificationMessage
-                        }
+                        {this.props.messageList.length === 0 ? this.notificationNoMessage : this.notificationMessage}
                     </Col>
                     <Col span={1}>
                         <Tooltip title="退出登录">
