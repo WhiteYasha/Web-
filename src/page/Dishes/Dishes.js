@@ -38,7 +38,7 @@ class Dishes extends Component {
                     <List.Item>
                         <Card
                             hoverable
-                            cover={<img alt="" src ={item.img} />}
+                            cover={<img alt="" src={item.img} />}
                         >
                             <Meta
                                 title={item.name}
@@ -47,7 +47,7 @@ class Dishes extends Component {
                                         <div>
                                             <Tag>{item.tag}</Tag>
                                         </div>
-                                        <section>{item.introduction}</section>
+                                        <section style={{height: '4em', paddingTop: '6px'}}>{item.introduction}</section>
                                         <Rate disabled allowHalf defaultValue={item.rate}/>
                                     </div>
                                 }

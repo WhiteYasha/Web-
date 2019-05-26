@@ -36,9 +36,12 @@ class Footer extends Component {
                 <div className="footer-copyright">
                     <span className="footer-copyright-followus">
                         FOLLOW US:
-                        <Icon type="qq" style={{marginLeft: '1em', padding: '0 0.2em'}}/>
-                        <Icon type="weibo" style={{padding: '0 0.2em'}}/>
-                        <Icon type="facebook" style={{padding: '0 0.2em'}}/>
+                        <Link to="http://t.qq.com/xinbailucanyin" className="follow">
+                            <Icon type="qq" style={{marginLeft: '1em', padding: '0 0.2em'}}/>
+                        </Link>
+                        <Link to="https://weibo.com/xinbailu" className="follow">
+                            <Icon type="weibo" style={{padding: '0 0.2em'}}/>
+                        </Link>
                     </span>
                     <section style={{textAlign: 'right'}}>
                         版权所有 杭州新白鹿餐饮管理有限公司 浙ICP备12045845号

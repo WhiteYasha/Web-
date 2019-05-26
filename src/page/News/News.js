@@ -34,40 +34,39 @@ class News extends Component {
     render() {
         return (
             <div style={{background: 'rgb(240, 240, 230)', padding: '0 0 60px 0'}}>
-            <div className="page-cover news-page-cover">
-                <header>新闻中心</header>
-                <section>挑战蕴含机遇，创新成就伟业。</section>
+                <div className="page-cover news-page-cover">
+                    <header>新闻中心</header>
+                    <section>挑战蕴含机遇，创新成就伟业。</section>
+                </div>
+                <Newsfilter/>
+                <div className="news-content">
+                    <List
+                        bordered
+                        loading={!this.props.newsState}
+                        dataSource={this.props.showNewsList}
+                        pagination={{pageSize: 10}}
+                        renderItem={
+                            (item, key) => (
+                                <List.Item
+                                    actions={[<Link id={item.id} onClick={this.handleClick} to="/home/news/article">More</Link>]}
+                                >
+                                    <List.Item.Meta
+                                        title={item.title}
+                                        description={<Tag>{item.tag}</Tag>}
+                                    />
+                                    <div>
+                                        <span>
+                                            <Icon type="eye" style={{padding: '0 0.5em'}} />{item.views}
+                                        </span>
+                                        <span style={{marginLeft: '1em'}}>{item.date}</span>
+                                    </div>
+                                </List.Item>
+                            )
+                        }
+                    />
+                </div>
             </div>
-            <Newsfilter/>
-            <div className="news-content">
-                <List
-                    bordered
-                    loading={!this.props.newsState}
-                    dataSource={this.props.showNewsList}
-                    pagination={{
-                        pageSize: 10
-                    }}
-                    renderItem={
-                        (item, key) => (
-                            <List.Item
-                                actions={[<Link id={item.id} onClick={this.handleClick} to="/home/news/article">More</Link>]}
-                            >
-                                <List.Item.Meta
-                                    title={item.title}
-                                    description={<Tag>{item.tag}</Tag>}
-                                />
-                                <div>
-                                    <span>
-                                        <Icon type="eye" style={{padding: '0 0.5em'}} />{item.views}
-                                    </span>
-                                    <span style={{marginLeft: '1em'}}>{item.date}</span>
-                                </div>
-                            </List.Item>
-                        )
-                    }
-                />
-            </div>
-        </div>);
+        );
     }
 }
 

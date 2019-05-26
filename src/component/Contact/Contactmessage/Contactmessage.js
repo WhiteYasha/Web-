@@ -9,6 +9,15 @@ import axios from 'axios';
 
 const {TextArea} = Input;
 
+function isNumber(value) {
+    var patrn = /^[0-9]*$/;
+    if (patrn.exec(value) == null) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 class Contactmessage extends Component {
     loading = false;
     handleSubmit = (e) => {
@@ -17,6 +26,10 @@ class Contactmessage extends Component {
                 let name = this.props.form.getFieldValue("name"),
                     phone = this.props.form.getFieldValue("phone"),
                     content = this.props.form.getFieldValue("content");
+                if (!isNumber(phone)) {
+                    message.info("电话号码只能输入数字!");
+                    return;
+                }
                 let data = {
                     params: {
                         name: name,
@@ -25,7 +38,7 @@ class Contactmessage extends Component {
                     }
                 };
                 this.loading = true;
-                axios.get("http://localhost:9000/addMessage", data)
+                axios.get("http://localhost:9001/addMessage", data)
                 .then(() => {
                     message.success("感谢您的反馈!");
                     this.handleInit();

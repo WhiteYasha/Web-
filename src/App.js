@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
+import {BackTop} from 'antd';
+import 'antd/lib/back-top/style/css';
 import Home from './page/Home/Home';
 import News from './page/News/News';
 import NewsArticle from './page/NewsArticle/NewsArticle';
@@ -48,17 +50,22 @@ class App extends Component {
         if (window.location.pathname === "/")
             return <Redirect to="/home"/>
         else {
-            return (<div id="app">
-                <Route path="/home" component={Header}/>
-                <Switch>
-                    <Route exact path="/home" component={Home}/>
-                    <Route exact path="/home/news" component={News}/>
-                    <Route path="/home/news/article" component={NewsArticle}/>
-                    <Route path="/home/dishes" component={Dishes}/>
-                    <Route path="/home/contact" component={Contact}/>
-                </Switch>
-                <Route path="/home" component={Footer}/>
-            </div>);
+            return (
+                <div id="app">
+                    <Route path="/home" component={Header}/>
+                    <Switch>
+                        <Route exact path="/home" component={Home}/>
+                        <Route exact path="/home/news" component={News}/>
+                        <Route path="/home/news/article" component={NewsArticle}/>
+                        <Route path="/home/dishes" component={Dishes}/>
+                        <Route path="/home/contact" component={Contact}/>
+                    </Switch>
+                    <Route path="/home" component={Footer}/>
+                    <div>
+                        <BackTop />
+                    </div>
+                </div>
+            );
         }
     }
 }

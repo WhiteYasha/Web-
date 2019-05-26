@@ -1,5 +1,6 @@
 .page-cover {
     background-size: 100% 100%;
+    background-repeat: no-repeat;
     height: 200px;
     padding: 2em 0;
 }
@@ -25,13 +26,13 @@
 }
 
 .news-page-cover {
-    background: url("./img/aboutus.png");
+    background-image: url("./img/news.jpg");
 }
 
 .dishes-page-cover {
-    background: url("./img/aboutus.png");
+    background-image: url("./img/dishes.jpg");
 }
 
 .contact-page-cover {
-    background: url("./img/aboutus.png");
+    background-image: url("./img/contactus.jpg");
 }

@@ -31,8 +31,12 @@ class Information extends Component {
                 </Col>
                 <Col className="home-contact-right" span={12}>
                     <div style={{textAlign: 'center', paddingTop: '0.5em'}}>
-                        <Icon type="weibo" style={{color: '#fff', padding: '0 0.5em', fontSize: '18px'}} />
-                        <Icon type="qq" style={{color: '#fff', padding: '0 0.5em', fontSize: '18px'}} />
+                        <Link to="https://weibo.com/xinbailu?is_all=1">
+                            <Icon type="weibo" style={{color: '#fff', padding: '0 0.5em', fontSize: '18px'}} />
+                        </Link>
+                        <Link to="http://t.qq.com/xinbailucanyin">
+                            <Icon type="qq" style={{color: '#fff', padding: '0 0.5em', fontSize: '18px'}} />
+                        </Link>
                         <Icon type="twitter" style={{color: '#fff', padding: '0 0.5em', fontSize: '18px'}} />
                     </div>
                     <div style={{margin: 'calc(48px - 0.25em) 0'}}>
