@@ -5,7 +5,8 @@ import {
     Col,
     Statistic,
     Icon,
-    Badge
+    Badge,
+    Tag
 } from 'antd';
 import 'antd/lib/badge/style/css';
 import 'antd/lib/statistic/style/css';
@@ -13,7 +14,12 @@ import 'antd/lib/row/style/css';
 import VisitChart from './../../../component/Admin/visitChart/visitChart';
 import {connect} from 'react-redux';
 
-const stateToProps = state => ({visitList: state.visitList, messageList: state.messageList, recruitList: state.recruitList});
+const stateToProps = state => ({
+    visitList: state.visitList,
+    messageList: state.messageList,
+    newsList: state.newsList,
+    recruitList: state.recruitList
+});
 
 class Home extends Component {
     countMessage = () => {
@@ -30,16 +36,29 @@ class Home extends Component {
             recruitContent = JSON.parse(localStorage.getItem("recruitContent"));
         return (
             <div>
-                {shopContent ? (<Badge dot><p>继续编辑店铺信息</p></Badge>) : ""}
-                {newsContent ? (<Badge dot><p>继续编辑新闻</p></Badge>) : ""}
-                {dishContent ? (<Badge dot><p>继续编辑菜品</p></Badge>) : ""}
-                {recruitContent ? (<Badge dot><p>继续编辑招聘信息</p></Badge>) : ""}
+                {shopContent ? (<Badge dot><p>有编辑中的店铺信息</p></Badge>) : ""}
+                {newsContent ? (<Badge dot><p>有编辑中的新闻</p></Badge>) : ""}
+                {dishContent ? (<Badge dot><p>有编辑中的菜品</p></Badge>) : ""}
+                {recruitContent ? (<Badge dot><p>有编辑中的招聘信息</p></Badge>) : ""}
                 {shopContent === null && newsContent === null && dishContent === null && recruitContent === null
                     ? <p>无编辑中的内容</p>
                     : ""
                 }
             </div>
         );
+    }
+    getMostViewNes = () => {
+        let news = this.props.newsList;
+        news.sort((a, b) => b.views - a.views);
+        return [0, 1, 2].map((item, key) => {
+            return (
+                <div key={`div${key}`} style={{lineHeight: '2'}}>
+                    {`${item + 1}. ${news[item].title}`}
+                    <Tag key={`tag${key}`} style={{marginLeft: '8px'}}>{news[item].tag}</Tag>
+                    <br />
+                </div>
+            );
+        });
     }
     render() {
         let todayVisit = this.props.visitList[this.props.visitList.length - 1].number,
@@ -56,12 +75,12 @@ class Home extends Component {
                     </Col>
                 </Row>
                 <Row style={{marginTop: '16px'}} gutter={16}>
-                    <Col span={4}>
+                    <Col span={6}>
                         <Card>
                             <Statistic title="今日访问量" value={todayVisit}/>
                         </Card>
                     </Col>
-                    <Col span={5}>
+                    <Col span={6}>
                         <Card>
                             <Statistic
                                 title="访问量相对昨日变化"
@@ -71,7 +90,7 @@ class Home extends Component {
                                 prefix={rate < 0 ? <Icon type="arrow-down"/> : <Icon type="arrow-up"/>} suffix="%"/>
                         </Card>
                     </Col>
-                    <Col span={4}>
+                    <Col span={6}>
                         <Card>
                             <Statistic
                                 title="未查看留言"
@@ -80,14 +99,21 @@ class Home extends Component {
                             />
                         </Card>
                     </Col>
-                    <Col span={5}>
+                    <Col span={6}>
                         <Card>
                             <Statistic title="发布中的招聘信息" value={this.props.recruitList.length}/>
                         </Card>
                     </Col>
-                    <Col span={6}>
+                </Row>
+                <Row style={{marginTop: '16px'}} gutter={16}>
+                    <Col span={8}>
                         <Card title="编辑中的内容">
                             {this.savedContent()}
+                        </Card>
+                    </Col>
+                    <Col span={16}>
+                        <Card title="浏览最多的新闻">
+                            {this.getMostViewNes()}
                         </Card>
                     </Col>
                 </Row>
