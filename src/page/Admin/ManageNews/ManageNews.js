@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import moment from 'moment';
 import {Table, Divider, Modal, Icon, message} from 'antd';
 import 'antd/lib/divider/style/css';
 import {connect} from 'react-redux';
@@ -7,7 +6,6 @@ import axios from 'axios';
 import {deleteNews, updateNews} from './../../../action/adminReducer.js';
 import EditNews from './../../../component/Admin/EditNews/EditNews';
 
-const formatDatetime = "YYYY/MM/DD HH:mm:ss";
 const stateToProps = state => ({newsList: state.newsList});
 const stateToDispatch = dispatch => {
     return {
@@ -109,7 +107,7 @@ class ManageNews extends Component {
             author: this.refs.newsContent.state.author,
             source: this.refs.newsContent.state.source,
             content: this.refs.newsContent.state.content,
-            date: moment().format(formatDatetime),
+            date: this.refs.newsContent.state.date,
             views: this.refs.newsContent.state.views
         };
         if (!checkInputLength("新闻标题", news.title, 50, 1)) return ;

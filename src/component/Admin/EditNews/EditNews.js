@@ -8,6 +8,9 @@ import {
 import 'antd/lib/row/style/css';
 import 'antd/lib/button/style/css';
 import E from 'wangeditor';
+import moment from 'moment';
+
+const formatDatetime = "YYYY/MM/DD HH:mm:ss";
 
 class EditNews extends Component {
     editor;
@@ -19,6 +22,7 @@ class EditNews extends Component {
             author: this.props.defaultValue ? this.props.defaultValue.author : "",
             source: this.props.defaultValue ? this.props.defaultValue.source : "",
             tag: this.props.defaultValue ? this.props.defaultValue.tag : "公司新闻",
+            date: this.props.defaultValue ? this.props.defaultValue.date : moment().format(formatDatetime),
             content: this.props.defaultValue ? this.props.defaultValue.content : "",
             views: this.props.defaultValue ? this.props.defaultValue.views : 0
         }

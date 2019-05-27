@@ -10,10 +10,8 @@ import 'antd/lib/button/style/css';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {addNews} from './../../../action/adminReducer.js';
-import moment from 'moment';
 import EditNews from './../../../component/Admin/EditNews/EditNews';
 
-const formatDatetime = "YYYY/MM/DD HH:mm:ss";
 const stateToProps = state => ({newsList: state.newsList});
 const stateToDispatch = dispatch => {
     return {
@@ -68,7 +66,7 @@ class AddNews extends Component {
             author: this.refs.newsContent.state.author,
             source: this.refs.newsContent.state.source,
             content: this.refs.newsContent.state.content,
-            date: moment().format(formatDatetime),
+            date: this.refs.newsContent.state.date,
             views: 0
         };
         if (!checkInputLength("新闻标题", news.title, 50, 1)) return ;

@@ -41,7 +41,7 @@ class Information extends Component {
                     </div>
                     <div style={{margin: 'calc(48px - 0.25em) 0'}}>
                         <div className="home-contact-right-btn">
-                            <Link to="/contact" style={{color: '#e30202'}} onClick={this.handleClick}>CONTACT US</Link>
+                            <Link to="/home/contact" style={{color: '#e30202'}} onClick={this.handleClick}>CONTACT US</Link>
                         </div>
                         <Icon type="phone" style={{color: '#fff', fontSize: '48px', padding: '0 0.5em'}} />
                         <div style={{display: 'inline-block'}}>

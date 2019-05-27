@@ -36,7 +36,6 @@ class adminSider extends Component {
         else if (pathname === "/admin/add_recruit") defaultItem = ["recruits", "add_recruit"];
         else if (pathname === "/admin/recruit") defaultItem = ["recruits", "manage_recruit"];
         else if (pathname === "/admin/messages") defaultItem = ["messages"];
-        else if (pathname === "/admin/setting") defaultItem = ["setting"];
         else defaultItem = ["home"];
         this.props.doChangeItem(defaultItem);
     }
@@ -111,11 +110,6 @@ class adminSider extends Component {
                 <Menu.Item key="messages">
                     <Link to="/admin/messages" onClick={() => this.props.doChangeItem(["messages"])}>
                         <Icon type="message"/>留言信息
-                    </Link>
-                </Menu.Item>
-                <Menu.Item key="setting">
-                    <Link to="/admin/setting" onClick={() => this.props.doChangeItem(["setting"])}>
-                        <Icon type="setting" />设置
                     </Link>
                 </Menu.Item>
             </Menu>
