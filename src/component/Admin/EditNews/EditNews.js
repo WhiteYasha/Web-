@@ -92,7 +92,7 @@ class EditNews extends Component {
             this.setState({content: html});
         };
         this.editor.customConfig.zIndex = 100;
-        this.editor.customConfig.uploadImgServer = 'http://localhost:9000/uploadNewsImg';
+        this.editor.customConfig.uploadImgServer = 'http://localhost:9001/uploadNewsImg';
         this.editor.customConfig.uploadFileName = 'newsImg';
         this.editor.customConfig.uploadImgHooks = {
             customInsert: function(insertImg, result, editor) {
