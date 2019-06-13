@@ -44,7 +44,7 @@ class AddRecruit extends Component {
             defaultRecruit: saveRecruit
         };
     }
-    clear() {
+    clear = () => {
         this.refs.recruitContent.refs.nameInput.state.value = "";
         this.refs.recruitContent.refs.departmentInput.state.value = "";
         this.refs.recruitContent.refs.positionInput.state.value = "";

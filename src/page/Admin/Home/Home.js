@@ -48,7 +48,8 @@ class Home extends Component {
         );
     }
     getMostViewNes = () => {
-        let news = this.props.newsList;
+        let news = [];
+        this.props.newsList.forEach((item) => news.push(item));
         news.sort((a, b) => b.views - a.views);
         return [0, 1, 2].map((item, key) => {
             return (

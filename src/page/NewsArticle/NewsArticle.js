@@ -43,7 +43,7 @@ class NewsArticle extends Component {
                         </Col>
                     </Row>
                 </div>
-                <div dangerouslySetInnerHTML={{__html: this.props.watchArticle.content}} className="article-content"/>
+                <div dangerouslySetInnerHTML={{__html: this.props.watchArticle.content}} className="article-content markdown-body"/>
             </div>);
         }
     }

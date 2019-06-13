@@ -84,9 +84,9 @@ class AddNews extends Component {
         let newsContent = {
             title: this.refs.newsContent.state.title,
             tag: this.refs.newsContent.state.tag,
-            author: this.refs.newsContent.state.Author,
+            author: this.refs.newsContent.state.author,
             source: this.refs.newsContent.state.source,
-            content: this.refs.newsContent.state.Content
+            content: this.refs.newsContent.state.content
         };
         localStorage.setItem("newsContent", JSON.stringify(newsContent));
         message.success("保存成功!");
